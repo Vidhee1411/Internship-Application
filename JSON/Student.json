@@ -1,0 +1,24 @@
+[
+    {
+        "userID":"2f58f2f6-e8af-409c-95f2-ff5d2ddcbe2a",
+        "firstName":"Lucky",
+        "lastName":"Labanowski",
+        "email":"blessedRNG@lucky.edu",
+        "password":"LadyLuck54321",
+        "permission":0,
+        "reviews":[]
+    },
+    {
+        "userID":"72dc6510-d92d-4cfe-beb5-3787df5b00e5",
+        "firstName":"Ferris",
+        "lastName":"Bueller",
+        "email":"btotheeuller@school.edu",
+        "password":"password",
+        "permission":0,
+        "reviews":[{"firstName":"Ben",
+                    "lastName":"Stein",
+                    "rating":1,
+                    "message":"He just showed up expecting money!",
+                    "hidden":false}]
+    }
+]
