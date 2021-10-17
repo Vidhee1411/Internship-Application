@@ -1,0 +1,21 @@
+[
+  {
+    "listingID":"42ae5bba-25c6-429b-9f4e-beaf1a1fbce8",
+    "title":"Machine learning Intern",
+    "paid":"true",
+    "payRate":25.00,
+    "requiredSkills":["Hardworking","self starter"],
+    "companyName":"WeyLand-Yutani",
+    "hidden":false,
+    "applicantIDs":[]
+  },{
+    "listingID":"570cc4a5-5d72-4d5e-afbd-29a0853dab74",
+    "title":"Genetic Reasearh Intern",
+    "paid":"true",
+    "payRate":55.00,
+    "requiredSkills":["Hardworking","Self starter","Morally ambiguous"],
+    "companyName":"WeyLand-Yutani",
+    "hidden":false,
+    "applicantIDs":[]
+  }
+]
