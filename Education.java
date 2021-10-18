@@ -58,7 +58,8 @@ public class Education {
     }
 
     /**
-     * The setExpectedGradDate setd the expected graduation date.
+     * The setExpectedGradDate setd the expected graduation date in the form of
+     * MM/YYYY.
      * @param date
      */
     public void setExpectedGradDate(String date)
