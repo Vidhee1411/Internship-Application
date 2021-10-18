@@ -21,7 +21,7 @@ public class Student {
     }
 
     public Review reviewCompany(String firstName, String lastName, int rating, String comment, CompanyProfile company) {
-        return review;
+        return null;
     }
 
     public String displayReview() {
