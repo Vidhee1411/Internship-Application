@@ -4,7 +4,7 @@
  */
 import java.util.ArrayList;
 
-public class Student {
+public class Student extends User{
     private Resume resume;
     private ArrayList<Review> reviewFromCompanies;
 

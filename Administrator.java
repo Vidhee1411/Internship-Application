@@ -2,7 +2,7 @@
  * The Administrator  class creates a administrator account in the internship system.
  * @author Vidhee Patel
  */
-public class Administrator {
+public class Administrator extends User{
     
     public Administrator(String firstName, String lastName, String email, String password, int permission) {
 

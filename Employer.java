@@ -2,7 +2,7 @@
  * The Employer class creates a employer account in the internship system.
  * @author Vidhee Patel
  */
-public class Employer {
+public class Employer extends User {
      private CompanyProfile associatedCompany;
     
      public Employer(String firstName, String lastName, String email, String password, int permission) {
