@@ -1,3 +1,7 @@
+/**
+ * The Review class creates a review in the internship system.
+ * @author Vidhee Patel
+ */
 public class Review {
     private String reviewFirstName;
     private String reviewLastName;
