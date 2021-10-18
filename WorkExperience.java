@@ -68,4 +68,38 @@ public class WorkExperience {
     public void editDescription(String description) {
         this.description = description;
     }
+
+    /**
+     * The getJobTitle method returns the title of the WorkExperience.
+     * @return A String containing the title of the WorkExperience
+     */
+    public String getJobTitle() {
+        return this.jobTitle;
+    }
+
+    /**
+     * The getCompany method returns the name of the company the student worked
+     * for during the experience.
+     * @return A String containing the name of the company
+     */
+    public String getCompany() {
+        return this.company;
+    }
+
+    /**
+     * The getDateRange method returns the date range of the WorkExperience.
+     * @return A String containing the date range of the WorkExperience
+     */
+    public String getDateRange() {
+        return this.dateRange;
+    }
+
+    /**
+     * The getDescription method returns the description of the WorkExperience.
+     * @return A string containing the description of the WorkExperience
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
 }
