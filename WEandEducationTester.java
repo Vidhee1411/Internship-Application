@@ -53,6 +53,9 @@ public class WEandEducationTester {
         }
 
         System.out.println(rev.toString());
+        rev.setDescription("Well . . . that's a rap! Henrico does not listen.");
+        rev.setRating(1.7);
+        System.out.println(rev.toString());
 
     }
 }
