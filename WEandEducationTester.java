@@ -5,6 +5,7 @@ public class WEandEducationTester {
         WorkExperience we = new WorkExperience("Program Tester", "Testing Company Inc.", "04/25/2020-06/29/2020", "This was a fun job");
         Education ed = new Education();
         Resume resume = new Resume("Bob", "Xierling", "bob@email.usc.edu", "Redshirt sophomore");
+        Review rev = new Review("Eileen", "Dover", 2.7, "The Henrico County schoolboard does not know anything");
         ed.setName("Waterton College");
         ed.setMajor("Sauce Maker");
         ed.setGPA(3.27);
@@ -51,8 +52,7 @@ public class WEandEducationTester {
             System.out.println(f.getExpectedGradDate());
         }
 
-
-
+        System.out.println(rev.toString());
 
     }
 }
