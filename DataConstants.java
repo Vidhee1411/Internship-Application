@@ -48,7 +48,7 @@ public class DataConstants {
       * company profile fields 
       */
       protected static final String COMPANY_ID = "companyID";
-      protected static final String COMPANY_HQ_ADRESS = "hqAdress";
+      protected static final String COMPANY_HQ_ADDRESS = "hqAddress";
       protected static final String COMPANY_NAME = "companyName";
       protected static final String COMPANY_DESCRIPTION = "description";
       protected static final String COMPANY_LISTINGS_IDS = "currentListingIDs";
@@ -59,6 +59,7 @@ public class DataConstants {
      */
     protected static final String LISTING_ID = "listingID";
     protected static final String LISTING_TITLE = "title";
+    protected static final String LISTING_DESCRIPTION = "description";
     protected static final String LISTING_PAID = "paid";
     protected static final String LISTING_PAY_RATE = "payRate";
     protected static final String LISTING_REQUIRED_SKILLS = "requiredSkills";
