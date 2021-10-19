@@ -1,11 +1,11 @@
 /**
- * The WorkExperience class support the resume class to set the work experience.
- * of the student.
- * @author Vidhee Patel
+ * The WorkExperience class allows the user to define a previous work
+ * experience that they can add to their resume.
+ * @author Vidhee Patel and Joshua DuPuis
  */
 public class WorkExperience {
     private String jobTitle;  
-    private String company ;
+    private String company;
     private String dateRange;
     private String description;
 
@@ -13,49 +13,93 @@ public class WorkExperience {
      * The default WorkExperience constructor creates an empty WorkExperience.
      */
     public WorkExperience(){
-        
+        jobTitle = "";
+        company = "";
+        dateRange = "";
+        description = "";
     }
     /**
-     * The parameterized constructor creates the work experience and allows 
-     * the student to add it into resume
-     * @param jobTitle The job title
-     * @param company The company name
-     * @param dateRange The period of the work
-     * @param description Description of the work
+     * The parameterized constructor creates a work experience and allows 
+     * the student to customize its attributes before adding it to the resume
+     * @param jobTitle The job title of the previous experience
+     * @param company The name of the company the experience was with
+     * @param dateRange The time period of how long the student worked - in
+     * MM/DD/YYYY format
+     * @param description The description of their previous experience
      */
     public WorkExperience(String jobTitle, String company, String dateRange, String description) {
-
+        this.jobTitle = jobTitle;
+        this.company = company;
+        this.dateRange = dateRange;
+        this.description = description;
     }
 
     /**
      * The editJobTitle method allows a user to edit the title of a job.
-     * @param newTitle the new job title.
+     * @param newTitle The new job title
      */
     public void editJobTitle(String newTitle) {
-
+        this.jobTitle = newTitle;
     }
 
     /**
-     * The editCompany method allows a user to edit the comapany of work.
-     * @param company the new company name.
+     * The editCompany method allows a user to edit the name of the company
+     * they worked for.
+     * @param company The new company name.
      */
     public void editCompany(String company) {
-
+        this.company = company;
     }
 
     /**
-     * The editDateRange method allows a user to edit the period of work.
-     * @param dateRange the new period of work.
+     * The editDateRange method allows a user to edit the times in which the
+     * experience took place.
+     * @param dateRange The new timespan of the WorkExperience
      */
     public void editDateRange(String dateRange) {
-
+        this.dateRange = dateRange;
     }
 
     /**
-     * The editDescription method allows a user to edit the description of the work..
-     * @param description the new description.
+     * The editDescription method allows a user to edit the description of their
+     * previous experience.
+     * @param description The new description of their experience
      */
     public void editDescription(String description) {
-
+        this.description = description;
     }
+
+    /**
+     * The getJobTitle method returns the title of the WorkExperience.
+     * @return A String containing the title of the WorkExperience
+     */
+    public String getJobTitle() {
+        return this.jobTitle;
+    }
+
+    /**
+     * The getCompany method returns the name of the company the student worked
+     * for during the experience.
+     * @return A String containing the name of the company
+     */
+    public String getCompany() {
+        return this.company;
+    }
+
+    /**
+     * The getDateRange method returns the date range of the WorkExperience.
+     * @return A String containing the date range of the WorkExperience
+     */
+    public String getDateRange() {
+        return this.dateRange;
+    }
+
+    /**
+     * The getDescription method returns the description of the WorkExperience.
+     * @return A string containing the description of the WorkExperience
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
 }

@@ -1,8 +1,11 @@
+import java.util.UUID;
+
 /**
  * The User class creates a User account in the internship system.
  * @author Joshua DuPuis
  */
 public abstract class User {
+    private UUID id;
     private String firstName;
     private String lastName;
     private String email;
