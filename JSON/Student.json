@@ -6,7 +6,22 @@
         "email":"blessedRNG@lucky.edu",
         "password":"LadyLuck54321",
         "permission":0,
-        "reviews":[]
+        "reviews":[],
+        "yearInSchool":"junior",
+        "skills":["Lucky"],
+        "classes":["Probability for Engineers"],
+        "resumes":[{
+            "workExperiences":[{"title":"Junior Blackjack Dealer",
+                "company": "Blackjack-4-Kids",
+                "dateRange":"7/7/21-8/7/21",
+                "description": "Definitely legal."}],
+            "education":[{"universityName":"Lucky University",
+                "collegeMajor":"Computer Science",
+                "GPA":3.33,
+                "expectedGradDate":"Spring 2024"
+             }]
+
+        }]
     },
     {
         "userID":"72dc6510-d92d-4cfe-beb5-3787df5b00e5",
@@ -15,6 +30,17 @@
         "email":"btotheeuller@school.edu",
         "password":"password",
         "permission":0,
+        "yearInSchool":"senior",
+        "skills":["Cool","Great talker","Excellent driving skills"],
+        "classes":["Public Speaking", "Improv 101"],
+        "resumes":[{
+            "workExperiences":[],
+            "education":[{"universityName":"University of South Carolina",
+                "collegeMajor":"Computer Engineering",
+                "GPA":2.50,
+                "expectedGradDate":"Winter 2023"
+            }]
+        }],
         "reviews":[{"firstName":"Ben",
                     "lastName":"Stein",
                     "rating":1,
