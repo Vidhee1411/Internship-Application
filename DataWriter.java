@@ -12,7 +12,6 @@ import org.json.simple.JSONObject;
  * @author Joshua DuPuis
  */
 public class DataWriter extends DataConstants {
-
     /**
      * The saveUsers method writes all of the Users in the system to the JSON Users
      * file to store data on each user.
@@ -20,15 +19,57 @@ public class DataWriter extends DataConstants {
     public static void saveUsers() {
         UserDatabase users = UserDatabase.getInstance();
         ArrayList<User> userList = users.getUsers();
-        JSONArray jsonUsers = new JSONArray();
+        
+        ArrayList<Student> students = new ArrayList<>();
+        ArrayList<Employer> employers = new ArrayList<>();
+        ArrayList<Administrator> administrators = new ArrayList<>();
 
         for (int i = 0; i < userList.size(); i++) {
-            jsonUsers.add(getUserJSON(userList.get(i)));
+            User user = userList.get(i);
+            switch(user.getPermission()) {
+                case 0: //User is a student
+                    students.add((Student) user);
+                    break;
+                case 1: //User is an employer
+                    employers.add((Employer) user);
+                    break;
+                case 2:
+                    administrators.add((Administrator) user);
+                    break;
+                default:
+                    System.out.println("User " + user.getFirstName() + " " + user.getLastName() + " (ID: " +
+                    user.getID() + ") has invalid permissions. They will not be written to the database.");
+            }
         }
 
+        saveStudents(students);
+        saveEmployers(employers);
+        saveAdministrators(administrators);
+    }
+
+    /**
+     * Private helper method for writing an ArrayList of Students to the Student.json file.
+     * @param studentList The ArrayList of Students to write
+     */
+    private static void saveStudents(ArrayList<Student> studentList) {
+        JSONArray jsonStudents = new JSONArray();
+
+        for(Student student : studentList) {
+            JSONObject studentDetails = new JSONObject();
+            studentDetails.put(STUDENT_ID, student.getId().toString());
+            studentDetails.put(STUDENT_FIRST_NAME, student.getFirstName());
+            studentDetails.put(STUDENT_LAST_NAME, student.getLastName());
+            studentDetails.put(STUDENT_EMAIL, student.getEmail());
+            studentDetails.put(STUDENT_PASSWORD, student.getPassword());
+            studentDetails.put(STUDENT_PERMISSION, student.getPermission());
+            studentDetails.put(STUDENT_REVIEWS, arrayListToJsonOfIDs(student.getReviews()));
+            studentDetails.put(STUDENT_RESUME_ID, student.getResume().toString());
+            jsonStudents.add(studentDetails);
+        }
+       
         try {
-            FileWriter file = new FileWriter(JOB_LISTING_FILE_NAME);
-            file.write(jsonUsers.toJSONString());
+            FileWriter file = new FileWriter(STUDENT_FILE_NAME);
+            file.write(jsonStudents.toJSONString());
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,52 +77,57 @@ public class DataWriter extends DataConstants {
     }
 
     /**
-     * Converts a given User into a JSONObject based on the type of User they are.
-     * 
-     * @param user The user to convert into a JSONObject
-     * @return The JSONObject representation of the user
+     * Private helper method for writing an arrayList of Employers to the Employers.json file.
+     * @param employerList The ArrayList of Employer to write
      */
-    public static JSONObject getUserJSON(User user) {
-        JSONObject userDetails = new JSONObject();
-
-        switch(user.getPermission()) {
-            case 0: //User has student permissions
-                Student student = (Student) user;
-                userDetails.put(STUDENT_ID, student.getId().toString());
-                userDetails.put(STUDENT_FIRST_NAME, student.getFirstName());
-                userDetails.put(STUDENT_LAST_NAME, student.getLastName());
-                userDetails.put(STUDENT_EMAIL, student.getEmail());
-                userDetails.put(STUDENT_PASSWORD, student.getPassword());
-                userDetails.put(STUDENT_PERMISSION, student.getPermission());
-                userDetails.put(STUDENT_REVIEWS, arrayListToJsonOfIDs(student.getReviews()));
-                userDetails.put(STUDENT_RESUME_ID, student.getResume().toString());
-                break;
-            case 1: //User has employer permissions
-                Employer employer = (Employer) user;
-                userDetails.put(EMPLOYER_ID, employer.getId().toString());
-                userDetails.put(EMPLOYER_FIRST_NAME, employer.getFirstName());
-                userDetails.put(EMPLOYER_LAST_NAME, employer.getLastName());
-                userDetails.put(EMPLOYER_EMAIL, employer.getEmail());
-                userDetails.put(EMPLOYER_PASSWORD, employer.getPassword());
-                userDetails.put(EMPLOYER_PERMISSION, employer.getPermission());
-                userDetails.put(EMPLOYER_REVIEWS, arrayListToJsonOfIDs(employer.getReviews()));
-                userDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().toString());
-                break;
-            case 2: //User has administrator permissions
-                Administrator administrator = (Administrator) user;
-                userDetails.put(ADMIN_ID, administrator.getId().toString());
-                userDetails.put(ADMIN_FIRST_NAME, administrator.getFirstName());
-                userDetails.put(ADMIN_LAST_NAME, administrator.getLastName());
-                userDetails.put(ADMIN_EMAIL, administrator.getEmail());
-                userDetails.put(ADMIN_PASSWORD, administrator.getPassword());
-                userDetails.put(ADMIN_PERMISSION, administrator.getPermission());
-                break;
-            default:
-                System.out.println("User " + user.getFirstName() + " " + user.getLastName() + " (ID: " +
-                user.getID() + ") has invalid permissions. They will not be written to the database.");
+    private static void saveEmployers(ArrayList<Employer> employerList) {
+        JSONArray jsonEmployer = new JSONArray();
+        for(Employer employer : employerList) {
+            JSONObject employerDetails = new JSONObject();
+            employerDetails.put(EMPLOYER_ID, employer.getId().toString());
+            employerDetails.put(EMPLOYER_FIRST_NAME, employer.getFirstName());
+            employerDetails.put(EMPLOYER_LAST_NAME, employer.getLastName());
+            employerDetails.put(EMPLOYER_EMAIL, employer.getEmail());
+            employerDetails.put(EMPLOYER_PASSWORD, employer.getPassword());
+            employerDetails.put(EMPLOYER_PERMISSION, employer.getPermission());
+            employerDetails.put(EMPLOYER_REVIEWS, arrayListToJsonOfIDs(employer.getReviews()));
+            employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().toString());
+            jsonEmployer.add(employerDetails);
         }
 
-        return userDetails;
+        try {
+            FileWriter file = new FileWriter(EMPLOYER_FILE_NAME);
+            file.write(jsonEmployer.toJSONString());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Private helper method for writing an arrayList of Administrator to the Administrator.json file.
+     * @param adminList The ArrayList of Students to write
+     */
+    private static void saveAdministrators(ArrayList<Administrator> adminList) {
+        JSONArray jsonAdministrator = new JSONArray();
+        for(Administrator administrator : adminList) {
+            JSONObject adminDetails = new JSONObject();
+            adminDetails.put(ADMIN_ID, administrator.getId().toString());
+            adminDetails.put(ADMIN_FIRST_NAME, administrator.getFirstName());
+            adminDetails.put(ADMIN_LAST_NAME, administrator.getLastName());
+            adminDetails.put(ADMIN_EMAIL, administrator.getEmail());
+            adminDetails.put(ADMIN_PASSWORD, administrator.getPassword());
+            adminDetails.put(ADMIN_PERMISSION, administrator.getPermission());
+            jsonAdministrator.add(adminDetails);
+        }
+
+        try {
+            FileWriter file = new FileWriter(ADMIN_FILE_NAME);
+            file.write(jsonAdministrator.toJSONString());
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
