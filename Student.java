@@ -9,8 +9,13 @@ public class Student extends User{
     private ArrayList<Review> reviewFromCompanies;
 
     public Student(String firstName, String lastName, String email, String password, int permission) {
-
+        super(firstName, lastName, email, password);
     }
+
+    public Student(String firstName, String lastName, String email, String password, int permission, ArrayList<Review> reviews, ArrayList<Resume> resumes) {
+        super(firstName, lastName, email, password);
+    }
+    
     
     public void createResume() {
 

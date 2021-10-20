@@ -31,8 +31,8 @@ public class DataConstants {
      protected static final String student_Email = "email";
      protected static final String student_Password = "password";
      protected static final String student_permission = "Permission";
-     protected static final String student_Reviews = "reviews";
-     protected static final String student_Resume_ID = "resume";
+     protected static final String student_Skills = "skills";
+     protected static final String student_Resumes = "resumes";
      /**
       * employer fields 
       */
@@ -53,12 +53,12 @@ public class DataConstants {
       protected static final String company_Description = "description";
       protected static final String company_Listings_IDS = "currentListingIDs";
       protected static final String company_Associated_Employer_IDs = "associatedEmployersIDs";
-      protected static final String company_Reviews = "reviews";
     /**
      * joblisting fields
      */
     protected static final String listing_ID = "listingID";
     protected static final String listing_Title = "title";
+    protected static final String listing_Description = "description";
     protected static final String listing_Paid = "paid";
     protected static final String listing_Pay_Rate = "payRate";
     protected static final String listing_Required_Skills = "requiredSkills";
@@ -70,7 +70,7 @@ public class DataConstants {
      */
     protected static final String resume_User_ID = "userID";
     protected static final String resume_School_year = "yearInSchool";
-    protected static final String resume_Skills = "Skills";
+    protected static final String resume_Skill_indexes  = "Skills";
     protected static final String resume_Classes = "classes";
     protected static final String resume_Work_Experience = "workexperiences";
     protected static final String resume_Education = "education";
@@ -91,6 +91,7 @@ public class DataConstants {
     /**
      *  review fields 
      */
+    protected static final String Reviews = "reviews";
     protected static final String review_First_Name = "firstName";
     protected static final String review_Last_Name = "lastName";
     protected static final String review_Rating = "rating";

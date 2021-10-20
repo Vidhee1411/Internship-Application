@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.UUID;
 /**
  * The JobListing class defines a JobListing that an employer creates and a
  * student can apply to
  * @author Joshua DuPuis
  */
 public class JobListing {
+    private UUID id;
     private String title;
     private String description;
     private boolean paid;
@@ -30,6 +32,19 @@ public class JobListing {
      * @param payRate The payRate of the internship
      */
     public JobListing(String title, String description, Boolean paid, double payRate) {
+
+    }
+
+     /**
+     * The parameterized constructor creates a JobListing and allows the
+     * employer to define all of its attributes.
+     * @param title The title of the JobListing
+     * @param description The description of the JobListing
+     * @param paid True if the internship is paid, false if not
+     * @param payRate The payRate of the internship
+     * @param id UUID of the listing
+     */
+    public JobListing(String title, String description, Boolean paid, double payRate,UUID id) {
 
     }
 
@@ -84,6 +99,13 @@ public class JobListing {
      */
     public void setVisibility(boolean hidden) {
 
+    }
+    /**
+     * gets the UUID of the listing
+     * @return the listings UUID
+     */
+    public UUID getUUID(){
+        return this.id;
     }
 
     /**
