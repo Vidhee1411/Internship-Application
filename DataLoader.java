@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+// unfinished 
 /**
  * The DataLoader class is responsible for loading all of the data from the
  * JSON files.
@@ -111,7 +113,7 @@ public class DataLoader extends DataConstants {
                 UUID companyID = (UUID)companyprofile.get(company_ID);
                 ArrayList<Review> reviews = getReviews(companyprofile);
                 CompanyProfile temp = new CompanyProfile(companyName, hqAddress, description, companyID, reviews, listings)
-                //todo add listings (need students for applicants field )
+                //todo add listings 
              
                 
             }
@@ -193,27 +195,5 @@ public class DataLoader extends DataConstants {
         return output;
     }
 
-      //may be used in the future 
-   /* private HashMap<String,JobListing> getJobListings(){
-        HashMap<String,JobListing> output = new HashMap<String, JobListing>();
-        try {
-            FileReader reader = new FileReader(job_Listing_File_Name);
-            JSONArray listings =  (JSONArray)new JSONParser().parse(reader);
-            for(int i = 0; i < listings.size(); i++){
-                JSONObject listing = (JSONObject)listings.get(i);
-                UUID id = (UUID)listing.get(listing_ID);
-                String title = (String)listing.get(listing_Title);
-                String description = (String)listing.get(listing_Description);
-                boolean paid = (Boolean)listing.get(listing_Paid);
-                double payRate = (Double)listing.get(listing_Pay_Rate);
-                JobListing temp = new JobListing(title, description, paid, payRate, id);
-                output.put(temp.getUUID().toString(), temp);
-                
-            }
-         } catch (Exception e) {
-             e.printStackTrace();
-            }
-            return output;
-    }*/
 
 }

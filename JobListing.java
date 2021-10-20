@@ -14,6 +14,7 @@ public class JobListing {
     private ArrayList<String> requiredSkills;
     private String company;
     private boolean hidden;
+    private UUID id;
     private ArrayList<Student> applicants;
 
     /**
@@ -122,6 +123,13 @@ public class JobListing {
      * speciifc JobListing
      */
     public void apply() {
+
+    }
+
+    /**
+     * The getID method returns the UUID of the JobListing
+     */
+    public void getID() {
 
     }
 

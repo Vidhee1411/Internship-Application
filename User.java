@@ -21,12 +21,12 @@ public abstract class User {
      * @param email The user's email
      * @param password The user's password
      */
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String email, String password, int permission) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-
+        this.permission = permission;
     }
 
     /**
