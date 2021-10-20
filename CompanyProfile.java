@@ -3,15 +3,21 @@
  * @author Vidhee Patel
  */
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CompanyProfile {
+    private UUID companyID;
     private String companyName;
     private String hqAddress;
     private String description;
     private ArrayList<JobListing> listings;
     private ArrayList<Review> reviewList;
 
-    public CompanyProfile(String companyName, String hqAddress, String description){
+    public CompanyProfile(String companyName, String hqAddress, String description,UUID companyID){
+
+    }
+
+    public CompanyProfile(String companyName, String hqAddress, String description,UUID companyID, ArrayList<Review> reviews, ArrayList<JobListing> listings ){
 
     }
 
@@ -21,6 +27,10 @@ public class CompanyProfile {
 
     public  void setCompanyName(String name) {
 
+    }
+
+    public void setReview(ArrayList<Review> reviews){
+        this.reviewList = reviews;
     }
 
     public String displayReviews() {

@@ -72,4 +72,12 @@ public abstract class User {
     public void logOn(String email, String password) {
 
     }
+
+    /**
+     * This method returns the users id.
+     * @return id
+     */
+    public UUID getuserUuid {
+        return id;
+    }
 }

@@ -9,6 +9,10 @@ public class Education {
     private double GPA;
     private String expectedGradDate;
 
+    public Education(String nameofUniversity, String major, double gpa, String expectedGradDate){
+
+    }
+
     /**
      * The setName method sets the name of University.
      * @param name University name
