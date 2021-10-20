@@ -1,6 +1,7 @@
 /**
  * The resume class creates a resume of the student in the internship system.
- * @author Vidhee Patel and Joshua DuPuis
+ * @author 10/18/2021 Joshua DuPuis
+ * @author 10/17/2021 Vidhee Patel
  */
 import java.util.ArrayList;
 
