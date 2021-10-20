@@ -33,7 +33,9 @@ public class DataConstants {
   protected static final String STUDENT_PASSWORD = "password";
   protected static final String STUDENT_PERMISSION = "Permission";
   protected static final String STUDENT_REVIEWS = "reviews";
-  protected static final String STUDENT_RESUME_ID = "resume";
+  protected static final String STUDENT_RESUMES = "resumes";
+  protected static final String STUDENT_SKILLS = "Skills";
+  protected
   /**
    * employer fields
    */
@@ -76,6 +78,7 @@ public class DataConstants {
   protected static final String RESUME_CLASSES = "classes";
   protected static final String RESUME_WORK_EXPERIENCE = "workexperiences";
   protected static final String RESUME_EDUCATION = "education";
+  protected static final String RESUME_SKILL_INDEXES ="skillindexes";
   /**
    * work experience fields
    */
@@ -93,6 +96,7 @@ public class DataConstants {
   /**
    * review fields
    */
+  protected static final String REVIEWS = "reviews";
   protected static final String REVIEW_FIRST_NAME = "firstName";
   protected static final String REVIEW_LAST_NAME = "lastName";
   protected static final String REVIEW_RATING = "rating";

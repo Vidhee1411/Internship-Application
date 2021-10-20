@@ -27,17 +27,17 @@ public class DataLoader extends DataConstants {
     public static ArrayList<JobListing> getJobListings(){
         ArrayList<JobListing> output = new ArrayList<>();
         try {
-            FileReader reader = new FileReader(job_Listing_File_Name);
+            FileReader reader = new FileReader(JOB_LISTING_FILE_NAME);
             JSONArray listings =  (JSONArray)new JSONParser().parse(reader);
             for(int i = 0; i < listings.size()-1; i++){
                 JSONObject listing = (JSONObject)listings.get(i);
-                String title = (String)listing.get(listing_Title);
-                String description = (String)listing.get(listing_Description);
-                String companyName = (String)listing.get(listing_Company_Name);
-                Boolean paid = (Boolean)listing.get(listing_Paid);
-                Double payRate = (Double)listing.get(listing_Pay_Rate);
-                UUID id = (UUID)listing.get(listing_ID);
-                JobListing temp = new JobListing(title, description, paid, payRate, id)
+                String title = (String)listing.get(LISTING_TITLE);
+                String description = (String)listing.get(LISTING_DESCRIPTION);
+                String companyName = (String)listing.get(LISTING_COMPANY_NAME);
+                Boolean paid = (Boolean)listing.get(LISTING_PAID);
+                Double payRate = (Double)listing.get(LISTING_PAY_RATE);
+                UUID id = (UUID)listing.get(LISTING_ID);
+                JobListing temp = new JobListing(companyName, title, description, paid, payRate, id, applicants)
                 JobListings.put(temp.getUUID().toString(), temp);
                 output.add(temp);
             }
@@ -62,15 +62,15 @@ public class DataLoader extends DataConstants {
     private static ArrayList<User> getAdmins(){
         ArrayList<User> output = new ArrayList<User>();
      try {
-        FileReader reader = new FileReader(admin_File_Name);
+        FileReader reader = new FileReader(ADMIN_FILE_NAME);
         JSONArray Admins =  (JSONArray)new JSONParser().parse(reader);
         for(int i = 0; i < Admins.size()-1; i++){
             JSONObject admin = (JSONObject)Admins.get(i);
-            String firstName = (String)admin.get(admin_First_Name);
-            String lastName = (String)admin.get(admin_Last_Name);
-            String email = (String)admin.get(admin_Email);
-            String password = (String)admin.get(admin_Password);
-            int permission =((Long)admin.get(admin_Permission)).intValue();
+            String firstName = (String)admin.get(ADMIN_FIRST_NAME);
+            String lastName = (String)admin.get(ADMIN_LAST_NAME);
+            String email = (String)admin.get(ADMIN_EMAIL);
+            String password = (String)admin.get(ADMIN_PASSWORD);
+            int permission =((Long)admin.get(ADMIN_PERMISSION)).intValue();
             output.add(new Administrator(firstName, lastName, email, password, permission));
         }
      } catch (Exception e) {
@@ -82,15 +82,15 @@ public class DataLoader extends DataConstants {
     private ArrayList<Student> getStudents(){
         ArrayList<Student> output = new ArrayList<Student>();
         try {
-           FileReader reader = new FileReader(student_File_Name);
+           FileReader reader = new FileReader(STUDENT_FILE_NAME);
            JSONArray students =  (JSONArray)new JSONParser().parse(reader);
            for(int i = 0; i < students.size()-1; i++){
                JSONObject student = (JSONObject)students.get(i);
-               String firstName = (String)student.get(student_First_Name);
-               String lastName = (String)student.get(student_Last_Name);
-               String email = (String)student.get(student_Email);
-               String password = (String)student.get(student_Password);
-               int permission =((Long)student.get(student_permission)).intValue();
+               String firstName = (String)student.get(STUDENT_FIRST_NAME);
+               String lastName = (String)student.get(STUDENT_LAST_NAME);
+               String email = (String)student.get(STUDENT_EMAIL);
+               String password = (String)student.get(STUDENT_PASSWORD);
+               int permission =((Long)student.get(STUDENT_PERMISSION)).intValue();
                ArrayList<Review> reviews = getReviews(student);
                ArrayList<Resume> resumes = getResumes(student);
                output.add(new Student(firstName, lastName, email, password, permission, reviews, resumes));
@@ -103,14 +103,14 @@ public class DataLoader extends DataConstants {
 
     private ArrayList<CompanyProfile> getCompanyProfiles(){
         try {
-            FileReader reader = new FileReader(job_Listing_File_Name);
+            FileReader reader = new FileReader(JOB_LISTING_FILE_NAME);
             JSONArray CompanyProfiles =  (JSONArray)new JSONParser().parse(reader);
             for(int i = 0; i < CompanyProfiles.size()-1; i++){
                 JSONObject companyprofile = (JSONObject)CompanyProfiles.get(i);
-                String companyName = (String)companyprofile.get(company_Name);
-                String hqAddress = (String)companyprofile.get(company_HQ_Adress);
-                String description = (String)companyprofile.get(company_HQ_Adress);
-                UUID companyID = (UUID)companyprofile.get(company_ID);
+                String companyName = (String)companyprofile.get(COMPANY_NAME);
+                String hqAddress = (String)companyprofile.get(COMPANY_HQ_ADDRESS);
+                String description = (String)companyprofile.get(COMPANY_DESCRIPTION);
+                UUID companyID = (UUID)companyprofile.get(COMPANY_ID);
                 ArrayList<Review> reviews = getReviews(companyprofile);
                 CompanyProfile temp = new CompanyProfile(companyName, hqAddress, description, companyID, reviews, listings)
                 //todo add listings 
@@ -126,11 +126,11 @@ public class DataLoader extends DataConstants {
   
     private ArrayList<Resume> getResumes(JSONObject student){
         ArrayList<Resume> output = new ArrayList<>();
-        JSONArray resumes = (JSONArray)student.get(student_Resumes);
+        JSONArray resumes = (JSONArray)student.get(STUDENT_RESUMES);
         for(int i = 0; i < resumes.size()-1; i++){
             JSONObject resume = (JSONObject)resumes.get(i);
-            String email = (String)student.get(student_Email);
-            String yearInSchool = (String)resume.get(resume_School_year);
+            String email = (String)student.get(STUDENT_EMAIL);
+            String yearInSchool = (String)resume.get(RESUME_SCHOOL_YEAR);
             ArrayList<String> skills = getSkills(student);
             ArrayList<Education> education = getEducation(student);
             ArrayList<WorkExperience> workExperiences = getWorkExperiences(student);
@@ -141,8 +141,8 @@ public class DataLoader extends DataConstants {
     
     private ArrayList<String> getSkills(JSONObject student){
         ArrayList<String> output = new ArrayList<>();
-        JSONArray skillindex = (JSONArray)student.get(resume_Skill_indexes);
-        JSONArray skills = (JSONArray)student.get(student_Skills);
+        JSONArray skillindex = (JSONArray)student.get(RESUME_SKILL_INDEXES);
+        JSONArray skills = (JSONArray)student.get(STUDENT_SKILLS);
         for(int i = 0; i < skills.size()-1; i++){
             int index = ((Double)skillindex.get(i)).intValue();
             output.add((String)skills.get(index));
@@ -152,13 +152,13 @@ public class DataLoader extends DataConstants {
 
     private ArrayList<Education> getEducation(JSONObject student){
         ArrayList<Education> output = new ArrayList<>();
-        JSONArray educationExperiences = (JSONArray)student.get(resume_Education);
+        JSONArray educationExperiences = (JSONArray)student.get(RESUME_EDUCATION);
         for(int i = 0; i < educationExperiences.size()-1; i++){
             JSONObject educationExperience = (JSONObject)educationExperiences.get(i);
-            String nameofUniversity = (String)educationExperience.get(education_University_Name);
-            String major = (String)educationExperience.get(education_Major);
-            Double gpa = (Double)educationExperience.get(education_GPA);
-            String expectedGradDate = (String)educationExperience.get(eudcation_Graduation_Date);
+            String nameofUniversity = (String)educationExperience.get(EDUCATION_UNIVERSITY_NAME);
+            String major = (String)educationExperience.get(EDUCATION_MAJOR);
+            Double gpa = (Double)educationExperience.get(EDUCATION_GPA);
+            String expectedGradDate = (String)educationExperience.get(EDUCATION_GRADUATION_DATE);
             Education temp = new Education(nameofUniversity, major, gpa, expectedGradDate);
             output.add(temp);
         }
@@ -167,13 +167,13 @@ public class DataLoader extends DataConstants {
 
     private ArrayList<WorkExperience> getWorkExperiences(JSONObject student){
         ArrayList<WorkExperience> output = new ArrayList<>();
-        JSONArray workExperiences = (JSONArray)student.get(resume_Work_Experience);
+        JSONArray workExperiences = (JSONArray)student.get(RESUME_WORK_EXPERIENCE);
         for(int i = 0; i < workExperiences.size()-1; i++){
             JSONObject workExperience = (JSONObject)workExperiences.get(i);
-            String jobTitle = (String)workExperience.get(experience_Title);
-            String company = (String)workExperience.get(experience_Company);
-            String dateRange = (String)workExperience.get(experience_Date_Range);
-            String description = (String)workExperience.get(experience_Description);
+            String jobTitle = (String)workExperience.get(EXPERIENCE_TITLE);
+            String company = (String)workExperience.get(EXPERIENCE_COMPANY);
+            String dateRange = (String)workExperience.get(EXPERIENCE_DATE_RANGE);
+            String description = (String)workExperience.get(EXPERIENCE_DESCRIPTION);
             WorkExperience temp = new WorkExperience(jobTitle, company, dateRange, description);
             output.add(temp);
         }
@@ -183,13 +183,13 @@ public class DataLoader extends DataConstants {
     
     private ArrayList<Review> getReviews(JSONObject reviewed){
         ArrayList<Review> output = new ArrayList<>();
-        JSONArray reviews = (JSONArray)reviewed.get(Reviews);
+        JSONArray reviews = (JSONArray)reviewed.get("revi");
         for(int i = 0; i < reviews.size()-1; i++){
             JSONObject review = (JSONObject)reviews.get(i);
-            String firstName = (String)review.get(review_First_Name);
-            String lastName = (String)review.get(review_Last_Name);
-            String message = (String)review.get(review_Message);
-            int rating = ((Long)review.get(review_Rating)).intValue();
+            String firstName = (String)review.get(REVIEW_FIRST_NAME);
+            String lastName = (String)review.get(REVIEW_LAST_NAME);
+            String message = (String)review.get(REVIEW_MESSAGE);
+            int rating = ((Long)review.get(REVIEW_RATING)).intValue();
             output.add(new Review(firstName, lastName, rating, message));
         }
         return output;
