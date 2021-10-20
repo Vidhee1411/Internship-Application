@@ -39,13 +39,14 @@ public class JobListing {
      /**
      * The parameterized constructor creates a JobListing and allows the
      * employer to define all of its attributes.
+     * @param companyName the name of the company 
      * @param title The title of the JobListing
      * @param description The description of the JobListing
      * @param paid True if the internship is paid, false if not
      * @param payRate The payRate of the internship
-     * @param id UUID of the listing
+     * @param id UUID of the listing\
      */
-    public JobListing(String title, String description, Boolean paid, double payRate,UUID id) {
+    public JobListing(String companyName,String title, String description, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants) {
 
     }
 
