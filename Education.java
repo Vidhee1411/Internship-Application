@@ -9,8 +9,25 @@ public class Education {
     private double GPA;
     private String expectedGradDate;
 
-    public Education(String nameofUniversity, String major, double gpa, String expectedGradDate){
+    /**
+     * This is the default constructor
+     */
+    public Education () {
 
+    }
+    
+    /**
+     * This is the parameterized constructor of the education class.
+     * @param nameofUniversity
+     * @param major
+     * @param gpa
+     * @param expectedGradDate
+     */
+    public Education(String nameofUniversity, String major, double gpa, String expectedGradDate){
+        this.nameofUniversity = nameofUniversity;
+        this.collegeMajor = major;
+        this.GPA = gpa;
+        this.expectedGradDate = expectedGradDate; 
     }
 
     /**

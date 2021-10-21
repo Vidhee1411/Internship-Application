@@ -2,7 +2,7 @@ import java.util.UUID;
 
 /**
  * The User class creates a User account in the internship system.
- * @author Joshua DuPuis
+ * @author Joshua DuPuis and Vidhee Patel
  */
 public abstract class User {
     private UUID id;
@@ -35,7 +35,7 @@ public abstract class User {
     * @param name The name the user would like to set as their first name
     */
     public void editFirstName(String name) {
-        
+        this.firstName = name;
     }
     
     /**
@@ -44,7 +44,7 @@ public abstract class User {
      * @param name The name the user would like to set as their last name
      */
     public void editLastName(String name) {
-
+        this.lastName = name;
     }
 
     /**
@@ -52,7 +52,7 @@ public abstract class User {
      * @param email The email address the user would like to set as their email
      */
     public void editEmail(String email) {
-
+        this.email = email;
     }
 
     /**
@@ -61,7 +61,7 @@ public abstract class User {
      * @param password The new password the user would like to use
      */
     public void editPassword(String password) {
-
+        this.password =password;
     }
 
     /**

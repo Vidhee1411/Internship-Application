@@ -2,15 +2,16 @@ import java.util.ArrayList;
 public class WEandEducationTester {
     
     public static void main( String[] args ) {
+        WorkExperience Apple = new WorkExperience("Developer","Apple", "03/01/2019-07/01/2020", "Developing new apps");
         WorkExperience we = new WorkExperience("Program Tester", "Testing Company Inc.", "04/25/2020-06/29/2020", "This was a fun job");
-        Education ed = new Education();
+        Education ed = new Education();//"UofSC", "Computer Science", 3.56, "Spring 2023");
         Resume resume = new Resume("Bob", "Xierling", "bob@email.usc.edu", "Redshirt sophomore");
         Review rev = new Review("Eileen", "Dover", 2.7, "The Henrico County schoolboard does not know anything");
         ed.setName("Waterton College");
         ed.setMajor("Sauce Maker");
         ed.setGPA(3.27);
         ed.setExpectedGradDate("01/2025");
-
+ 
         System.out.println(we.getJobTitle());
         System.out.println(we.getCompany());
         System.out.println(we.getDateRange());
@@ -32,11 +33,23 @@ public class WEandEducationTester {
         System.out.println(resume.getEmail());
         System.out.println(resume.getYearInSchool());
 
+        
         resume.addEducation(ed);
+        resume.addExperience(Apple);
         resume.addExperience(we);
+        
 
         ArrayList <WorkExperience> w = resume.getExperiences();
         ArrayList <Education> r = resume.getEducation();
+
+        for (WorkExperience q: w) {
+            System.out.println(q.getJobTitle());
+            System.out.println(q.getCompany());
+            System.out.println(q.getDateRange());
+            System.out.println(q.getDescription());
+        }
+
+        resume.removeExperience(Apple);
 
         for (WorkExperience q: w) {
             System.out.println(q.getJobTitle());
@@ -51,7 +64,7 @@ public class WEandEducationTester {
             System.out.println(f.getGPA());
             System.out.println(f.getExpectedGradDate());
         }
-
+        
         System.out.println(rev.toString());
         rev.setDescription("Well . . . that's a rap! Henrico does not listen.");
         rev.setRating(1.7);
