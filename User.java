@@ -10,7 +10,6 @@ public abstract class User {
     private String lastName;
     private String email;
     private String password;
-    private int permission;
 
     /**
      * The User constructor initializes a User object/account and sets their
@@ -21,12 +20,11 @@ public abstract class User {
      * @param email The user's email
      * @param password The user's password
      */
-    public User(String firstName, String lastName, String email, String password, int permission) {
+    public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.permission = permission;
     }
 
     /**
@@ -62,6 +60,38 @@ public abstract class User {
      */
     public void editPassword(String password) {
 
+    }
+
+    /**
+     * The getFirstName method returns the User's first name.
+     * @return The first name of the user
+     */
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    /**
+     * The getLastName method returns the User's last name.
+     * @return The last name of the user
+     */
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    /**
+     * The getEmail method returns the User's email.
+     * @return The email of the user
+     */
+    public String getEmail() {
+        return this.email;
+    }
+
+    /**
+     * The getpassword method returns the User's password.
+     * @return The user's password
+     */
+    public String getPassword() {
+        return this.password;
     }
 
     /**
