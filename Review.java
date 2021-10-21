@@ -1,7 +1,8 @@
 /**
  * The Review class allows a user to write a review of either a student or a
  * company to be posted in the system.
- * @author Vidhee Patel and Joshua DuPuis
+ * @author 10/18/2021 Joshua Dupuis
+ * @author 10/17/2021 Vidhee Patel 
  */
 public class Review {
     private String reviewerFirstName;

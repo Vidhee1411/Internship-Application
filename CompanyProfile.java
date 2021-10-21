@@ -4,8 +4,10 @@ import java.util.UUID;
  * @author Vidhee Patel
  */
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CompanyProfile {
+    private UUID companyID;
     private String companyName;
     private String hqAddress;
     private String description;
@@ -22,6 +24,10 @@ public class CompanyProfile {
 
     public  void setCompanyName(String name) {
 
+    }
+
+    public void setReview(ArrayList<Review> reviews){
+        this.reviewList = reviews;
     }
 
     public String displayReviews() {

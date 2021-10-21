@@ -1,7 +1,8 @@
 /**
  * The WorkExperience class allows the user to define a previous work
  * experience that they can add to their resume.
- * @author Vidhee Patel and Joshua DuPuis
+ * @author  10/18/2021 Joshua DuPuis
+ * @author 10/17/2021 Vidhee Patel
  */
 public class WorkExperience {
     private String jobTitle;  

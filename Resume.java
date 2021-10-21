@@ -1,10 +1,12 @@
 /**
  * The resume class creates a resume of the student in the internship system.
- * @author Vidhee Patel and Joshua DuPuis
+ * @author 10/18/2021 Joshua DuPuis
+ * @author 10/17/2021 Vidhee Patel
  */
 import java.util.ArrayList;
 
 public class Resume {
+      //todo remove duplicate data
     private String studentFirstName;
     private String studentLastName;
     private String studentUSCEmail;
@@ -13,14 +15,12 @@ public class Resume {
     private ArrayList<String> classes;
     private ArrayList<Education> education;
     private ArrayList<WorkExperience> workExperiences;  
-
+  
     /**
      * The default resume constructor creates a resume and sets all of the
      * instance variables equal to null
      */
     public Resume() {
-        studentFirstName = "";
-        studentLastName = "";
         studentUSCEmail = "";
         yearInSchool = "";
     }
@@ -29,12 +29,10 @@ public class Resume {
      * The parameterized resume constructor creates a resume object and sets
      * the instance variables corresponding to the students first name, last
      * name, email, and year in school equal to the values the user enters.
-     * @param firstName The first name of the student
-     * @param lastName The last name of the student
      * @param email The school email of the student
      * @param yearInSchool The student's year in school
      */
-    public Resume(String firstName, String lastName, String email, String yearInSchool) {
+    public Resume( String firstName, String lastName, String email, String yearInSchool) {
         this.studentFirstName = firstName;
         this.studentLastName = lastName;
         this.studentUSCEmail = email;
@@ -43,6 +41,10 @@ public class Resume {
         classes = new ArrayList<String>();
         education = new ArrayList<Education>();
         workExperiences = new ArrayList<WorkExperience>();
+    }
+
+    public Resume(String email, String yearInSchool, ArrayList<String>skills, ArrayList<Education> education, ArrayList<WorkExperience> workExperiences) {
+
     }
 
     /**
