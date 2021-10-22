@@ -107,7 +107,7 @@ public abstract class User {
      * This method returns the users id.
      * @return id
      */
-    public UUID getuserUuid {
+    public UUID getUUID() {
         return id;
     }
 }

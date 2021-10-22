@@ -1,10 +1,11 @@
+import java.util.UUID;
+import java.util.ArrayList;
+
 /**
  * The Student class creates a Student account in the internship system and
  * allows them to create a resume to apply for a job.
  * @author Vidhee Patel and Joshua DuPuis
  */
-import java.util.ArrayList;
-
 public class Student extends User{
     private String yearInSchool;
     private Resume resume;
@@ -68,8 +69,8 @@ public class Student extends User{
         return null;
     }
 
-    public String getReviews() {
-        return "";
+    public ArrayList<Review> getReviews() {
+        return reviewsFromCompanies;
     }
 
     public void applyForInternship(JobListing listing) {
@@ -79,4 +80,8 @@ public class Student extends User{
     public void addReview(Review review) {
 
     }
+
+    public UUID getID() {
+        return super.getID();
+     }
 }

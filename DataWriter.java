@@ -38,7 +38,7 @@ public class DataWriter extends DataConstants {
                     break;
                 default:
                     System.out.println("User " + user.getFirstName() + " " + user.getLastName() + " (ID: " +
-                    user.getID() + ") has invalid permissions. They will not be written to the database.");
+                    user.getUUID() + ") has invalid permissions. They will not be written to the database.");
             }
         }
 
@@ -56,14 +56,14 @@ public class DataWriter extends DataConstants {
 
         for(Student student : studentList) {
             JSONObject studentDetails = new JSONObject();
-            studentDetails.put(STUDENT_ID, student.getId().toString());
+            studentDetails.put(STUDENT_ID, student.getUUID().toString());
             studentDetails.put(STUDENT_FIRST_NAME, student.getFirstName());
             studentDetails.put(STUDENT_LAST_NAME, student.getLastName());
             studentDetails.put(STUDENT_EMAIL, student.getEmail());
             studentDetails.put(STUDENT_PASSWORD, student.getPassword());
-            studentDetails.put(STUDENT_PERMISSION, student.getPermission());
+            studentDetails.put(STUDENT_PERMISSION, 0);
             studentDetails.put(STUDENT_REVIEWS, arrayListToJsonOfIDs(student.getReviews()));
-            studentDetails.put(STUDENT_RESUME_ID, student.getResume().toString());
+            studentDetails.put(STUDENT_RESUME_ID, student.getResume().getID());
             jsonStudents.add(studentDetails);
         }
        
@@ -84,7 +84,7 @@ public class DataWriter extends DataConstants {
         JSONArray jsonEmployer = new JSONArray();
         for(Employer employer : employerList) {
             JSONObject employerDetails = new JSONObject();
-            employerDetails.put(EMPLOYER_ID, employer.getId().toString());
+            employerDetails.put(EMPLOYER_ID, employer.getUUID().toString());
             employerDetails.put(EMPLOYER_FIRST_NAME, employer.getFirstName());
             employerDetails.put(EMPLOYER_LAST_NAME, employer.getLastName());
             employerDetails.put(EMPLOYER_EMAIL, employer.getEmail());
@@ -112,7 +112,7 @@ public class DataWriter extends DataConstants {
         JSONArray jsonAdministrator = new JSONArray();
         for(Administrator administrator : adminList) {
             JSONObject adminDetails = new JSONObject();
-            adminDetails.put(ADMIN_ID, administrator.getId().toString());
+            adminDetails.put(ADMIN_ID, administrator.getUUID().toString());
             adminDetails.put(ADMIN_FIRST_NAME, administrator.getFirstName());
             adminDetails.put(ADMIN_LAST_NAME, administrator.getLastName());
             adminDetails.put(ADMIN_EMAIL, administrator.getEmail());
