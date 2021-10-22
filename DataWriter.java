@@ -62,8 +62,8 @@ public class DataWriter extends DataConstants {
             studentDetails.put(STUDENT_EMAIL, student.getEmail());
             studentDetails.put(STUDENT_PASSWORD, student.getPassword());
             studentDetails.put(STUDENT_PERMISSION, 0);
-            studentDetails.put(STUDENT_REVIEWS, arrayListToJsonOfIDs(student.getReviews()));
-            studentDetails.put(STUDENT_RESUME_ID, student.getResume().getID());
+            studentDetails.put(STUDENT_REVIEWS, reviewsToJSONArray(student.getReviews()).toJSONString());
+            studentDetails.put(STUDENT_RESUMES, student.getResume());
             jsonStudents.add(studentDetails);
         }
        
@@ -74,6 +74,88 @@ public class DataWriter extends DataConstants {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Private helper method used to convert an ArrayList of reviews to a JSONArray.
+     * @param reviews The ArrayList of reviews to convert
+     * @return The JSONArray representation of reviews
+     */
+    private static JSONArray reviewsToJSONArray(ArrayList<Review> reviews) {
+        JSONArray jsonReviews = new JSONArray();
+        for(Review review : reviews) {
+            //Since reviews are objects with their own set of fields, put info in a JSONObject
+            JSONObject reviewDetails = new JSONObject();
+            reviewDetails.put(REVIEW_FIRST_NAME, review.getFirstName());
+            reviewDetails.put(REVIEW_LAST_NAME, review.getLastName());
+            reviewDetails.put(REVIEW_RATING, review.getRating());
+            reviewDetails.put(REVIEW_MESSAGE, review.getMessage());
+            reviewDetails.put(REVIEW_HIDDEN, review.getHidden());
+            jsonReviews.add(reviewDetails);
+        }
+        return jsonReviews;
+    }
+
+    /**
+     * Private helper method used to convert an ArrayList of reviews to a JSONArray.
+     * @param resumes The ArrayList of reviews to convert
+     * @return The JSONArray representation of reviews
+     */
+    private static JSONArray resumesToJSONArray(ArrayList<Resume> resumes) {
+        JSONArray jsonResumes = new JSONArray();
+        for(Resume resume: resumes) {
+            //Since resumes are separate objects with their own info, put their info into separate JSONObjects
+            JSONObject resumeDetails = new JSONObject();
+            //Resume class needs a field and getter for the userID
+            resumeDetails.put(RESUME_USER_ID, resume.getUserUUID());
+            resumeDetails.put(RESUME_SCHOOL_YEAR, resume.getYearInSchool());
+            resumeDetails.put(RESUME_SKILLS, arrayListToJsonArray(resume.getSkills()).toJSONString());
+            resumeDetails.put(RESUME_CLASSES, arrayListToJsonArray(resume.getClasses()).toJSONString());
+            resumeDetails.put(RESUME_WORK_EXPERIENCE, workExperiencesToJsonArray(resume.getExperiences()).toJSONString());
+            resumeDetails.put(RESUME_EDUCATION, educationsToJsonArray(resume.getEducation()).toJSONString());
+            //Are the skill indexes necessary to write? They aren't an instance variable in Resume
+            resumeDetails.put(RESUME_SKILL_INDEXES, arrayListToJsonArray(resume.getIndexes()).toJSONString());
+            jsonResumes.add(resumeDetails);
+        }
+        return jsonResumes;
+    }
+
+    /**
+     * Private helper method used to convert an ArrayList of WorkExperiences to a JSONArray.
+     * @param experiences The ArrayList of WorkExperiences to convert
+     * @return The JSONArray representation of experiences
+     */
+    private static JSONArray workExperiencesToJsonArray(ArrayList<WorkExperience> experiences) {
+        JSONArray jsonWorkExperiences = new JSONArray();
+        for(WorkExperience experience : experiences) {
+            //Since workExperiences are separate objects with their own info, put their info into separate JSONObjects
+            JSONObject experienceDetails = new JSONObject();
+            experienceDetails.put(EXPERIENCE_TITLE, experience.getJobTitle());
+            experienceDetails.put(EXPERIENCE_COMPANY, experience.getCompany());
+            experienceDetails.put(EXPERIENCE_DATE_RANGE, experience.getDateRange());
+            experienceDetails.put(EXPERIENCE_DESCRIPTION, experience.getDescription());
+            jsonWorkExperiences.add(experienceDetails);
+        }
+        return jsonWorkExperiences;
+    }
+
+    /**
+     * Private helper method used to convert an ArrayList of Educations to a JSONArray.
+     * @param educations The ArrayList of Educations to convert
+     * @return The JSONArray representation of educations
+     */
+    private static JSONArray educationsToJsonArray(ArrayList<Education> educations) {
+        JSONArray jsonEducations = new JSONArray();
+        for(Education education : educations) {
+            //Since workExperiences are separate objects with their own info, put their info into separate JSONObjects
+            JSONObject educationDetails = new JSONObject();
+            educationDetails.put(EDUCATION_UNIVERSITY_NAME, education.getName());
+            educationDetails.put(EDUCATION_MAJOR, education.getMajor());
+            educationDetails.put(EDUCATION_GPA, education.getGPA());
+            educationDetails.put(EDUCATION_GRADUATION_DATE, education.getExpectedGradDate());
+            jsonEducations.add(educationDetails);
+        }
+        return jsonEducations;
     }
 
     /**
@@ -91,6 +173,7 @@ public class DataWriter extends DataConstants {
             employerDetails.put(EMPLOYER_PASSWORD, employer.getPassword());
             employerDetails.put(EMPLOYER_PERMISSION, employer.getPermission());
             employerDetails.put(EMPLOYER_REVIEWS, arrayListToJsonOfIDs(employer.getReviews()));
+            //Employer needs a getCompany, and CompanyProfile needs a toString
             employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().toString());
             jsonEmployer.add(employerDetails);
         }
@@ -165,12 +248,26 @@ public class DataWriter extends DataConstants {
         listingDetails.put(LISTING_DESCRIPTION, jobListing.getDescription());
         listingDetails.put(LISTING_PAID, jobListing.getPaid());
         listingDetails.put(LISTING_PAY_RATE, jobListing.getPayRate());
-        listingDetails.put(LISTING_REQUIRED_SKILLS, arrayListToJsonOfIDs(jobListing.getSkills()));
+        listingDetails.put(LISTING_REQUIRED_SKILLS, arrayListToJsonArray(jobListing.getSkills()).toJSONString());
         listingDetails.put(LISTING_COMPANY_NAME, jobListing.getCompanyName());
         listingDetails.put(LISTING_HIDDEN, jobListing.getHidden());
-        listingDetails.put(LISTING_APPLICANT_IDS, arrayListToJsonOfIDs(jobListing.getApplicants()));
+        listingDetails.put(LISTING_APPLICANT_IDS, studentsToJsonIDArray(jobListing.getApplicants()).toJSONString());
         return listingDetails;
     }
+
+    /**
+     * Private helper method used to convert an ArrayList of Students into a JSONArray of the Students' IDs
+     * @param students The arrayList of Students to convert
+     * @return A JSONArray containing the IDs of the Students
+     */
+    private static JSONArray studentsToJsonIDArray(ArrayList<Student> students) {
+        JSONArray jsonApplicants = new JSONArray();
+        for(Student student: students) {
+            //May have to remove the toString if it doesn't work
+            jsonApplicants.add(student.getUUID().toString());
+        }
+        return jsonApplicants;
+    } 
 
     /**
      * The saveCompanyProfiles method writes all of the CompanyProfiles in the system to the
@@ -202,29 +299,38 @@ public class DataWriter extends DataConstants {
      */
     public static JSONObject getCompanyProfileJSON(CompanyProfile company) {
         JSONObject companyDetails = new JSONObject();
-        companyDetails.put(COMPANY_ID, company.getID().toString());
+        companyDetails.put(COMPANY_ID, company.getUUID().toString());
         companyDetails.put(COMPANY_NAME, company.getCompanyName());
-        //May have to add a get/set address in company profile. 
         companyDetails.put(COMPANY_HQ_ADDRESS, company.getAddress());
         companyDetails.put(COMPANY_DESCRIPTION, company.getDescription());
-        companyDetails.put(COMPANY_LISTINGS_IDS, arrayListToJsonOfIDs(company.getListings()));
+        companyDetails.put(COMPANY_LISTINGS_IDS, listingsToJsonIDArray(company.getListings()).toJSONString());
         companyDetails.put(COMPANY_REVIEWS, company.getReviews());
-        //May have to add a get/set reviews in company profile
-        //Add employer list to CompanyProfile (since the JSON tracks employer IDs)
-        //Then loop through that list to get all the IDs to put in the JSON
         return companyDetails;
     }
 
     /**
-     * Private helper method use to convert an ArrayList of objects into a JSONArray with each object's ID
-     * @param arrayList The arrayList of objects to convert
-     * @return A JSONArray containing the IDs of the ArrayList's contents
+     * Private helper method used to convert an ArrayList of JobListings into a JSONArray of the listings' IDs
+     * @param listings The arrayList of JobListings to convert
+     * @return A JSONArray containing the IDs of the JobListings
      */
-    private static JSONArray arrayListToJsonOfIDs(ArrayList<? extends Object> arrayList) {
+    private static JSONArray listingsToJsonIDArray(ArrayList<JobListing> listings) {
+        JSONArray jsonListings = new JSONArray();
+        for(JobListing listing : listings) {
+            jsonListings.add(listing.getUUID());
+        }
+        return jsonListings;
+    } 
+
+    /**
+     * Private helper method used to convert an ArrayList of objects into a JSONArray
+     * @param arrayList The ArrayList of objects to convert
+     * @return A JSONArray of the objects
+     */
+    private static JSONArray arrayListToJsonArray(ArrayList<? extends Object> arrayList) {
         JSONArray jsonArray = new JSONArray();
         for(Object object : arrayList) {
-            jsonArray.add(object.getID());
+            jsonArray.add(object);
         }
         return jsonArray;
-    } 
+    }
 }
