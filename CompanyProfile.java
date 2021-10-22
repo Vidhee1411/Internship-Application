@@ -54,4 +54,7 @@ public class CompanyProfile {
         return true;
     }
 
+    public UUID getUUID() {
+        return companyID;
+    }
 }
