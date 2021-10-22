@@ -38,7 +38,7 @@ public class Employer extends User {
          return null;
      }
 
-     public UUID getID() {
-        return super.getID();
+     public UUID getUUID() {
+        return super.getUUID();
      }
 }

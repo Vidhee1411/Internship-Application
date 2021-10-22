@@ -51,7 +51,7 @@ public class Administrator extends User{
         Administrator(firstName,lastName,email,password);
     }
 
-    public UUID getID() {
-        return super.getID();
+    public UUID getUUID() {
+        return super.getUUID();
      }
 }

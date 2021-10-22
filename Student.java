@@ -81,7 +81,7 @@ public class Student extends User{
 
     }
 
-    public UUID getID() {
-        return super.getID();
+    public UUID getUUID() {
+        return super.getUUID();
      }
 }
