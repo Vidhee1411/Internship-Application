@@ -4,7 +4,7 @@
  * @author Vidhee Patel
  */
 public class Education {
-    private String nameofUniversity;
+    private String nameOfUniversity;
     private String collegeMajor;
     private double GPA;
     private String expectedGradDate;
@@ -23,8 +23,8 @@ public class Education {
      * @param gpa
      * @param expectedGradDate
      */
-    public Education(String nameofUniversity, String major, double gpa, String expectedGradDate){
-        this.nameofUniversity = nameofUniversity;
+    public Education(String nameOfUniversity, String major, double gpa, String expectedGradDate){
+        this.nameOfUniversity = nameOfUniversity;
         this.collegeMajor = major;
         this.GPA = gpa;
         this.expectedGradDate = expectedGradDate; 
@@ -35,7 +35,7 @@ public class Education {
      * @param name University name
      */
     public void setName(String name) {
-        this.nameofUniversity = name;
+        this.nameOfUniversity = name;
     }
 
     /**
@@ -43,7 +43,7 @@ public class Education {
      * @return nameofUniversity
      */
     public String getName() {
-        return nameofUniversity;
+        return nameOfUniversity;
     }
 
     /**
@@ -94,6 +94,16 @@ public class Education {
      */
     public String getExpectedGradDate() {
         return expectedGradDate;
+    }
+
+    /**
+     * The toString method converts an education experience to a String
+     * @return A string representation of an education experience
+     */
+    public String toString() {
+        return nameOfUniversity + "\t\t\t" + "Expected Graduation Date: " + 
+            expectedGradDate + "\n" + "Major: " + collegeMajor + "\t\t\t" +
+            "GPA: " + GPA;
     }
 
 }

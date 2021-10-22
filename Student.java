@@ -22,6 +22,7 @@ public class Student extends User{
     public Student(String firstName, String lastName, String email, String password, String yearInSchool) {
         super(firstName, lastName, email, password);
         this.yearInSchool = yearInSchool;
+        reviewsFromCompanies = new ArrayList<Review>();
     }
     
     /**
@@ -79,7 +80,11 @@ public class Student extends User{
         return reviewsFromCompanies;
     }
 
-
+    /**
+     * The applyForInternship method allows a student to apply for any
+     * internship in the system.
+     * @param listing The internship a student wants to apply for
+     */
     public void applyForInternship(JobListing listing) {
         listing.apply(this);
     }

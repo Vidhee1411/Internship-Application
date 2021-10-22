@@ -84,6 +84,14 @@ public class Resume {
     }
 
     /**
+     * The addSkill method adds a skill to the list of the student's skills.
+     * @param skill The skill to be added to the resume
+     */
+    public void addSkill(String skill) {
+        skills.add(skill);
+    }
+
+    /**
      * The addClass method allows a student to add a class that they have
      * taken to their resume.
      * @param className The name of the class to add
@@ -227,4 +235,35 @@ public class Resume {
         return workExperiences;
     }
     
+    /**
+     * The toString method returns a string containing all of the information
+     * in the resume.
+     * @return The String representation of the resume
+     */
+    public String toString() {
+        String ret = studentFirstName + " " + studentLastName + "\n" + studentUSCEmail + "\n";
+        for (Education ed: education) {
+            ret += ed.toString() + "\n";
+        }
+
+        ret += "\nClasses: \n";
+
+        for(String class1: classes) {
+            ret += class1 + "\n";
+        }
+
+        ret += "\nExperiences: \n";
+
+        for (WorkExperience we: workExperiences) {
+            ret += we.toString() + "\n";
+        }
+
+        ret += "\nSkills: \n";
+
+        for (String skill: skills) {
+            ret += skill + "\n";
+        }
+
+        return ret;
+    }
 }
