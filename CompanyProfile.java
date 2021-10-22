@@ -26,8 +26,8 @@ public class CompanyProfile {
 
     }
 
-    public void setReview(ArrayList<Review> reviews){
-        this.reviewList = reviews;
+    public void addReview(Review review){
+        this.reviewList.add(review);
     }
 
     public String displayReviews() {

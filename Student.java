@@ -57,26 +57,40 @@ public class Student extends User{
     }
 
     /**
-     * The reviewCompany method allows students to review companies they have
-     * previously worked for.
+     * The reviewCompany method allows students to review a company they have
+     * previously worked for and adds the newly created review to the company's
+     * page.
      * @param rating The rating out of five that the student gives the company
      * @param comment The comment to accompany the review
      * @param company The company that the student is reviewing
-     * @return The review the student creates
      */
-    public Review reviewCompany(int rating, String comment, CompanyProfile company) {
-        return null;
+    public void reviewCompany(int rating, String comment, CompanyProfile company) {
+        Review studentReview = new Review(super.getFirstName(), super.getLastName(), rating, comment);
+        company.addReview(studentReview);
     }
 
-    public String getReviews() {
-        return "";
+
+    /**
+     * The getReviews method returns an ArrayList containing all of the reviews
+     * that employers have written about the student.
+     * @return The list of reviews employers have written about the student
+     */
+    public ArrayList<Review> getReviews() {
+        return reviewsFromCompanies;
     }
+
 
     public void applyForInternship(JobListing listing) {
-
+        listing.apply(this);
     }
 
+    /**
+     * The add review method accepts a review from an employer and adds it to
+     * the list of reviews about the student.
+     * @param review The review written by an employer to be added to the
+     * student's ArrayList of reviews
+     */
     public void addReview(Review review) {
-
+        reviewsFromCompanies.add(review);
     }
 }
