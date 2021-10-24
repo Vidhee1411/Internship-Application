@@ -71,15 +71,12 @@ public class Student extends User{
         company.addReview(studentReview);
     }
 
-<<<<<<< HEAD
 
     /**
      * The getReviews method returns an ArrayList containing all of the reviews
      * that employers have written about the student.
      * @return The list of reviews employers have written about the student
      */
-=======
->>>>>>> c75ce09d1a1b7b7ce92d0b254d2df172f858d404
     public ArrayList<Review> getReviews() {
         return reviewsFromCompanies;
     }
@@ -103,7 +100,20 @@ public class Student extends User{
         reviewsFromCompanies.add(review);
     }
 
+    /**
+     * The getUUID method returns the UUID of the student
+     * @return The UUID of the student
+     */
     public UUID getUUID() {
-        return super.getUUID();
-     }
+        return super.getuserUuid();
+    }
+
+    /**
+     * The getPermission method returns the permission value for a student
+     * @return An int containing the value 0 - a student's user's permission
+     * value
+     */
+    public int getPermission() {
+        return PERMISSION;
+    }
 }

@@ -107,11 +107,14 @@ public abstract class User {
      * This method returns the users id.
      * @return id
      */
-<<<<<<< HEAD
     public UUID getuserUuid() {
-=======
-    public UUID getUUID() {
->>>>>>> c75ce09d1a1b7b7ce92d0b254d2df172f858d404
         return id;
     }
+
+    /**
+     * The abstract method getPermission returns a user's permission identifier
+     * - a number that is unique to each type of user.
+     * @return The permission value of the user
+     */
+    public abstract int getPermission();
 }

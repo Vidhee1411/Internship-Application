@@ -94,5 +94,10 @@ public class WEandEducationTester {
             System.out.println(review.toString());
         }
 
+        Employer em = new Employer("Joe", "Brainder", "jbtheCoolGuy@rockys.net", "WELLNEss1!");
+        System.out.println(em.getPassword());
+        System.out.println(em.getEmail());
+        System.out.print(em.getFirstName() + " " + em.getLastName() + " " + em.getPermission() + " " + student.getPermission());
+
     }
 }
