@@ -20,8 +20,8 @@ public class Student extends User{
      * @param password The password for the student's account
      * @param yearInSchool The student's year in school
      */
-    public Student(String firstName, String lastName, String email, String password, String yearInSchool) {
-        super(firstName, lastName, email, password);
+    public Student(String firstName, String lastName, String email, String password, String yearInSchool, UUID id) {
+        super(firstName, lastName, email, password, id);
         this.yearInSchool = yearInSchool;
         reviewsFromCompanies = new ArrayList<Review>();
     }
@@ -32,6 +32,13 @@ public class Student extends User{
      */
     public void createResume() {
         resume = new Resume(super.getFirstName(), super.getLastName(), super.getEmail(), this.yearInSchool);
+    }
+    /**
+     * sets students resume to the resume passed to the method
+     * @param resume the resume being added to the student 
+     */
+    public void setResume(Resume resume){
+        this.resume = resume;
     }
 
     /**
@@ -71,15 +78,12 @@ public class Student extends User{
         company.addReview(studentReview);
     }
 
-<<<<<<< HEAD
 
     /**
      * The getReviews method returns an ArrayList containing all of the reviews
      * that employers have written about the student.
      * @return The list of reviews employers have written about the student
      */
-=======
->>>>>>> c75ce09d1a1b7b7ce92d0b254d2df172f858d404
     public ArrayList<Review> getReviews() {
         return reviewsFromCompanies;
     }
@@ -101,6 +105,15 @@ public class Student extends User{
      */
     public void addReview(Review review) {
         reviewsFromCompanies.add(review);
+    }
+
+    /**
+     * The add reviews method accepts an Arraylist and sets reviewsFromCompanies equal to it.
+     * used in loading data from JSON
+     * @param reviews an ArrayList of reviews 
+     */
+    public void setReviews(ArrayList<Review> reviews) {
+        reviewsFromCompanies = reviews;
     }
 
     public UUID getUUID() {

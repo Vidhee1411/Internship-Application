@@ -27,15 +27,10 @@ public class Resume {
 
     /**
      * The parameterized resume constructor creates a resume object and sets
-     * the instance variables corresponding to the students first name, last
-     * name, email, and year in school equal to the values the user enters.
-     * @param email The school email of the student
+     * the instance variable corresponding to year in school equal to the values the user enters.
      * @param yearInSchool The student's year in school
      */
-    public Resume( String firstName, String lastName, String email, String yearInSchool) {
-        this.studentFirstName = firstName;
-        this.studentLastName = lastName;
-        this.studentUSCEmail = email;
+    public Resume( String yearInSchool) {
         this.yearInSchool = yearInSchool;
         skills = new ArrayList<String>();
         classes = new ArrayList<String>();
@@ -43,8 +38,13 @@ public class Resume {
         workExperiences = new ArrayList<WorkExperience>();
     }
 
-    public Resume(String email, String yearInSchool, ArrayList<String>skills, ArrayList<Education> education, ArrayList<WorkExperience> workExperiences) {
-
+    public Resume(String yearInSchool, ArrayList<String>skills, ArrayList<Education> education, ArrayList<WorkExperience> workExperiences, ArrayList<String> classes) {
+        this.yearInSchool = yearInSchool;
+        this.skills = skills;
+        this.classes = classes;
+        this.education = education;
+        this.workExperiences = workExperiences;
+        this.classes = classes;
     }
 
     /**

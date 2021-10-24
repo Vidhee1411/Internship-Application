@@ -9,16 +9,18 @@ import java.util.ArrayList;
  */
 public class SearchableDatabase {
 
-    private SearchableDatabase searchableDatabase;
+    private static SearchableDatabase searchableDatabase;
     private ArrayList<JobListing> jobListings;
     private ArrayList<CompanyProfile> companyProfiles;
+    private ArrayList<User> users;
 
     /** 
      * The SearchableDatabase constructor constructs the one instance of the
      * SearchableDatabase that the internship program will use.
     */
     private SearchableDatabase(){
-
+        this.jobListings = new ArrayList<JobListing>();
+        this.users = new ArrayList<User>();
     }
 
     /**
@@ -26,7 +28,10 @@ public class SearchableDatabase {
      * @return The internship system's SearchableDatabase
      */
     public static SearchableDatabase getInstance() {
-        return null;
+        if(searchableDatabase == null){
+            return new SearchableDatabase();
+        }
+        return searchableDatabase;
     }
 
     /**
@@ -45,6 +50,14 @@ public class SearchableDatabase {
      */
     public void removeJobListing(JobListing listing) {
 
+    }
+
+    public void setUsers(ArrayList<User> users){
+        this.users = users;
+    }
+
+    public void setJobListings(ArrayList<JobListing>jobListings){
+        this.jobListings = jobListings;
     }
 
     /**

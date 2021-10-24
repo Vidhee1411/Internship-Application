@@ -5,11 +5,11 @@ import java.util.UUID;
  * @author Joshua DuPuis and Vidhee Patel
  */
 public abstract class User {
-    private UUID id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+    protected UUID id;
+    protected String firstName;
+    protected String lastName;
+    protected String email;
+    protected String password;
 
     /**
      * The User constructor initializes a User object/account and sets their
@@ -19,12 +19,14 @@ public abstract class User {
      * @param lastName The user's last name
      * @param email The user's email
      * @param password The user's password
+     * @param id the user's UUID
      */
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String email, String password, UUID id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.id = id;
     }
 
     /**
@@ -107,11 +109,7 @@ public abstract class User {
      * This method returns the users id.
      * @return id
      */
-<<<<<<< HEAD
-    public UUID getuserUuid() {
-=======
     public UUID getUUID() {
->>>>>>> c75ce09d1a1b7b7ce92d0b254d2df172f858d404
         return id;
     }
 }

@@ -17,6 +17,23 @@ public class CompanyProfile {
     public CompanyProfile(String companyName, String hqAddress, String description, UUID id){
 
     }
+    /**
+     *  Company profile constructor used when loading data 
+     * @param companyName the name of the company
+     * @param hqAddress the address of the company hq
+     * @param description description of the company
+     * @param companyID company uuid
+     * @param reviews reviews of the company
+     * @param listings joblistings associated with the company
+     */
+    public CompanyProfile(String companyName, String hqAddress, String description,UUID companyID, ArrayList<Review> reviews, ArrayList<JobListing> listings ){
+        this.companyName = companyName;
+        this.hqAddress = hqAddress;
+        this.description = description;
+        this.companyID = companyID;
+        this.reviewList = reviews;
+        this.listings = listings;
+    }
 
     public UUID getUUID(){
         return this.companyID;

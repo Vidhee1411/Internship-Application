@@ -5,9 +5,10 @@ import java.util.UUID;
  * @author 10/17/2021 Vidhee Patel
  */
 public class Administrator extends User{
+    private static final int PERMISSION = -1;
     
-    public Administrator(String firstName, String lastName, String email, String password, int permission) {
-        super(firstName, lastName, email, password);
+    public Administrator(String firstName, String lastName, String email, String password,UUID id) {
+        super(firstName, lastName, email, password,id);
     }
 
     /**

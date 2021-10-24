@@ -22,7 +22,7 @@ public class DataConstants {
   protected static final String ADMIN_LAST_NAME = "lastName";
   protected static final String ADMIN_EMAIL = "email";
   protected static final String ADMIN_PASSWORD = "password";
-  protected static final String ADMIN_PERMISSION = "Permission";
+  protected static final String ADMIN_PERMISSION = "permission";
   /**
    * student fields
    */
@@ -34,8 +34,9 @@ public class DataConstants {
   protected static final String STUDENT_PERMISSION = "Permission";
   protected static final String STUDENT_REVIEWS = "reviews";
   protected static final String STUDENT_RESUMES = "resumes";
-  protected static final String STUDENT_SKILLS = "Skills";
-  protected
+  protected static final String STUDENT_SKILLS = "skills";
+  protected static final String STUDENT_YEAR_IN_SCHOOL = "yearInSchool";
+  protected static final String STUDENT_CLASSES = "classes";
   /**
    * employer fields
    */
@@ -74,16 +75,15 @@ public class DataConstants {
    */
   protected static final String RESUME_USER_ID = "userID";
   protected static final String RESUME_SCHOOL_YEAR = "yearInSchool";
-  protected static final String RESUME_SKILLS = "Skills";
-  protected static final String RESUME_CLASSES = "classes";
-  protected static final String RESUME_WORK_EXPERIENCE = "workexperiences";
+  protected static final String RESUME_CLASS_INDEXES = "classindexes";
+  protected static final String RESUME_WORK_EXPERIENCE = "workExperiences";
   protected static final String RESUME_EDUCATION = "education";
   protected static final String RESUME_SKILL_INDEXES ="skillindexes";
   /**
    * work experience fields
    */
   protected static final String EXPERIENCE_TITLE = "title";
-  protected static final String EXPERIENCE_COMPANY = "Company";
+  protected static final String EXPERIENCE_COMPANY = "company";
   protected static final String EXPERIENCE_DATE_RANGE = "dateRange";
   protected static final String EXPERIENCE_DESCRIPTION = "description";
   /**

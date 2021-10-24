@@ -11,7 +11,8 @@
         "skills":["Lucky"],
         "classes":["Probability for Engineers"],
         "resumes":[{
-            "skillindexes":[1],
+            "skillindexes":[0],
+            "classindexes":[0],
             "workExperiences":[{"title":"Junior Blackjack Dealer",
                 "company": "Blackjack-4-Kids",
                 "dateRange":"7/7/21-8/7/21",
@@ -31,22 +32,24 @@
         "email":"btotheeuller@school.edu",
         "password":"password",
         "permission":0,
+        "reviews":[{"firstName":"Ben",
+            "lastName":"Stein",
+            "rating":1,
+            "message":"He just showed up expecting money!",
+            "hidden":false}],
         "yearInSchool":"senior",
         "skills":["Cool","Great talker","Excellent driving skills"],
         "classes":["Public Speaking", "Improv 101"],
         "resumes":[{
-            "skillindexes ":[1,3],
+            "skillindexes":[0,2],
+            "classindexes":[0],
             "workExperiences":[],
             "education":[{"universityName":"University of South Carolina",
                 "collegeMajor":"Computer Engineering",
                 "GPA":2.50,
                 "expectedGradDate":"Winter 2023"
             }]
-        }],
-        "reviews":[{"firstName":"Ben",
-                    "lastName":"Stein",
-                    "rating":1,
-                    "message":"He just showed up expecting money!",
-                    "hidden":false}]
+        }]
+       
     }
 ]

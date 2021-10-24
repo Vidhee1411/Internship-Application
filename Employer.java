@@ -5,13 +5,17 @@ import java.util.UUID;
  */
 public class Employer extends User {
      private CompanyProfile associatedCompany;
+     private static final int PERMISSION = 1;
     
-     public Employer(String firstName, String lastName, String email, String password, int permission) {
-
+     public Employer(String firstName, String lastName, String email, String password, UUID id) {
+         super(firstName, lastName, email, password, id);
+        
      }
 
-     public Employer(String firstName, String lastName, String email, String password, int permission, CompanyProfile associatedCompany) {
-        super(firstName, lastName, email, password, permission);
+     public Employer(String firstName, String lastName, String email, String password, CompanyProfile associatedCompany,UUID id) {
+        super(firstName, lastName, email, password, id);
+        this.associatedCompany = associatedCompany;
+
     }
 
      public CompanyProfile createCompanyProfile(String name, String hqaddress){

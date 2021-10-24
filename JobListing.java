@@ -14,7 +14,6 @@ public class JobListing {
     private ArrayList<String> requiredSkills;
     private String company;
     private boolean hidden;
-    private UUID id;
     private ArrayList<Student> applicants;
 
     /**
@@ -45,9 +44,18 @@ public class JobListing {
      * @param paid True if the internship is paid, false if not
      * @param payRate The payRate of the internship
      * @param id UUID of the listing\
+     * @param applicants the listings applicants
+     * @param requiredSKills required skills for the listing 
      */
-    public JobListing(String companyName,String title, String description, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants) {
-
+    public JobListing(String companyName,String title, String description, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills) {
+        this.company = companyName;
+        this.title = title;
+        this.description = description;
+        this.paid = paid;
+        this.payRate = payRate;
+        this.id = id;
+        this.applicants = applicants;
+        this.requiredSkills = requiredSkills;
     }
 
     /**
