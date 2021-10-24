@@ -3,6 +3,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture.AsynchronousCompletionTask;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,31 +16,80 @@ import org.json.simple.parser.JSONParser;
  * @author Joshua DuPuis
  */
 public class DataLoader extends DataConstants {
-    private static final HashMap<String,JobListing> JobListings = new HashMap<>();
-    private static final HashMap<String,User> users = new HashMap<>();
     
+    /**
+     * 
+     * @return
+     */
+
+     public SearchableDatabase loadData(){
+         SearchableDatabase output = SearchableDatabase.getInstance();
+         ArrayList<User> users = new ArrayList<>();
+         ArrayList<JobListing> jobListings = new ArrayList<>();
+         HashMap<String,CompanyProfile> companyProfiles = new HashMap<>();
+         users.addAll(getAdmins());
+         users.addAll(getStudents());
+         jobListings.addAll(getJobListings(users));
+         companyProfiles = getCompanyProfiles(jobListings);
+         users.addAll(getEmployers(companyProfiles));
+         output.setUsers(users);
+         output.setJobListings(jobListings);
+         return output;
+        
+         
+     }
+
+     public static ArrayList<Employer> getEmployers(HashMap<String,CompanyProfile> companyProfiles){
+        ArrayList<Employer> output = new ArrayList<>();
+        try {
+            FileReader reader = new FileReader(EMPLOYER_FILE_NAME);
+            JSONArray employers =  (JSONArray)new JSONParser().parse(reader);
+            for(int i = 0; i < employers.size()-1; i++){
+                JSONObject employer = (JSONObject)employers.get(i);
+                String firstName = (String)employer.get(EMPLOYER_FILE_NAME);
+                String lastName = (String)employer.get(EMPLOYER_LAST_NAME);
+                String email = (String)employer.get(EMPLOYER_EMAIL);
+                String password = (String)employer.get(EMPLOYER_EMAIL);
+                int permission =((Double)employer.get(EMPLOYER_PERMISSION)).intValue();
+                CompanyProfile associatedCompany = companyProfiles.get(EMPLOYER_ASSOCIATED_COMPANY);
+                output.add(new Employer(firstName, lastName, email, password, permission, associatedCompany));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return output;
+
+
+     }
     
     /**
      * The getJobListings method loads all of the JobListings from the data
      * files into an arraylist of JobListings.
      * @return The ArrayList of JobListings loaded from the JSON files
      */
-    public static ArrayList<JobListing> getJobListings(){
+    public static ArrayList<JobListing> getJobListings(ArrayList<User> users){
         ArrayList<JobListing> output = new ArrayList<>();
+        HashMap<String,User> usersMap = new HashMap<>();
+        for(User data: users){
+            usersMap.put(data.getuserUuid.toString(), data);
+        }
         try {
             FileReader reader = new FileReader(JOB_LISTING_FILE_NAME);
             JSONArray listings =  (JSONArray)new JSONParser().parse(reader);
             for(int i = 0; i < listings.size()-1; i++){
                 JSONObject listing = (JSONObject)listings.get(i);
+                JSONArray applicantIDS = (JSONArray)listing.get(LISTING_APPLICANT_IDS);
+                ArrayList<Student> applicants = getapplicants(usersMap, applicantIDS);
                 String title = (String)listing.get(LISTING_TITLE);
                 String description = (String)listing.get(LISTING_DESCRIPTION);
                 String companyName = (String)listing.get(LISTING_COMPANY_NAME);
                 Boolean paid = (Boolean)listing.get(LISTING_PAID);
                 Double payRate = (Double)listing.get(LISTING_PAY_RATE);
                 UUID id = (UUID)listing.get(LISTING_ID);
-                JobListing temp = new JobListing(companyName, title, description, paid, payRate, id, applicants)
-                JobListings.put(temp.getUUID().toString(), temp);
+                JobListing temp = new JobListing(companyName, title, description, paid, payRate, id, applicants);
                 output.add(temp);
+                
             }
          } catch (Exception e) {
              e.printStackTrace();
@@ -101,18 +151,26 @@ public class DataLoader extends DataConstants {
            return output;
     }
 
-    private ArrayList<CompanyProfile> getCompanyProfiles(){
+    private HashMap<String,CompanyProfile> getCompanyProfiles(ArrayList<JobListing> jobListings){
+        HashMap<String,CompanyProfile> output = new HashMap<>();
+        HashMap<String,JobListing> listingMap = new HashMap<>();
+        for(JobListing listing:jobListings){
+            listingMap.put(listing.getUUID().toString(), listing);
+        }
         try {
             FileReader reader = new FileReader(JOB_LISTING_FILE_NAME);
             JSONArray CompanyProfiles =  (JSONArray)new JSONParser().parse(reader);
             for(int i = 0; i < CompanyProfiles.size()-1; i++){
                 JSONObject companyprofile = (JSONObject)CompanyProfiles.get(i);
+                JSONArray listingIDS = (JSONArray)companyprofile.get(COMPANY_LISTINGS_IDS);
                 String companyName = (String)companyprofile.get(COMPANY_NAME);
                 String hqAddress = (String)companyprofile.get(COMPANY_HQ_ADDRESS);
                 String description = (String)companyprofile.get(COMPANY_DESCRIPTION);
                 UUID companyID = (UUID)companyprofile.get(COMPANY_ID);
                 ArrayList<Review> reviews = getReviews(companyprofile);
-                CompanyProfile temp = new CompanyProfile(companyName, hqAddress, description, companyID, reviews, listings)
+                ArrayList<JobListing> listings = getCurrentListings(listingMap, listingIDS);
+                CompanyProfile temp = new CompanyProfile(companyName, hqAddress, description, companyID, reviews, listings);
+                output.put(temp.getUUID().toString(), temp);
                 //todo add listings 
              
                 
@@ -193,6 +251,26 @@ public class DataLoader extends DataConstants {
             output.add(new Review(firstName, lastName, rating, message));
         }
         return output;
+    }
+
+    private  static ArrayList<Student> getapplicants(HashMap<String,User> users, JSONArray applicantIDS){
+        ArrayList<Student> applicants = new ArrayList<>();
+        for(int i = 0; i < applicantIDS.size()-1; i++){
+            applicants.add((Student)users.get(applicantIDS.get(i)));
+        }
+        return applicants;
+    }
+
+    private static ArrayList<JobListing> getCurrentListings(HashMap<String,JobListing> listingmap, JSONArray listingIDS){
+        ArrayList<JobListing> output = new ArrayList<>();
+        
+        for(int i = 0; i < listingIDS.size()-1; i++){
+            output.add(listingmap.get(listingIDS.get(i)));
+        }
+        return output;
+
+
+
     }
 
 

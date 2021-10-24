@@ -9,6 +9,10 @@ public class Employer extends User {
 
      }
 
+     public Employer(String firstName, String lastName, String email, String password, int permission, CompanyProfile associatedCompany) {
+        super(firstName, lastName, email, password, permission);
+    }
+
      public CompanyProfile createCompanyProfile(String name, String hqaddress){
          return associatedCompany;
      }

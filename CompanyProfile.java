@@ -21,6 +21,10 @@ public class CompanyProfile {
 
     }
 
+    public UUID getUUID(){
+        return this.companyID;
+    }
+
     public String getCompanyName() {
         return "";
     }
