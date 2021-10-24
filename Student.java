@@ -108,6 +108,7 @@ public class Student extends User{
     }
 
     /**
+<<<<<<< HEAD
      * The add reviews method accepts an Arraylist and sets reviewsFromCompanies equal to it.
      * used in loading data from JSON
      * @param reviews an ArrayList of reviews 
@@ -116,7 +117,21 @@ public class Student extends User{
         reviewsFromCompanies = reviews;
     }
 
+=======
+     * The getUUID method returns the UUID of the student
+     * @return The UUID of the student
+     */
+>>>>>>> e3da00650834efaf38b0f3d20523cb88212b371d
     public UUID getUUID() {
-        return super.getUUID();
-     }
+        return super.getuserUuid();
+    }
+
+    /**
+     * The getPermission method returns the permission value for a student
+     * @return An int containing the value 0 - a student's user's permission
+     * value
+     */
+    public int getPermission() {
+        return PERMISSION;
+    }
 }

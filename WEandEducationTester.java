@@ -76,7 +76,7 @@ public class WEandEducationTester {
         System.out.println(student.getEmail());
         System.out.println(student.getPassword());
         System.out.println(student.getYearInSchool());*/
-        System.out.println();
+        /*System.out.println();
 
         System.out.println("Resume;");
         student.createResume();
@@ -86,13 +86,67 @@ public class WEandEducationTester {
         student.getResume().addEducation(ed);
         student.getResume().addExperience(Apple);
         student.getResume().addExperience(we);
-        System.out.println(student.getResume().toString());
+        System.out.println(student.getResume().toString());*/
 
         student.addReview(rev);
         ArrayList<Review> revs = student.getReviews();
-        for (Review review: revs) {
+        /*for (Review review: revs) {
             System.out.println(review.toString());
+        }*/
+
+        Employer em = new Employer("Joe", "Brainder", "jbtheCoolGuy@rockys.net", "WELLNEss1!");
+        /*System.out.println(em.getPassword());
+        System.out.println(em.getEmail());
+        System.out.print(em.getFirstName() + " " + em.getLastName() + " " + em.getPermission() + " " + student.getPermission());*/
+
+        CompanyProfile cp = new CompanyProfile("Wengleton's", "5523 Zephler Avenue, Granger, Alaska 99938", "We sell groceries");
+        /*System.out.println(cp.getCompanyName());
+        System.out.println(cp.getAddress());
+        System.out.println(cp.getDescription());*/
+        cp.setAddress("2500 Ziegler Street, Quinoa, Maine 00004");
+        cp.setCompanyName("Clayton's Ice Cream");
+        cp.setDescription("We got bought . . . so sad.");
+        /*System.out.println(cp.getCompanyName());
+        System.out.println(cp.getAddress());
+        System.out.println(cp.getDescription());*/
+        cp.addReview(rev);
+
+        JobListing jl = new JobListing("Professional Eater", "You will be training to face Joey Chestnut. Good luck . . .", true, 500.25);
+        System.out.println(jl.getTitle());
+        System.out.println(jl.getDescription());
+        System.out.println(jl.getPaid());
+        System.out.println(jl.getPayRate());
+        System.out.println(jl.getVisibility());
+        jl.addRequiredSkill("programming");
+        jl.addRequiredSkill("waterboarding");
+        jl.addRequiredSkill("tight-rope walking");
+        ArrayList<String> skil = jl.getRequiredSkills();
+        for (String skills: skil) {
+            System.out.println(skills);
+        }
+        jl.apply(student);
+        ArrayList<Student> apps = jl.getApplicants();
+        for (Student stud: apps) {
+            System.out.print(stud.getFirstName() + " " + stud.getLastName());
+            System.out.println();
         }
 
+        jl.removeRequiredSkill("tight-rope walking");
+        ArrayList<String> skillio = jl.getRequiredSkills();
+        for (String skills: skillio) {
+            System.out.println(skills);
+        }
+
+        jl.editTitle("The worst professional eater");
+        jl.editDescription("I don't think you can do it. It's too hard.");
+        jl.editPay(false);
+        jl.editPayRate(0.0);
+        jl.setVisibility(false);
+        System.out.println(jl.getTitle());
+        System.out.println(jl.getDescription());
+        System.out.println(jl.getPaid());
+        System.out.println(jl.getPayRate());
+        System.out.println(jl.getVisibility());
+        
     }
 }
