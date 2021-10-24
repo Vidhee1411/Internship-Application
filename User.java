@@ -101,19 +101,20 @@ public abstract class User {
      * @param email The email associated with the user's account
      * @param password The password associated with the user's account
      */
-    public void logOn(String email, String password) {
-
+    public boolean logOn(String email, String password) {
+        if(email == getEmail() && password == getPassword()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
      * This method returns the users id.
      * @return id
      */
-<<<<<<< HEAD
-    public UUID getUUID() {
-=======
-    public UUID getuserUuid() {
->>>>>>> e3da00650834efaf38b0f3d20523cb88212b371d
+    public UUID getUserUUID() {
         return id;
     }
 

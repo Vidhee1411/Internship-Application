@@ -29,11 +29,8 @@ public class Employer extends User {
      public CompanyProfile createCompanyProfile(String name, String hqaddress){
          return associatedCompany;
      }
-
-
- 
-  
-    /**
+    
+     /**
      * The associateCompany method allows an employer to associate with a
      * company and their profile
      * @param company The company the employer associates with

@@ -55,4 +55,7 @@ public class Administrator extends User{
     public UUID getUUID() {
         return super.getUUID();
      }
+
+    public int getPermission() {
+        return PERMISSION;
 }
