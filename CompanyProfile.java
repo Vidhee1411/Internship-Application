@@ -1,7 +1,7 @@
 import java.util.UUID;
 /**
  * The class creates a company profile in the internship system.
- * @author Vidhee Patel
+ * @author Vidhee Patel abd Josh DuPuis
  */
 import java.util.ArrayList;
 import java.util.UUID;
@@ -14,46 +14,125 @@ public class CompanyProfile {
     private ArrayList<JobListing> listings;
     private ArrayList<Review> reviewList;
 
-    public CompanyProfile(String companyName, String hqAddress, String description, UUID id){
-
+    /**
+     * The CompanyProfile constructor creates a CompanyProfile object that
+     * contains a company's name, location, and a short description about the
+     * company.
+     * @param companyName The name of the company
+     * @param hqAddress The address of the company's headquarters
+     * @param description The short description about the company
+     * @param id The UUID of the company.
+     */
+    public CompanyProfile(String companyName, String hqAddress, String description){
+        this.companyName = companyName;
+        this.hqAddress = hqAddress;
+        this.description = description;
+        listings = new ArrayList<JobListing>();
+        reviewList = new ArrayList<Review>();
     }
 
+    /**
+     * The getCompanyName method returns the name of the company.
+     * @return The name of the company
+     */
     public String getCompanyName() {
-        return "";
+        return companyName;
     }
 
-    public  void setCompanyName(String name) {
-
+    /**
+     * The setCompanyName method allows a user to change the name of a company.
+     * @param name The new name of the company
+     */
+    public void setCompanyName(String name) {
+        this.companyName = name;
     }
 
+    /**
+     * The addReview method adds a review to the profile's ArrayList of
+     * Reviews.
+     * @param review The review to be added to the company's ArrayList
+     */
     public void addReview(Review review){
         this.reviewList.add(review);
     }
 
-    public String displayReviews() {
-        return "";
+    /**
+     * The getReviews method returns a list of all of the reviews
+     * associated with the company.
+     * @return An ArrayList containing all of the reviews associated with the
+     * company
+     */
+    public ArrayList<Review> getReviews() {
+        return reviewList;
     }
 
+    /**
+     * The getDescription method returns the description of the company.
+     * @return The description of the company
+     */
     public String getDescription() {
-        return "";
+        return this.description;
     }
 
-    public void setDescription() {
-
+    /**
+     * The setDescription method alters the description of the company that
+     * appears on their profile.
+     * @param description The new description of the company that will appear
+     * on their profile.
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void addListing() {
-
+    /**
+     * The getAddress method returns the address of a company's headquarters.
+     * @return A company's headquarters address
+     */
+    public String getAddress() {
+        return this.hqAddress;
     }
 
+    /**
+     * The setAddress method allows a user to set a company's address to appear
+     * on their profile.
+     * @param address The new address of the company
+     */
+    public void setAddress(String address) {
+        this.hqAddress = address;
+    }
+
+    /**
+     * The addListing method adds a JobListing that an employer associated
+     * with the company created to the company's profile.
+     * @param listing The listing to be added ot the company profile
+     */
+    public void addListing(JobListing listing) {
+        this.listings.add(listing);
+    }
+
+    /**
+     * The getListings method returns all of the jobListings created by
+     * employers who work for a specific company.
+     * @return A list of all of the JobListings associated with a company
+     */
     public ArrayList<JobListing> getListings() {
-        return null;
+        return this.listings;
     }
 
-    public boolean removeListing() {
-        return true;
+    /**
+     * The removeLisitng method removes a listing associated with a company if
+     * it is in its list of listings.
+     * @return True if the listing was removed, false if it was not in their
+     * list of listings
+     */
+    public boolean removeListing(JobListing listing) {
+        return listings.remove(listing);
     }
 
+    /**
+     * The getUUID method returns the UUID of the CompanyProfile
+     * @return The UUID Of the company profile
+     */
     public UUID getUUID() {
         return companyID;
     }
