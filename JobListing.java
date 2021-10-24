@@ -12,12 +12,8 @@ public class JobListing {
     private boolean paid;
     private double payRate;
     private ArrayList<String> requiredSkills;
-<<<<<<< HEAD
     private String company;
-    private boolean hidden;
-=======
     private boolean visible;
->>>>>>> e3da00650834efaf38b0f3d20523cb88212b371d
     private ArrayList<Student> applicants;
 
     /**
@@ -38,7 +34,6 @@ public class JobListing {
      * @param payRate The payRate of the internship
      */
     public JobListing(String title, String description, Boolean paid, double payRate) {
-<<<<<<< HEAD
 
     }
 
@@ -56,21 +51,14 @@ public class JobListing {
      */
     public JobListing(String companyName,String title, String description, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills) {
         this.company = companyName;
-=======
-        requiredSkills = new ArrayList<String>();
-        applicants = new ArrayList<Student>();
->>>>>>> e3da00650834efaf38b0f3d20523cb88212b371d
         this.title = title;
         this.description = description;
         this.paid = paid;
         this.payRate = payRate;
-<<<<<<< HEAD
         this.id = id;
         this.applicants = applicants;
         this.requiredSkills = requiredSkills;
-=======
         visible = true;
->>>>>>> e3da00650834efaf38b0f3d20523cb88212b371d
     }
 
     /**

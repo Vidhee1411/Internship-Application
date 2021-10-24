@@ -109,11 +109,7 @@ public abstract class User {
      * This method returns the users id.
      * @return id
      */
-<<<<<<< HEAD
     public UUID getUUID() {
-=======
-    public UUID getuserUuid() {
->>>>>>> e3da00650834efaf38b0f3d20523cb88212b371d
         return id;
     }
 
