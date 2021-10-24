@@ -1,3 +1,5 @@
+import java.util.UUID;
+
 /**
  * The Administrator  class creates a administrator account in the internship system.
  * @author 10/17/2021 Vidhee Patel
@@ -5,11 +7,7 @@
 public class Administrator extends User{
     
     public Administrator(String firstName, String lastName, String email, String password, int permission) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.permission = permission;
+        super(firstName, lastName, email, password);
     }
 
     /**
@@ -53,4 +51,7 @@ public class Administrator extends User{
         Administrator(firstName,lastName,email,password);
     }
 
+    public UUID getUUID() {
+        return super.getUUID();
+     }
 }

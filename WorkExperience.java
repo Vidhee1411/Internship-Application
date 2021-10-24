@@ -103,4 +103,13 @@ public class WorkExperience {
         return this.description;
     }
 
+    /**
+     * The toString method returns a String containing all of the information
+     * in the work experience.
+     * @return A String description of the work experience
+     */
+    public String toString() {
+        return company + "\t\t\t" + dateRange + "\n" + jobTitle + "\t\t\t" + "\n" + description;
+    }
+
 }

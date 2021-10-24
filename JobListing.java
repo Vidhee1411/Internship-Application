@@ -122,8 +122,9 @@ public class JobListing {
     /**
      * The apply method adds a student to the ArrayList of applicants for a
      * speciifc JobListing
+     * @param student The student applying for the internship
      */
-    public void apply() {
+    public void apply(Student student) {
 
     }
 

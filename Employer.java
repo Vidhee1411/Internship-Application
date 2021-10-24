@@ -1,3 +1,4 @@
+import java.util.UUID;
 /**
  * The Employer class creates a employer account in the internship system.
  * @author Vidhee Patel
@@ -39,5 +40,9 @@ public class Employer extends User {
 
      public Review reviewStudent(String firstName, String lastName, int rating, String comment, Student student) {
          return null;
+     }
+
+     public UUID getUUID() {
+        return super.getUUID();
      }
 }

@@ -1,3 +1,4 @@
+import java.util.UUID;
 /**
  * The class creates a company profile in the internship system.
  * @author Vidhee Patel
@@ -13,11 +14,7 @@ public class CompanyProfile {
     private ArrayList<JobListing> listings;
     private ArrayList<Review> reviewList;
 
-    public CompanyProfile(String companyName, String hqAddress, String description,UUID companyID){
-
-    }
-
-    public CompanyProfile(String companyName, String hqAddress, String description,UUID companyID, ArrayList<Review> reviews, ArrayList<JobListing> listings ){
+    public CompanyProfile(String companyName, String hqAddress, String description, UUID id){
 
     }
 
@@ -33,8 +30,8 @@ public class CompanyProfile {
 
     }
 
-    public void setReview(ArrayList<Review> reviews){
-        this.reviewList = reviews;
+    public void addReview(Review review){
+        this.reviewList.add(review);
     }
 
     public String displayReviews() {
@@ -61,4 +58,7 @@ public class CompanyProfile {
         return true;
     }
 
+    public UUID getUUID() {
+        return companyID;
+    }
 }
