@@ -22,7 +22,7 @@ public class SearchableDatabase {
     private SearchableDatabase(){
         this.jobListings = new ArrayList<JobListing>();
         this.users = new ArrayList<User>();
-        this.companyProfiles = new ArrayList<CompanyProfile>();
+        
     }
 
     /**
