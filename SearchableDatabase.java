@@ -6,14 +6,14 @@ import java.util.Comparator;
  * alphabetically and by pay so that the user can search with either filter.
  * This class is a singleton so that only one instance of the object can be
  * created. There do not need to be multiple searchable databases.
- * @author Joshua DuPuis and Vidhee Patel
+ * @author Joshua DuPuis
  */
 public class SearchableDatabase {
 
     private static SearchableDatabase searchableDatabase;
     private ArrayList<JobListing> jobListings;
-    private ArrayList<CompanyProfile> companyProfiles;
     private ArrayList<User> users;
+    private ArrayList<CompanyProfile> companyProfiles;
 
     /** 
      * The SearchableDatabase constructor constructs the one instance of the
@@ -22,7 +22,6 @@ public class SearchableDatabase {
     private SearchableDatabase(){
         this.jobListings = new ArrayList<JobListing>();
         this.users = new ArrayList<User>();
-        
     }
 
     /**
@@ -53,13 +52,41 @@ public class SearchableDatabase {
     public void removeJobListing(JobListing listing) {
         jobListings.remove(listing);
     }
+    /**
+     * adds a user to the user ArrayList
+     * @param user the user to be added 
+     */
+    public void addUser(User user){
+        this.users.add(user);
+    }
+    /**
+     * removes a user from the user ArrayList
+     * @param user the user to be removed
+     */
+    public void removeUser(User user){
+        this.users.remove(user);
+    }
 
+    /**
+     * Sets the users ArrayList to the ArrayList passed to the setUsers method. 
+     * @param users An ArrayList<User> containing all users
+     */
     public void setUsers(ArrayList<User> users){
         this.users = users;
     }
-
+    /**
+     * Sets the joblistings Arraylist to the Arraylist passed to the Setjoblistings method. 
+     * @param jobListings An ArrayList<JobListing> containing all joblistings 
+     */
     public void setJobListings(ArrayList<JobListing>jobListings){
         this.jobListings = jobListings;
+    }
+    /**
+     * sets the companyProfiles ArrayList to the ArrayList passed to the setCompanyProfiles methood. 
+     * @param companyProfiles an ArrayList containing all companyprofiles
+     */
+    public void setCompanyProfiles(ArrayList<CompanyProfile> companyProfiles){
+        this.companyProfiles = companyProfiles;
     }
 
     /**
@@ -71,6 +98,10 @@ public class SearchableDatabase {
         return jobListings;
     }
 
+    public ArrayList<User> getUsers(){
+        return this.users;
+    }
+
     /**
      * The searchListings method allows a user to search through JobListings by
      * entering the title of the listing they would like to find.
@@ -79,9 +110,13 @@ public class SearchableDatabase {
      * entered by the user.
      */
     public ArrayList<JobListing> searchListings(String title) {
-        
-        return null;
+        ArrayList<JobListing> output = new ArrayList<JobListing>();
+        for(JobListing listing: jobListings){
+            if(listing.getTitle().containsIgnoreCase)
+        }
     }
+
+
 
     /**
      * The sortListingsbyPay method sorts all of the JobListings by pay in

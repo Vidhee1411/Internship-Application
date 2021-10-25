@@ -21,14 +21,17 @@ public class DataLoader extends DataConstants {
          SearchableDatabase output = SearchableDatabase.getInstance();
          ArrayList<User> users = new ArrayList<>();
          ArrayList<JobListing> jobListings = new ArrayList<>();
-         HashMap<String,CompanyProfile> companyProfiles = new HashMap<>();
+         HashMap<String,CompanyProfile> companyProfilesHashMap = new HashMap<>();
+         ArrayList<CompanyProfile> companyProfiles = new ArrayList<>();
          users.addAll(getAdmins());
          users.addAll(getStudents());
          jobListings.addAll(getJobListings(users));
-         companyProfiles = getCompanyProfiles(jobListings);
-         users.addAll(getEmployers(companyProfiles));
+         companyProfilesHashMap = getCompanyProfiles(jobListings);
+         companyProfiles.addAll(companyProfilesHashMap.values());
+         users.addAll(getEmployers(companyProfilesHashMap));
          output.setUsers(users);
          output.setJobListings(jobListings);
+         output.setCompanyProfiles(companyProfiles);
          return output;
      }
      /**
@@ -94,7 +97,7 @@ public class DataLoader extends DataConstants {
         ArrayList<JobListing> output = new ArrayList<>();
         HashMap<String,User> usersMap = new HashMap<>();
         for(User data: users){
-            usersMap.put(data.getUUID().toString(), data);
+            usersMap.put(data.getUserUUID().toString(), data);
         }
         try {
             FileReader reader = new FileReader(JOB_LISTING_FILE_NAME);

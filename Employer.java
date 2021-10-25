@@ -58,7 +58,7 @@ public class Employer extends User {
      * @return The UUID of the employer
      */
     public UUID getUUID() {
-        return super.getuserUuid();
+        return super.getUserUUID();
     }
 
     /**
