@@ -38,7 +38,7 @@ public class DataWriter extends DataConstants {
                     break;
                 default:
                     System.out.println("User " + user.getFirstName() + " " + user.getLastName() + " (ID: " +
-                    user.getUUID() + ") has invalid permissions. They will not be written to the database.");
+                    user.getUserUUID() + ") has invalid permissions. They will not be written to the database.");
             }
         }
 
@@ -106,8 +106,7 @@ public class DataWriter extends DataConstants {
         for(Resume resume: resumes) {
             //Since resumes are separate objects with their own info, put their info into separate JSONObjects
             JSONObject resumeDetails = new JSONObject();
-            //Resume class needs a field and getter for the userID
-            resumeDetails.put(RESUME_USER_ID, resume.getUserUUID());
+            resumeDetails.put(RESUME_USER_ID, resume.getUUID());
             resumeDetails.put(RESUME_SCHOOL_YEAR, resume.getYearInSchool());
             resumeDetails.put(RESUME_SKILLS, arrayListToJsonArray(resume.getSkills()).toJSONString());
             resumeDetails.put(RESUME_CLASSES, arrayListToJsonArray(resume.getClasses()).toJSONString());
@@ -172,8 +171,6 @@ public class DataWriter extends DataConstants {
             employerDetails.put(EMPLOYER_EMAIL, employer.getEmail());
             employerDetails.put(EMPLOYER_PASSWORD, employer.getPassword());
             employerDetails.put(EMPLOYER_PERMISSION, employer.getPermission());
-            employerDetails.put(EMPLOYER_REVIEWS, arrayListToJsonOfIDs(employer.getReviews()));
-            //Employer needs a getCompany, and CompanyProfile needs a toString
             employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().toString());
             jsonEmployer.add(employerDetails);
         }
@@ -250,7 +247,7 @@ public class DataWriter extends DataConstants {
         listingDetails.put(LISTING_PAY_RATE, jobListing.getPayRate());
         listingDetails.put(LISTING_REQUIRED_SKILLS, arrayListToJsonArray(jobListing.getSkills()).toJSONString());
         listingDetails.put(LISTING_COMPANY_NAME, jobListing.getCompanyName());
-        listingDetails.put(LISTING_HIDDEN, jobListing.getHidden());
+        listingDetails.put(LISTING_HIDDEN, jobListing.getVisibility());
         listingDetails.put(LISTING_APPLICANT_IDS, studentsToJsonIDArray(jobListing.getApplicants()).toJSONString());
         return listingDetails;
     }
