@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 /**
  * The SearchableDatabase class contains all of the JobListings and
  * CompanyProfiles that a User can search through. It sorts the job listings
  * alphabetically and by pay so that the user can search with either filter.
  * This class is a singleton so that only one instance of the object can be
  * created. There do not need to be multiple searchable databases.
- * @author Joshua DuPuis
+ * @author Joshua DuPuis and Vidhee Patel
  */
 public class SearchableDatabase {
 
@@ -21,6 +22,7 @@ public class SearchableDatabase {
     private SearchableDatabase(){
         this.jobListings = new ArrayList<JobListing>();
         this.users = new ArrayList<User>();
+        this.companyProfiles = new ArrayList<CompanyProfile>();
     }
 
     /**
@@ -40,7 +42,7 @@ public class SearchableDatabase {
      * @param listing The JobListing to be added to a database
      */
     public void addJobListing(JobListing listing) {
-
+        jobListings.add(listing);
     }
 
     /**
@@ -49,7 +51,7 @@ public class SearchableDatabase {
      * @param listing The JobListing to be removed from the database
      */
     public void removeJobListing(JobListing listing) {
-
+        jobListings.remove(listing);
     }
 
     public void setUsers(ArrayList<User> users){
@@ -66,7 +68,7 @@ public class SearchableDatabase {
      * @return An ArrayList containing all of the JobListings in the database
      */
     public ArrayList<JobListing> getJobListings() {
-        return null;
+        return jobListings;
     }
 
     /**
@@ -77,6 +79,7 @@ public class SearchableDatabase {
      * entered by the user.
      */
     public ArrayList<JobListing> searchListings(String title) {
+        
         return null;
     }
 
@@ -85,7 +88,7 @@ public class SearchableDatabase {
      * ascending order.
      */
     private void sorListingsbyPay() {
-
+        jobListings.sort(Comparator.comparingInt(JobListing::getPayRate));
     }
 
     /**
@@ -93,7 +96,7 @@ public class SearchableDatabase {
      * alphabetical order. 
      */
     private void sortListingsAlphabetically() {
-
+        jobListings.sort(Comparator.comparing(JobListing::getTitle));
     }
 
     /**
@@ -103,7 +106,7 @@ public class SearchableDatabase {
      * SearchableDatabase
      */
     public ArrayList<CompanyProfile> getCompanyProfiles() {
-        return null;
+        return companyProfiles;
     }
 
     /**
@@ -123,7 +126,7 @@ public class SearchableDatabase {
      * SearchableDatabase in alphabetical order.
      */
     private void sortProfilesAlphabetically() {
-
+        companyProfiles.sort(Comparator.comparing(CompanyProfile::getCompanyName));
     }
 
 
