@@ -109,11 +109,12 @@ public class DataLoader extends DataConstants {
                 String title = (String)listing.get(LISTING_TITLE);
                 String description = (String)listing.get(LISTING_DESCRIPTION);
                 String companyName = (String)listing.get(LISTING_COMPANY_NAME);
+                String location = (String)listing.get(LISTING_LOCATION);
                 Boolean paid = (Boolean)listing.get(LISTING_PAID);
                 Double payRate = (Double)listing.get(LISTING_PAY_RATE);
                 UUID id = UUID.fromString((String)listing.get(LISTING_ID));
                 ArrayList<String> requiredSkills = getRequiredSkills(listing);
-                JobListing temp = new JobListing(companyName, title, description, paid, payRate, id, applicants, requiredSkills);
+                JobListing temp = new JobListing(companyName, title, description, location, paid, payRate, id, applicants, requiredSkills)
                 output.add(temp);
                 
             }

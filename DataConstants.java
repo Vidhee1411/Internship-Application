@@ -70,6 +70,7 @@ public class DataConstants {
   protected static final String LISTING_COMPANY_NAME = "companyName";
   protected static final String LISTING_HIDDEN = "hidden";
   protected static final String LISTING_APPLICANT_IDS = "applicantIDs";
+  protected static final String LISTING_LOCATION = "location";
   /**
    * resume fields
    */

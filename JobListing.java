@@ -9,6 +9,7 @@ public class JobListing {
     private UUID id;
     private String title;
     private String description;
+    private String location;
     private boolean paid;
     private double payRate;
     private ArrayList<String> requiredSkills;
@@ -48,8 +49,9 @@ public class JobListing {
      * @param id UUID of the listing\
      * @param applicants the listings applicants
      * @param requiredSKills required skills for the listing 
+     * @param location the location of the job
      */
-    public JobListing(String companyName,String title, String description, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills) {
+    public JobListing(String companyName,String title, String description, String location, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills) {
         this.company = companyName;
         this.title = title;
         this.description = description;
