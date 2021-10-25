@@ -112,8 +112,11 @@ public class SearchableDatabase {
     public ArrayList<JobListing> searchListings(String title) {
         ArrayList<JobListing> output = new ArrayList<JobListing>();
         for(JobListing listing: jobListings){
-            if(listing.getTitle().containsIgnoreCase)
+            if(listing.getTitle().toLowerCase().contains(title.toLowerCase())){
+                output.add(listing);
+            }
         }
+        return output;
     }
 
 

@@ -24,8 +24,9 @@ public class Administrator extends User{
      * @param company The company's listing to be removed.
      * @return true if the company is removed.
      */
-    public boolean removeListing(CompanyProfile company) {
-        company.removeListing();
+    public boolean removeListing(JobListing listing) {
+        SearchableDatabase temp = SearchableDatabase.getInstance();
+        temp.removeJobListing(listing);
         return true;
     }
     
@@ -34,11 +35,8 @@ public class Administrator extends User{
      * @param user the user to be removed
      */
     public void removeAccount(User user) {
-       for(User users: UserDatabase.getUsers()) {
-           if( users.getuserUuid.equals(this.user.getuserUuid)) {
-                users.remove(this.user.getuserUuid);
-           }
-       }
+     SearchableDatabase temp = SearchableDatabase.getInstance();
+     temp.removeUser(user);
     }
 
     /**
@@ -49,13 +47,15 @@ public class Administrator extends User{
      * @param password Password of the account.
      */
     public void registerAccount(String firstName, String lastName, String email, String password) {
-        Administrator(firstName,lastName,email,password);
+        SearchableDatabase temp = SearchableDatabase.getInstance();
+        temp.addUser(new Administrator(firstName, lastName, email, password, id));
     }
 
     public UUID getUUID() {
-        return super.getUUID();
+        return super.getUserUUID();
      }
 
     public int getPermission() {
         return PERMISSION;
+    }
 }
