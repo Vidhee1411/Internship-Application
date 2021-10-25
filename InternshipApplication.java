@@ -23,14 +23,18 @@ public class InternshipApplication {
     /**
      * The CreateAccount method allows a user to create an account as either an
      * employer or student.
+     * 
+     * @param accountType the type of account to create
+     * @return True if the account was successfully created, false otherwise
      */
-    public void createAccount() {
+    public boolean createAccount(String accountType) {
 
+        return false;
     }
 
     /**
      * The logOn method allows a user with an existing account to log on to the
-     * system
+     * system. Also sets the InternshipApplication's user equal to the logged in user.
      * @param email The User's email
      * @param password The User's password
      * 
@@ -78,16 +82,17 @@ public class InternshipApplication {
      * @return The review created in this method
      */
     public Review writeReview(User user, int rating, String comment) {
+        //Depending on the user type (student or employer, based on permission), 
+        //restrict them to reviewing only students (if employer) or job listings (if student).
         return null;
     }
 
     /**
      * The createResume method allows a student user to create a resume that
      * employers can view when the student applies for a job
-     * @return The resume created by the student
      */
-    public Resume createResume() {
-        return null;
+    public void createResume() {
+        //Create the resume and then add it to the student account passed to the command
     }
 
     /**
