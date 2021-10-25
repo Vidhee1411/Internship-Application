@@ -66,7 +66,7 @@ public class DataLoader extends DataConstants {
         try {
            FileReader reader = new FileReader(STUDENT_FILE_NAME);
            JSONArray students =  (JSONArray)new JSONParser().parse(reader);
-           for(int i = 0; i < students.size(); i++){
+           for(int i = 0; i < students.size() && students.size() != 0; i++){
                JSONObject student = (JSONObject)students.get(i);
                String firstName = (String)student.get(STUDENT_FIRST_NAME);
                String lastName = (String)student.get(STUDENT_LAST_NAME);
@@ -74,11 +74,15 @@ public class DataLoader extends DataConstants {
                String password = (String)student.get(STUDENT_PASSWORD);
                String yearInSchool = (String)student.get(STUDENT_YEAR_IN_SCHOOL);
                UUID id = UUID.fromString((String)student.get(STUDENT_ID));
+               ArrayList<String> skills = getSkills(student);
+               ArrayList<String> classes = getclasses(student);
                ArrayList<Review> reviews = getReviews(student);
-               ArrayList<Resume> resumes = getResumes(student);
+               ArrayList<Resume> resumes = getResumes(student, skills, classes);
                Student temp = new Student(firstName, lastName, email, password, yearInSchool, id);
                temp.setReviews(reviews);
                temp.setResume(resumes.get(0));
+               temp.setSkills(skills);
+               temp.setClasses(classes);
                output.add(temp);
 
            }
@@ -102,7 +106,7 @@ public class DataLoader extends DataConstants {
         try {
             FileReader reader = new FileReader(JOB_LISTING_FILE_NAME);
             JSONArray listings =  (JSONArray)new JSONParser().parse(reader);
-            for(int i = 0; i < listings.size(); i++){
+            for(int i = 0; i < listings.size() && listings.size() != 0; i++){
                 JSONObject listing = (JSONObject)listings.get(i);
                 JSONArray applicantIDS = (JSONArray)listing.get(LISTING_APPLICANT_IDS);
                 ArrayList<Student> applicants = getapplicants(usersMap, applicantIDS);
@@ -114,7 +118,7 @@ public class DataLoader extends DataConstants {
                 Double payRate = (Double)listing.get(LISTING_PAY_RATE);
                 UUID id = UUID.fromString((String)listing.get(LISTING_ID));
                 ArrayList<String> requiredSkills = getRequiredSkills(listing);
-                JobListing temp = new JobListing(companyName, title, description, location, paid, payRate, id, applicants, requiredSkills)
+                JobListing temp = new JobListing(companyName, title, description, location, paid, payRate, id, applicants, requiredSkills);
                 output.add(temp);
                 
             }
@@ -137,7 +141,7 @@ public class DataLoader extends DataConstants {
         try {
             FileReader reader = new FileReader(COMPANY_PROFILE_FILE_NAME);
             JSONArray CompanyProfiles =  (JSONArray)new JSONParser().parse(reader);
-            for(int i = 0; i < CompanyProfiles.size()-1; i++){
+            for(int i = 0; i < CompanyProfiles.size() && CompanyProfiles.size() != 0; i++){
                 JSONObject companyprofile = (JSONObject)CompanyProfiles.get(i);
                 JSONArray listingIDS = (JSONArray)companyprofile.get(COMPANY_LISTINGS_IDS);
                 String companyName = (String)companyprofile.get(COMPANY_NAME);
@@ -168,7 +172,7 @@ public class DataLoader extends DataConstants {
         try {
             FileReader reader = new FileReader(EMPLOYER_FILE_NAME);
             JSONArray employers =  (JSONArray)new JSONParser().parse(reader);
-            for(int i = 0; i < employers.size(); i++){
+            for(int i = 0; i < employers.size() && employers.size() != 0; i++){
                 JSONObject employer = (JSONObject)employers.get(i);
                 String firstName = (String)employer.get(EMPLOYER_FIRST_NAME);
                 String lastName = (String)employer.get(EMPLOYER_LAST_NAME);
@@ -188,17 +192,17 @@ public class DataLoader extends DataConstants {
       * @param student the student json object containing the resumes
       * @return an ArrayList<Resume> containing all the students resumes
       */
-    private static ArrayList<Resume> getResumes(JSONObject student){
+    private static ArrayList<Resume> getResumes(JSONObject student, ArrayList<String>skills, ArrayList<String>classes){
         ArrayList<Resume> output = new ArrayList<>();
         JSONArray resumes = (JSONArray)student.get(STUDENT_RESUMES);
         for(int i = 0; i < resumes.size() && resumes.size() != 0; i++){
             JSONObject resume = (JSONObject)resumes.get(i);
             String yearInSchool = (String)student.get(STUDENT_YEAR_IN_SCHOOL);
-            ArrayList<String> classes = getClasses(resume, student);
-            ArrayList<String> skills = getSkills(resume, student);
+            ArrayList<String> resumeclasses = getResumeClasses(resume, classes);
+            ArrayList<String> resumeskills = getResumeSkills(resume, skills);
             ArrayList<Education> education = getEducation(resume);
             ArrayList<WorkExperience> workExperiences = getWorkExperiences(resume);
-            output.add(new Resume(yearInSchool, skills, education, workExperiences, classes));
+            output.add(new Resume(yearInSchool, resumeskills, education, workExperiences, resumeclasses));
         }
         return output;
     }
@@ -208,10 +212,9 @@ public class DataLoader extends DataConstants {
      * @param student the student json object whos resume is being loaded 
      * @return an ArrayList<String> containing the selected skills for the resume
      */
-    private static ArrayList<String> getSkills(JSONObject resume, JSONObject student){
+    private static ArrayList<String> getResumeSkills(JSONObject resume, ArrayList<String> skills){
         ArrayList<String> output = new ArrayList<>();
         JSONArray skillindex = (JSONArray)resume.get(RESUME_SKILL_INDEXES);
-        JSONArray skills = (JSONArray)student.get(STUDENT_SKILLS);
         for(int i = 0; i < skillindex.size() && skills.size() != 0; i++){
             int index = ((Long)skillindex.get(i)).intValue();
             output.add((String)skills.get(index));
@@ -240,16 +243,15 @@ public class DataLoader extends DataConstants {
     /**
      * loads the classes selected by the student for the resume
      * @param resume the resume json object being loaded
-     * @param student the student json object containing the list of skills posssiable to be selected 
+     * @param classes an ArrayList<String> containing the list of skills posssible to be selected 
      * @return an ArrayList<String> containing all the skills selected for the resume
      */
-    private static ArrayList<String> getClasses(JSONObject resume, JSONObject student){
+    private static ArrayList<String> getResumeClasses(JSONObject resume, ArrayList<String> classes){
         ArrayList<String> output = new ArrayList<>();
-        JSONArray classNames = (JSONArray)student.get(STUDENT_CLASSES);
         JSONArray classIndexes = (JSONArray)resume.get(RESUME_CLASS_INDEXES);
-        for(int i = 0; i < classIndexes.size() && classNames.size() != 0; i++){
+        for(int i = 0; i < classIndexes.size() && classes.size() != 0; i++){
             int index = ((Long)classIndexes.get(i)).intValue() ;
-            output.add((String)classNames.get(index));
+            output.add((String)classes.get(index));
         }
         return output;
     }
@@ -299,7 +301,7 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<Student> getapplicants(HashMap<String,User> users, JSONArray applicantIDS){
         ArrayList<Student> applicants = new ArrayList<>();
-        for(int i = 0; i < applicantIDS.size(); i++){
+        for(int i = 0; i < applicantIDS.size() && applicantIDS.size() != 0; i++){
             applicants.add((Student)users.get(applicantIDS.get(i)));
         }
         return applicants;
@@ -326,8 +328,26 @@ public class DataLoader extends DataConstants {
     private static ArrayList<JobListing> getCurrentListings(HashMap<String,JobListing> listingmap, JSONArray listingIDS){
         ArrayList<JobListing> output = new ArrayList<>();
         
-        for(int i = 0; i < listingIDS.size(); i++){
+        for(int i = 0; i < listingIDS.size() && listingIDS.size() != 0; i++){
             output.add(listingmap.get(listingIDS.get(i)));
+        }
+        return output;
+    }
+    
+    private static ArrayList<String> getSkills(JSONObject student){
+        ArrayList<String> output = new ArrayList<>();
+        JSONArray skills = (JSONArray)student.get(STUDENT_SKILLS);
+        for(int i = 0; i < skills.size() && skills.size() != 0; i++){
+            output.add((String)skills.get(i));
+        }
+        return output;
+    }
+
+    private static ArrayList<String> getclasses(JSONObject student){
+        ArrayList<String> output = new ArrayList<>();
+        JSONArray classes = (JSONArray)student.get(STUDENT_CLASSES);
+        for(int i = 0; i < classes.size() && classes.size() != 0; i++){
+            output.add((String)classes.get(i));
         }
         return output;
     }

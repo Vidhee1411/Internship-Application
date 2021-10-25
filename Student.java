@@ -11,6 +11,8 @@ public class Student extends User{
     private Resume resume;
     private ArrayList<Review> reviewsFromCompanies;
     private static final int PERMISSION = 0;
+    private ArrayList<String> skills;
+    private ArrayList<String> classes;
 
     /**
      * The Student constructor creates a student object with their first name
@@ -108,16 +110,34 @@ public class Student extends User{
     }
 
     /**
-     * The add reviews method accepts an Arraylist and sets reviewsFromCompanies equal to it.
+     * The setReviews method accepts an Arraylist<Review> and sets reviewsFromCompanies to it.
      * used in loading data from JSON
-     * @param reviews an ArrayList of reviews 
+     * @param reviews an ArrayList<Review> of reviews 
      */
     public void setReviews(ArrayList<Review> reviews) {
         reviewsFromCompanies = reviews;
     }
+    /**
+     * the setSkills method accepts an ArrayList<String> and sets skills to it 
+     * @param skills an ArrayList<String> containing the students skills
+     */
+    public void setSkills(ArrayList<String>skills){
+        this.skills = skills;
+    }
+    /**
+     * the setClasses method accpets an ArrayList<String> and sets classes to it
+     * @param classes an ArrayList<String> containing the students classes
+     */
+    public void setClasses(ArrayList<String> classes){
+        this.classes = classes;
+    }
+    /**
+     * gets the Students UUID
+     * @return
+     */
 
     public UUID getUUID() {
-        return super.getUUID();
+        return super.getUserUUID();
     }
 
     /**
