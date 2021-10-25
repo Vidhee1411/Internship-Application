@@ -33,9 +33,11 @@ public class InternshipApplication {
      * system
      * @param email The User's email
      * @param password The User's password
+     * 
+     * @return true for a successful login, false otherwise.
      */
-    public void logOn(String email, String password) {
-
+    public boolean logOn(String email, String password) {
+        return false;
     }
 
     /**
