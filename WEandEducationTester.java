@@ -4,7 +4,7 @@ public class WEandEducationTester {
     public static void main( String[] args ) {
         WorkExperience Apple = new WorkExperience("Developer","Apple", "03/01/2019-07/01/2020", "Developing new apps");
         WorkExperience we = new WorkExperience("Program Tester", "Testing Company Inc.", "04/25/2020-06/29/2020", "This was a fun job");
-        Education ed = new Education();//"UofSC", "Computer Science", 3.56, "Spring 2023");
+        Education ed = new Education("UofSC", "Computer Science", 3.56, "Spring 2023");
         Resume resume = new Resume("Bob", "Xierling", "bob@email.usc.edu", "Redshirt sophomore");
         Review rev = new Review("Eileen", "Dover", 2.7, "Brandon does not know anything");
         ed.setName("Waterton College");
@@ -12,6 +12,12 @@ public class WEandEducationTester {
         ed.setGPA(3.27);
         ed.setExpectedGradDate("01/2025");
  
+        System.out.println(Apple.getJobTitle());
+        System.out.println(Apple.getCompany());
+        System.out.println(Apple.getDateRange());
+        System.out.println(Apple.getDescription());
+        System.out.println();
+        
         System.out.println(we.getJobTitle());
         System.out.println(we.getCompany());
         System.out.println(we.getDateRange());
@@ -68,7 +74,7 @@ public class WEandEducationTester {
         System.out.println(rev.toString());
         rev.setDescription("Well . . . that's a rap! Henrico does not listen.");
         rev.setRating(1.7);
-        //System.out.println(rev.toString());
+        System.out.println(rev.toString());
 
         Student student = new Student("Brandon", "Wheeler", "water@email.sc.edu", "cool", "sophomore");
         System.out.println(student.getFirstName());
@@ -78,7 +84,7 @@ public class WEandEducationTester {
         System.out.println(student.getYearInSchool());
         System.out.println();
 
-        System.out.println("Resume;");
+        System.out.println("Resume:");
         student.createResume();
         student.getResume().addSkill("Hard-working");
         student.getResume().addSkill("Java programming");
@@ -97,7 +103,7 @@ public class WEandEducationTester {
         Employer em = new Employer("Joe", "Brainder", "jbtheCoolGuy@rockys.net", "WELLNEss1!");
         System.out.println(em.getPassword());
         System.out.println(em.getEmail());
-        System.out.print(em.getFirstName() + " " + em.getLastName() + " " + em.getPermission() + " " + student.getPermission());*/
+        System.out.println(em.getFirstName() + " " + em.getLastName() + " " + em.getPermission() + " " + student.getPermission());
 
         CompanyProfile cp = new CompanyProfile("Wengleton's", "5523 Zephler Avenue, Granger, Alaska 99938", "We sell groceries");
         System.out.println(cp.getCompanyName());
@@ -108,14 +114,11 @@ public class WEandEducationTester {
         cp.setDescription("We got bought . . . so sad.");
         System.out.println(cp.getCompanyName());
         System.out.println(cp.getAddress());
-        System.out.println(cp.getDescription());*/
+        System.out.println(cp.getDescription());
         cp.addReview(rev);
 
-        JobListing jl = new JobListing("Professional Eater", "You will be training to face Joey Chestnut. Good luck . . .", true, 500.25);
-        System.out.println(jl.getTitle());
-        System.out.println(jl.getDescription());
-        System.out.println(jl.getPaid());
-        System.out.println(jl.getPayRate());
+        JobListing jl = new JobListing("Professional Eater", "You will be training to face Joey Chestnut. Good luck . . .", "In-person", true, 500.25);
+        System.out.println(jl.toString());
         System.out.println(jl.getVisibility());
         jl.addRequiredSkill("programming");
         jl.addRequiredSkill("waterboarding");
@@ -142,10 +145,7 @@ public class WEandEducationTester {
         jl.editPay(false);
         jl.editPayRate(0.0);
         jl.setVisibility(false);
-        System.out.println(jl.getTitle());
-        System.out.println(jl.getDescription());
-        System.out.println(jl.getPaid());
-        System.out.println(jl.getPayRate());
+        System.out.println(jl.toString());
         System.out.println(jl.getVisibility());
         
     }

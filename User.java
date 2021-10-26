@@ -12,9 +12,26 @@ public abstract class User {
     protected String password;
 
     /**
+     * The User constructor initializes a User object and sets their first
+     * name, last name, email, and password to their respective instance
+     * variables.
+     * @param firstName The first name of the user
+     * @param lastName The last name of the user
+     * @param email The user's email
+     * @param password The user's password
+     */
+    public User(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
+    
+    /**
      * The User constructor initializes a User object/account and sets their
      * first name, last name, email, and password to the correct instance
-     * variables 
+     * variables.
      * @param firstName The user's first name
      * @param lastName The user's last name
      * @param email The user's email
@@ -105,17 +122,15 @@ public abstract class User {
         if(email == getEmail() && password == getPassword()) {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /**
-     * This method returns the users id.
-     * @return id
+     * The getUserUUID method returns the UUID of the user.
+     * @return The user's UUID
      */
     public UUID getUserUUID() {
-        return id;
+        return this.id;
     }
 
     /**
