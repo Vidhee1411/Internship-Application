@@ -131,13 +131,31 @@ public class Student extends User{
     public void setClasses(ArrayList<String> classes){
         this.classes = classes;
     }
+
     /**
      * gets the Students UUID
      * @return
      */
-
     public UUID getUUID() {
         return super.getUserUUID();
+    }
+    
+    /**
+     * gets the index of a skill
+     * @param skill the skill being searched for 
+     * @return returns the index of the skill if found or -1 if not found
+     */
+    public int getSkillIndex(String skill){
+        return skills.indexOf(skill);
+    }
+    
+    /**
+     * gets the index of a class
+     * @param course the class being searched for. 
+     * @return returns the index of the class if found or -1 if not found
+     */
+    public int getClassIndex(String course){
+        return classes.indexOf(course);
     }
 
     /**

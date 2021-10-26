@@ -7,34 +7,29 @@ import java.util.ArrayList;
  * register new administrators.
  * @author Joshua DuPuis
  */
-public class InternshipApplication {
-    private UserDatabase userList;
+public class InternshipApplication {;
     private User user;
-    private SearchableDatabase jobsCompaniesList;
+    private SearchableDatabase database;
 
     /**
      * The InternshipApplication constructor initializes the facade that will
      * run the entire program.
      */
-    public InternshipApplication() {
-
+     InternshipApplication() {
+        this.database = SearchableDatabase.getInstance();
     }
 
     /**
      * The CreateAccount method allows a user to create an account as either an
      * employer or student.
-     * 
-     * @param accountType the type of account to create
-     * @return True if the account was successfully created, false otherwise
      */
-    public boolean createAccount(String accountType) {
+    public void createAccount() {
 
-        return false;
     }
 
     /**
      * The logOn method allows a user with an existing account to log on to the
-     * system. Also sets the InternshipApplication's user equal to the logged in user.
+     * system
      * @param email The User's email
      * @param password The User's password
      * 
@@ -82,17 +77,16 @@ public class InternshipApplication {
      * @return The review created in this method
      */
     public Review writeReview(User user, int rating, String comment) {
-        //Depending on the user type (student or employer, based on permission), 
-        //restrict them to reviewing only students (if employer) or job listings (if student).
         return null;
     }
 
     /**
      * The createResume method allows a student user to create a resume that
      * employers can view when the student applies for a job
+     * @return The resume created by the student
      */
-    public void createResume() {
-        //Create the resume and then add it to the student account passed to the command
+    public Resume createResume() {
+        return null;
     }
 
     /**
@@ -127,7 +121,7 @@ public class InternshipApplication {
      * @param jobListing The job listing the employer wants to remove
      */
     public void removeJobListing(JobListing jobListing) {
-
+        database.removeJobListing(jobListing);
     }
 
     /**
@@ -172,7 +166,9 @@ public class InternshipApplication {
      * administrators to the system. No employee and no student can do this.
      */
     public void registerAdmin() {
-
+        if(this.user.getPermission() == -1){
+            
+        }
     }
 
     /**
@@ -181,6 +177,19 @@ public class InternshipApplication {
      * @param listing The internship the user wants to apply for
      */
     public void applyForInternship(JobListing listing) {
+        if(this.user.getPermission() == 0)
+        listing.apply((Student)this.user);
+    }
+    
+    /**
+     * gets the permission level (int) from the current user
+     * @return
+     */
+    public int getUserPermission(){
+        return this.user.getPermission();
+    }
 
+    public User getUser(){
+        return this.user;
     }
 }

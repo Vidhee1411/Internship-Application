@@ -62,6 +62,26 @@ public class Review {
         return this.hidden;
     }
 
+    public String getFirstName(){
+        return this.reviewerFirstName;
+    }
+
+    public String getLastName(){
+        return this.reviewerLastName;
+    }
+
+    public Double getRating(){
+        return this.rating;
+    }
+
+    public String getMessage(){
+        return this.description;
+    }
+
+    public boolean getHidden(){
+        return this.hidden;
+    }
+
     /**
      * The setRating method allows a user to change the rating on a review.
      * @param rating The new rating for the review

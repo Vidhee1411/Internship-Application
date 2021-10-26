@@ -26,17 +26,6 @@ public class JobListing {
         visible = true;
     }
 
-    /**
-     * The parameterized constructor creates a JobListing and allows the
-     * employer to define all of its attributes.
-     * @param title The title of the JobListing
-     * @param description The description of the JobListing
-     * @param paid True if the internship is paid, false if not
-     * @param payRate The payRate of the internship
-     */
-    public JobListing(String title, String description, Boolean paid, double payRate) {
-
-    }
 
      /**
      * The parameterized constructor creates a JobListing and allows the
@@ -50,8 +39,9 @@ public class JobListing {
      * @param applicants the listings applicants
      * @param requiredSKills required skills for the listing 
      * @param location the location of the job
+     * @param visable a boolean indicating if the listing is visable or hidden
      */
-    public JobListing(String companyName,String title, String description, String location, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills) {
+    public JobListing(String companyName,String title, String description, String location, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills, boolean visable) {
         this.company = companyName;
         this.title = title;
         this.description = description;
@@ -60,7 +50,8 @@ public class JobListing {
         this.id = id;
         this.applicants = applicants;
         this.requiredSkills = requiredSkills;
-        visible = true;
+        this.location = location;
+        visible = visable;
     }
 
     /**
@@ -79,16 +70,7 @@ public class JobListing {
         return this.title;
     }
 
-    /**
-     * The editDescription method allows a user to edit the description of a
-     * JobListing.
-     * @param description The new description for the JobListing
-     */
-    public void editDescription(String description) {
-        this.description = description;
-    }
-
-    /**
+      /**
      * The getDescription method returns the description of the JobListing.
      * @return The description of the job listing
      */
@@ -97,28 +79,11 @@ public class JobListing {
     }
 
     /**
-     * The editPay method allows a user to edit the pay rate of a JobListing.
-     * @param pay The new pay rate for the JobListing
-     */
-    public void editPay(boolean pay) {
-        this.paid = pay;
-    }
-    
-    /**
      * The getPaid method tells the user whether an internship is paid or not.
      * @return True if the internship is paid, false otherwise
      */
     public boolean getPaid() {
         return this.paid;
-    }
-
-    /**
-     * The editPayRate method allows a user to edit the pay rate associated
-     * with the internship.
-     * @param payRate The new pay rate of the internship
-     */
-    public void editPayRate(double payRate) {
-        this.payRate = payRate;
     }
 
     /**
@@ -129,16 +94,7 @@ public class JobListing {
         return this.payRate;
     }
 
-    /**
-     * The setVisibility method allows an employer or an administrator to
-     * change whether a JobListing is visible or not.
-     * @param visible True if JobListing should be visible, false otherwise
-     */
-    public void setVisibility(boolean visible) {
-        this.visible = visible;
-    }
-
-    /**
+     /**
      * The getVisibility method returns whether an internship is visible or not
      * on the system.
      * @return True if the internship should be visible, false otherwise
@@ -154,6 +110,58 @@ public class JobListing {
     public UUID getUUID(){
         return this.id;
     }
+
+     /**
+     * The getRequiredSkills method returns a list of the skills required for
+     * an internship.
+     * @return A list of the skills required for an internship
+     */
+    public ArrayList<String> getRequiredSkills() {
+        return this.requiredSkills;
+    }
+
+    /**
+     * The editDescription method allows a user to edit the description of a
+     * JobListing.
+     * @param description The new description for the JobListing
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+  
+
+    /**
+     * The editPay method allows a user to edit the pay rate of a JobListing.
+     * @param pay The new pay rate for the JobListing
+     */
+    public void setPay(boolean pay) {
+        this.paid = pay;
+    }
+    
+  
+
+    /**
+     * The editPayRate method allows a user to edit the pay rate associated
+     * with the internship.
+     * @param payRate The new pay rate of the internship
+     */
+    public void setPayRate(double payRate) {
+        this.payRate = payRate;
+    }
+
+  
+
+    /**
+     * The setVisibility method allows an employer or an administrator to
+     * change whether a JobListing is visible or not.
+     * @param visible True if JobListing should be visible, false otherwise
+     */
+    public void setVisibility(boolean visible) {
+        this.visible = visible;
+    }
+
+   
 
     /**
      * The addRequiredSkill method adds a required skill to the list of skills
@@ -174,14 +182,7 @@ public class JobListing {
         return requiredSkills.remove(skill);
     }
 
-    /**
-     * The getRequiredSkills method returns a list of the skills required for
-     * an internship.
-     * @return A list of the skills required for an internship
-     */
-    public ArrayList<String> getRequiredSkills() {
-        return this.requiredSkills;
-    }
+   
 
     /**
      * The apply method adds a student to the ArrayList of applicants for a

@@ -97,9 +97,22 @@ public class SearchableDatabase {
     public ArrayList<JobListing> getJobListings() {
         return jobListings;
     }
-
+    /**
+     * gets the ArrayList<User> containing all users
+     * @return an ArrayList<User> containing all users
+     */
     public ArrayList<User> getUsers(){
         return this.users;
+    }
+
+      /**
+     * The getCompanyProfiles method returns a list of all of the
+     * CompanyProfiles in the SearchableDatabase.
+     * @return An ArrayList containing all of the CompanyProfiles in the
+     * SearchableDatabase
+     */
+    public ArrayList<CompanyProfile> getCompanyProfiles() {
+        return companyProfiles;
     }
 
     /**
@@ -119,14 +132,30 @@ public class SearchableDatabase {
         return output;
     }
 
-
+      /**
+     * The searchProfiles method allows a user to search through all of the
+     * CompanyProfiles in the SearchableDatabase by entering a company's name
+     * into the system.
+     * @param title The name of the company the user would like to search for
+     * @return An ArrayList containing all of the profiles with that company
+     * name
+     */
+    public ArrayList<CompanyProfile> searchProfiles(String name) {
+        ArrayList<CompanyProfile> output = new ArrayList<CompanyProfile>();
+        for(CompanyProfile profile:companyProfiles){
+            if(profile.getCompanyName().toLowerCase().contains((name.toLowerCase()))){
+                output.add(profile);
+            }
+        }
+        return output;
+    }
 
     /**
      * The sortListingsbyPay method sorts all of the JobListings by pay in
      * ascending order.
      */
-    private void sorListingsbyPay() {
-        jobListings.sort(Comparator.comparingInt(JobListing::getPayRate));
+    private void sortListingsbyPay() {
+        jobListings.sort(Comparator.comparingDouble(JobListing::getPayRate));
     }
 
     /**
@@ -137,35 +166,11 @@ public class SearchableDatabase {
         jobListings.sort(Comparator.comparing(JobListing::getTitle));
     }
 
-    /**
-     * The getCompanyProfiles method returns a list of all of the
-     * CompanyProfiles in the SearchableDatabase.
-     * @return An ArrayList containing all of the CompanyProfiles in the
-     * SearchableDatabase
-     */
-    public ArrayList<CompanyProfile> getCompanyProfiles() {
-        return companyProfiles;
-    }
-
-    /**
-     * The searchProfiles method allows a user to search through all of the
-     * CompanyProfiles in the SearchableDatabase by entering a company's name
-     * into the system.
-     * @param title The name of the company the user would like to search for
-     * @return An ArrayList containing all of the profiles with that company
-     * name
-     */
-    public ArrayList<CompanyProfile> searchProfiles(String title) {
-        return null;
-    }
-
-    /**
+      /**
      * The sortProfilesAlphabetically method puts all of the profiles in the
      * SearchableDatabase in alphabetical order.
      */
     private void sortProfilesAlphabetically() {
         companyProfiles.sort(Comparator.comparing(CompanyProfile::getCompanyName));
     }
-
-
 }
