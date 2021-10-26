@@ -55,6 +55,7 @@ public class JobListing {
      * @param applicants the listings applicants
      * @param requiredSKills required skills for the listing 
      * @param location the location of the job
+     * @param visable a boolean indicating if the listing is visable or hidden
      */
     public JobListing(String title, String description, String location, Boolean paid, double payRate, UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills, boolean visible) {
         this.title = title;
@@ -86,13 +87,13 @@ public class JobListing {
     /**
      * The editDescription method allows a user to edit the description of a
      * JobListing.
-     * @param description The new description for the JobListing
+     * @param description The new description for the listing.
      */
     public void editDescription(String description) {
         this.description = description;
     }
 
-    /**
+      /**
      * The getDescription method returns the description of the JobListing.
      * @return The description of the job listing
      */
@@ -135,9 +136,9 @@ public class JobListing {
     }
 
     /**
-     * The editPayRate method allows a user to edit the pay rate associated
-     * with the internship.
-     * @param payRate The new pay rate of the internship
+     * The editPayRate method allows a user to edit the pay rate of a
+     * JobListing.
+     * @param payRate The new pay rate for the listing
      */
     public void editPayRate(double payRate) {
         this.payRate = payRate;
@@ -151,7 +152,7 @@ public class JobListing {
         return this.payRate;
     }
 
-    /**
+        /**
      * The setVisibility method allows an employer or an administrator to
      * change whether a JobListing is visible or not.
      * @param visible True if JobListing should be visible, false otherwise
@@ -160,7 +161,7 @@ public class JobListing {
         this.visible = visible;
     }
 
-    /**
+     /**
      * The getVisibility method returns whether an internship is visible or not
      * on the system.
      * @return True if the internship should be visible, false otherwise
@@ -196,14 +197,14 @@ public class JobListing {
         return requiredSkills.remove(skill);
     }
 
-    /**
+     /**
      * The getRequiredSkills method returns a list of the skills required for
      * an internship.
      * @return A list of the skills required for an internship
      */
     public ArrayList<String> getRequiredSkills() {
         return this.requiredSkills;
-    }
+    }     
 
     /**
      * The apply method adds a student to the ArrayList of applicants for a

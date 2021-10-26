@@ -3,7 +3,6 @@
  * @author Vidhee Patel and Joshua DuPuis
  */
 import java.util.ArrayList;
-
 public class Resume {
     private String studentFirstName;
     private String studentLastName;
@@ -57,7 +56,7 @@ public class Resume {
      * @param education Education institutions the student has attended
      * @param workExperiences Previous work experiences the student has
      */
-    public Resume(String firstName, String lastName, String email, String yearInSchool, ArrayList<String> skills, ArrayList<String> classes, ArrayList<Education> education, ArrayList<WorkExperience> workExperiences) {
+    public Resume(String firstName, String lastName, String email, String yearInSchool,  ArrayList<String> skills, ArrayList<String> classes, ArrayList<Education> education, ArrayList<WorkExperience> workExperiences) {
         this.studentFirstName = firstName;
         this.studentLastName = lastName;
         this.studentUSCEmail = email;

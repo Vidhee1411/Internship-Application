@@ -47,6 +47,7 @@ public class CompanyProfile {
         this.listings = listings;
     }
 
+
     /**
      * The getCompanyName method returns the name of the company.
      * @return The name of the company
@@ -107,6 +108,14 @@ public class CompanyProfile {
     public String getAddress() {
         return this.hqAddress;
     }
+    
+    /**
+     * The getUUID method returns the UUID of the CompanyProfile
+     * @return The UUID Of the company profile
+     */
+    public UUID getUUID() {
+        return companyID;
+    }
 
     /**
      * The setAddress method allows a user to set a company's address to appear
@@ -145,11 +154,5 @@ public class CompanyProfile {
         return listings.remove(listing);
     }
 
-    /**
-     * The getUUID method returns the UUID of the CompanyProfile
-     * @return The UUID Of the company profile
-     */
-    public UUID getUUID() {
-        return this.companyID;
-    }
+    
 }

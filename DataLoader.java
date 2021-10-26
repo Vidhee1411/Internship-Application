@@ -115,10 +115,11 @@ public class DataLoader extends DataConstants {
                 String companyName = (String)listing.get(LISTING_COMPANY_NAME);
                 String location = (String)listing.get(LISTING_LOCATION);
                 Boolean paid = (Boolean)listing.get(LISTING_PAID);
+                Boolean visable = (Boolean)listing.get(LISTING_HIDDEN);
                 Double payRate = (Double)listing.get(LISTING_PAY_RATE);
                 UUID id = UUID.fromString((String)listing.get(LISTING_ID));
                 ArrayList<String> requiredSkills = getRequiredSkills(listing);
-                JobListing temp = new JobListing(companyName, title, description, location, paid, payRate, id, applicants, requiredSkills);
+                JobListing temp = new JobListing(companyName, title, description, location, paid, payRate, id, applicants, requiredSkills, visable);
                 output.add(temp);
                 
             }
@@ -152,9 +153,6 @@ public class DataLoader extends DataConstants {
                 ArrayList<JobListing> listings = getCurrentListings(listingMap, listingIDS);
                 CompanyProfile temp = new CompanyProfile(companyName, hqAddress, description, companyID, reviews, listings);
                 output.put(temp.getUUID().toString(), temp);
-                //todo add listings 
-             
-                
             }
          } catch (Exception e) {
              e.printStackTrace();
@@ -198,11 +196,14 @@ public class DataLoader extends DataConstants {
         for(int i = 0; i < resumes.size() && resumes.size() != 0; i++){
             JSONObject resume = (JSONObject)resumes.get(i);
             String yearInSchool = (String)student.get(STUDENT_YEAR_IN_SCHOOL);
+            String firstName = (String)student.get(STUDENT_FIRST_NAME);
+            String lastName = (String)student.get(STUDENT_LAST_NAME);
+            String email = (String)student.get(STUDENT_EMAIL);
             ArrayList<String> resumeclasses = getResumeClasses(resume, classes);
             ArrayList<String> resumeskills = getResumeSkills(resume, skills);
             ArrayList<Education> education = getEducation(resume);
             ArrayList<WorkExperience> workExperiences = getWorkExperiences(resume);
-            output.add(new Resume(yearInSchool, resumeskills, education, workExperiences, resumeclasses));
+            output.add(new Resume(firstName, lastName, email, yearInSchool, resumeskills, resumeclasses, education, workExperiences));
         }
         return output;
     }
@@ -333,7 +334,11 @@ public class DataLoader extends DataConstants {
         }
         return output;
     }
-    
+    /**
+     * loads a students skill set from json
+     * @param student the student json object containing the skills array
+     * @return an ArrayList<String> containing all of the students skills
+     */
     private static ArrayList<String> getSkills(JSONObject student){
         ArrayList<String> output = new ArrayList<>();
         JSONArray skills = (JSONArray)student.get(STUDENT_SKILLS);
@@ -342,7 +347,11 @@ public class DataLoader extends DataConstants {
         }
         return output;
     }
-
+    /**
+     * loads a students set of classes from json
+     * @param student the student json object containing the classes array
+     * @return an ArrayList<String> containing all of the students classes
+     */
     private static ArrayList<String> getclasses(JSONObject student){
         ArrayList<String> output = new ArrayList<>();
         JSONArray classes = (JSONArray)student.get(STUDENT_CLASSES);
