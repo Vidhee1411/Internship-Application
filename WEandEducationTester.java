@@ -12,7 +12,7 @@ public class WEandEducationTester {
         ed.setGPA(3.27);
         ed.setExpectedGradDate("01/2025");
  
-        /*System.out.println(we.getJobTitle());
+        System.out.println(we.getJobTitle());
         System.out.println(we.getCompany());
         System.out.println(we.getDateRange());
         System.out.println(we.getDescription());
@@ -25,13 +25,13 @@ public class WEandEducationTester {
         System.out.println(resume.getFirstName());
         System.out.println(resume.getLastName());
         System.out.println(resume.getEmail());
-        System.out.println(resume.getYearInSchool());*/
+        System.out.println(resume.getYearInSchool());
 
         resume.editEmail("BobUSC1@email.sc.edu");
         resume.editYearInSchool("Redshirt Junior");
 
-        //System.out.println(resume.getEmail());
-        //System.out.println(resume.getYearInSchool());
+        System.out.println(resume.getEmail());
+        System.out.println(resume.getYearInSchool());
 
         
         resume.addEducation(ed);
@@ -42,16 +42,16 @@ public class WEandEducationTester {
         ArrayList <WorkExperience> w = resume.getExperiences();
         ArrayList <Education> r = resume.getEducation();
 
-        /*for (WorkExperience q: w) {
+        for (WorkExperience q: w) {
             System.out.println(q.getJobTitle());
             System.out.println(q.getCompany());
             System.out.println(q.getDateRange());
             System.out.println(q.getDescription());
-        }*/
+        }
 
         resume.removeExperience(Apple);
 
-        /*for (WorkExperience q: w) {
+        for (WorkExperience q: w) {
             System.out.println(q.getJobTitle());
             System.out.println(q.getCompany());
             System.out.println(q.getDateRange());
@@ -65,18 +65,18 @@ public class WEandEducationTester {
             System.out.println(f.getExpectedGradDate());
         }
         
-        System.out.println(rev.toString());*/
+        System.out.println(rev.toString());
         rev.setDescription("Well . . . that's a rap! Henrico does not listen.");
         rev.setRating(1.7);
         //System.out.println(rev.toString());
 
         Student student = new Student("Brandon", "Wheeler", "water@email.sc.edu", "cool", "sophomore");
-        /*System.out.println(student.getFirstName());
+        System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
         System.out.println(student.getEmail());
         System.out.println(student.getPassword());
-        System.out.println(student.getYearInSchool());*/
-        /*System.out.println();
+        System.out.println(student.getYearInSchool());
+        System.out.println();
 
         System.out.println("Resume;");
         student.createResume();
@@ -86,7 +86,7 @@ public class WEandEducationTester {
         student.getResume().addEducation(ed);
         student.getResume().addExperience(Apple);
         student.getResume().addExperience(we);
-        System.out.println(student.getResume().toString());*/
+        System.out.println(student.getResume().toString());
 
         student.addReview(rev);
         ArrayList<Review> revs = student.getReviews();
@@ -95,18 +95,18 @@ public class WEandEducationTester {
         }*/
 
         Employer em = new Employer("Joe", "Brainder", "jbtheCoolGuy@rockys.net", "WELLNEss1!");
-        /*System.out.println(em.getPassword());
+        System.out.println(em.getPassword());
         System.out.println(em.getEmail());
         System.out.print(em.getFirstName() + " " + em.getLastName() + " " + em.getPermission() + " " + student.getPermission());*/
 
         CompanyProfile cp = new CompanyProfile("Wengleton's", "5523 Zephler Avenue, Granger, Alaska 99938", "We sell groceries");
-        /*System.out.println(cp.getCompanyName());
+        System.out.println(cp.getCompanyName());
         System.out.println(cp.getAddress());
-        System.out.println(cp.getDescription());*/
+        System.out.println(cp.getDescription());
         cp.setAddress("2500 Ziegler Street, Quinoa, Maine 00004");
         cp.setCompanyName("Clayton's Ice Cream");
         cp.setDescription("We got bought . . . so sad.");
-        /*System.out.println(cp.getCompanyName());
+        System.out.println(cp.getCompanyName());
         System.out.println(cp.getAddress());
         System.out.println(cp.getDescription());*/
         cp.addReview(rev);

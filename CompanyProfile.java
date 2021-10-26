@@ -48,10 +48,6 @@ public class CompanyProfile {
         this.listings = listings;
     }
 
-    public UUID getUUID(){
-        return this.companyID;
-    }
-
     /**
      * The getCompanyName method returns the name of the company.
      * @return The name of the company
@@ -155,6 +151,6 @@ public class CompanyProfile {
      * @return The UUID Of the company profile
      */
     public UUID getUUID() {
-        return companyID;
+        return this.companyID;
     }
 }

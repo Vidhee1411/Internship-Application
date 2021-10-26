@@ -1,12 +1,10 @@
 /**
  * The resume class creates a resume of the student in the internship system.
- * @author 10/18/2021 Joshua DuPuis
- * @author 10/17/2021 Vidhee Patel
+ * @author Vidhee Patel and Joshua DuPuis
  */
 import java.util.ArrayList;
 
 public class Resume {
-      //todo remove duplicate data
     private String studentFirstName;
     private String studentLastName;
     private String studentUSCEmail;
@@ -15,22 +13,31 @@ public class Resume {
     private ArrayList<String> classes;
     private ArrayList<Education> education;
     private ArrayList<WorkExperience> workExperiences;  
-  
+
     /**
      * The default resume constructor creates a resume and sets all of the
      * instance variables equal to null
      */
     public Resume() {
+        studentFirstName = "";
+        studentLastName = "";
         studentUSCEmail = "";
         yearInSchool = "";
     }
 
     /**
      * The parameterized resume constructor creates a resume object and sets
-     * the instance variable corresponding to year in school equal to the values the user enters.
+     * the instance variables corresponding to the students first name, last
+     * name, email, and year in school equal to the values the user enters.
+     * @param firstName The first name of the student
+     * @param lastName The last name of the student
+     * @param email The school email of the student
      * @param yearInSchool The student's year in school
      */
-    public Resume( String yearInSchool) {
+    public Resume(String firstName, String lastName, String email, String yearInSchool) {
+        this.studentFirstName = firstName;
+        this.studentLastName = lastName;
+        this.studentUSCEmail = email;
         this.yearInSchool = yearInSchool;
         skills = new ArrayList<String>();
         classes = new ArrayList<String>();
@@ -38,13 +45,26 @@ public class Resume {
         workExperiences = new ArrayList<WorkExperience>();
     }
 
-    public Resume(String yearInSchool, ArrayList<String>skills, ArrayList<Education> education, ArrayList<WorkExperience> workExperiences, ArrayList<String> classes) {
-        this.yearInSchool = yearInSchool;
+    /**
+     * The second Resume parameterized constructor creates a resume object that
+     * the dataLoader will use to load all student resumes.
+     * @param firstName The firstName of a student
+     * @param lastName The lastName of a student
+     * @param email The email of a student
+     * @param yearInSchool The student's year in school
+     * @param skills Skills the student has
+     * @param classes Classes the student has taken
+     * @param education Education institutions the student has attended
+     * @param workExperiences Previous work experiences the student has
+     */
+    public Resume(String firstName, String lastName, String email, String yearInSchool, ArrayList<String> skills, ArrayList<String> classes, ArrayList<Education> education, ArrayList<WorkExperience> workExperiences) {
+        this.studentFirstName = firstName;
+        this.studentLastName = lastName;
+        this.studentUSCEmail = email;
         this.skills = skills;
         this.classes = classes;
         this.education = education;
         this.workExperiences = workExperiences;
-        this.classes = classes;
     }
 
     /**
@@ -84,8 +104,8 @@ public class Resume {
     }
 
     /**
-     * The addSkill method adds a skill to the list of the student's skills.
-     * @param skill The skill to be added to the resume
+     * The addSkill method allows a student to add a skill to their resume
+     * @param skill
      */
     public void addSkill(String skill) {
         skills.add(skill);
@@ -234,8 +254,8 @@ public class Resume {
     public ArrayList<WorkExperience> getExperiences() {
         return workExperiences;
     }
-    
-    /**
+
+     /**
      * The toString method returns a string containing all of the information
      * in the resume.
      * @return The String representation of the resume
@@ -266,4 +286,5 @@ public class Resume {
 
         return ret;
     }
+    
 }
