@@ -1,7 +1,7 @@
 /**
  * The Education class support the resume class to set the education 
  * of the student.
- * @author Vidhee Patel
+ * @author Vidhee Patel and Joshua DuPuis
  */
 public class Education {
     private String nameOfUniversity;

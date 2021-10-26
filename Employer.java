@@ -6,17 +6,18 @@ import java.util.UUID;
 public class Employer extends User {
      private CompanyProfile associatedCompany;
      private static final int PERMISSION = 1;
+    
     /**
-     * The Employer constructor creates an employer object and sets each of
-     * the parameters equal to the User class' same name instance variables
+     * The Employer constructor for loading data creates an employer object 
+     * and sets each of the parameters equal to the User class' same name 
+     * instance variables.
      * @param firstName The first name of the employer
      * @param lastName The last name of the employer
      * @param email The employer's email address
      * @param password The employer's password
-     * @param id the employers uuid
      */
-     public Employer(String firstName, String lastName, String email, String password, UUID id) {
-         super(firstName, lastName, email, password, id);
+     public Employer(String firstName, String lastName, String email, String password) {
+         super(firstName, lastName, email, password);
         
      }
 

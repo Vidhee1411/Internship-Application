@@ -13,7 +13,6 @@ public class JobListing {
     private boolean paid;
     private double payRate;
     private ArrayList<String> requiredSkills;
-    private String company;
     private boolean visible;
     private ArrayList<Student> applicants;
 
@@ -34,14 +33,20 @@ public class JobListing {
      * @param paid True if the internship is paid, false if not
      * @param payRate The payRate of the internship
      */
-    public JobListing(String title, String description, Boolean paid, double payRate) {
-
+    public JobListing(String title, String description, String location, Boolean paid, double payRate) {
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.paid = paid;
+        this.payRate = payRate;
+        requiredSkills = new ArrayList<String>();
+        applicants = new ArrayList<Student>();
+        visible = true;
     }
 
      /**
      * The parameterized constructor creates a JobListing and allows the
      * employer to define all of its attributes.
-     * @param companyName the name of the company 
      * @param title The title of the JobListing
      * @param description The description of the JobListing
      * @param paid True if the internship is paid, false if not
@@ -51,8 +56,7 @@ public class JobListing {
      * @param requiredSKills required skills for the listing 
      * @param location the location of the job
      */
-    public JobListing(String companyName,String title, String description, String location, Boolean paid, double payRate,UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills) {
-        this.company = companyName;
+    public JobListing(String title, String description, String location, Boolean paid, double payRate, UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills, boolean visible) {
         this.title = title;
         this.description = description;
         this.paid = paid;
@@ -60,7 +64,7 @@ public class JobListing {
         this.id = id;
         this.applicants = applicants;
         this.requiredSkills = requiredSkills;
-        visible = true;
+        this.visible = visible;
     }
 
     /**
@@ -97,12 +101,30 @@ public class JobListing {
     }
 
     /**
+     * The editLocation method allows a user to edit where a job will be -
+     * whether it will be in person or remote.
+     * @param location The location of the job
+     */
+    public void editLocation(String location) {
+        this.location = location;
+    }
+
+    /**
+     * The getLocation method allows a user to get the location of a JobListing
+     * @return The location of a listing
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
      * The editPay method allows a user to edit the pay rate of a JobListing.
      * @param pay The new pay rate for the JobListing
      */
     public void editPay(boolean pay) {
         this.paid = pay;
     }
+    
     
     /**
      * The getPaid method tells the user whether an internship is paid or not.
@@ -202,11 +224,8 @@ public class JobListing {
         return this.applicants;
     }
 
-    /**
-     * The getID method returns the UUID of the JobListing
-     */
-    public UUID getID() {
-        return id;
+    public String toString() {
+        return title + "\nDescription: " + description + "\nLocation: " + location +  "\nPaid: " + paid + "\nPay rate per hour: $" + payRate;
     }
 
 }

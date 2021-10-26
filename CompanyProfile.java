@@ -1,10 +1,10 @@
 import java.util.UUID;
+import java.util.ArrayList;
 /**
  * The class creates a company profile in the internship system.
  * @author Vidhee Patel abd Josh DuPuis
  */
-import java.util.ArrayList;
-import java.util.UUID;
+
 
 public class CompanyProfile {
     private UUID companyID;
@@ -21,7 +21,6 @@ public class CompanyProfile {
      * @param companyName The name of the company
      * @param hqAddress The address of the company's headquarters
      * @param description The short description about the company
-     * @param id The UUID of the company.
      */
     public CompanyProfile(String companyName, String hqAddress, String description){
         this.companyName = companyName;
@@ -39,7 +38,7 @@ public class CompanyProfile {
      * @param reviews reviews of the company
      * @param listings joblistings associated with the company
      */
-    public CompanyProfile(String companyName, String hqAddress, String description,UUID companyID, ArrayList<Review> reviews, ArrayList<JobListing> listings ){
+    public CompanyProfile(String companyName, String hqAddress, String description, UUID companyID, ArrayList<Review> reviews, ArrayList<JobListing> listings ){
         this.companyName = companyName;
         this.hqAddress = hqAddress;
         this.description = description;

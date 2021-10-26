@@ -22,6 +22,12 @@ public class Student extends User{
      * @param password The password for the student's account
      * @param yearInSchool The student's year in school
      */
+    public Student(String firstName, String lastName, String email, String password, String yearInSchool) {
+        super(firstName, lastName, email, password);
+        this.yearInSchool = yearInSchool;
+        reviewsFromCompanies = new ArrayList<Review>();
+    }
+
     public Student(String firstName, String lastName, String email, String password, String yearInSchool, UUID id) {
         super(firstName, lastName, email, password, id);
         this.yearInSchool = yearInSchool;
@@ -34,10 +40,22 @@ public class Student extends User{
      */
     public void createResume() {
         resume = new Resume(super.getFirstName(), super.getLastName(), super.getEmail(), this.yearInSchool);
+        /*if (skills != null) {
+            for (String skill: skills) {
+                resume.addSkill(skill);
+            }
+        }
+
+        if (classes != null) {
+            for (String course: classes) {
+                resume.addClass(course);
+            }
+        }*/
     }
     /**
-     * sets students resume to the resume passed to the method
-     * @param resume the resume being added to the student 
+     * The setResume method sets a student's resume to the resume passed in by
+     * the user.
+     * @param resume The resume being added to the student.
      */
     public void setResume(Resume resume){
         this.resume = resume;
@@ -115,25 +133,27 @@ public class Student extends User{
      * @param reviews an ArrayList<Review> of reviews 
      */
     public void setReviews(ArrayList<Review> reviews) {
-        reviewsFromCompanies = reviews;
+        this.reviewsFromCompanies = reviews;
     }
     /**
-     * the setSkills method accepts an ArrayList<String> and sets skills to it 
-     * @param skills an ArrayList<String> containing the students skills
+     * The setSkills method accepts an ArrayList<String> and sets the user's
+     * list of skills equal to it.
+     * @param skills An ArrayList<String> containing the student's skills
      */
-    public void setSkills(ArrayList<String>skills){
+    public void setSkills(ArrayList<String> skills){
         this.skills = skills;
     }
     /**
-     * the setClasses method accpets an ArrayList<String> and sets classes to it
-     * @param classes an ArrayList<String> containing the students classes
+     * The setClasses method accpets an ArrayList<String> and sets the
+     * student's list of classes equal to it
+     * @param classes An ArrayList<String> containing the students classes
      */
     public void setClasses(ArrayList<String> classes){
         this.classes = classes;
     }
     /**
-     * gets the Students UUID
-     * @return
+     * The getUUID method gets the Student's UUID
+     * @return The UUID of the student
      */
 
     public UUID getUUID() {
