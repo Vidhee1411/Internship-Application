@@ -154,8 +154,14 @@ public class SearchableDatabase {
      * The sortListingsbyPay method sorts all of the JobListings by pay in
      * ascending order.
      */
-    private void sortListingsbyPay() {
-        jobListings.sort(Comparator.comparingDouble(JobListing::getPayRate));
+    public ArrayList<JobListing> sortListingsbyPay(Double pay) {
+        ArrayList<JobListing> output = new ArrayList<>();
+        for(JobListing listing:this.jobListings){
+            if(listing.getPayRate() >= pay){
+                output.add(listing);
+            }
+        }
+        return output;
     }
 
     /**

@@ -50,8 +50,7 @@ public class JobListing {
     }
 
      /**
-     * The parameterized constructor creates a JobListing and allows the
-     * employer to define all of its attributes.
+     * The parameterized constructor creates a fully formed joblisting. Used in loading from json
      * @param title The title of the JobListing
      * @param description The description of the JobListing
      * @param paid True if the internship is paid, false if not

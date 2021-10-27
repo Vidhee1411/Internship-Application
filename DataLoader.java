@@ -78,11 +78,8 @@ public class DataLoader extends DataConstants {
                ArrayList<String> classes = getclasses(student);
                ArrayList<Review> reviews = getReviews(student);
                ArrayList<Resume> resumes = getResumes(student, skills, classes);
-               Student temp = new Student(firstName, lastName, email, password, yearInSchool, id);
-               temp.setReviews(reviews);
-               temp.setResume(resumes.get(0));
-               temp.setSkills(skills);
-               temp.setClasses(classes);
+               Student temp = new Student(firstName, lastName, email, password, yearInSchool, id, skills, classes, reviews);
+               temp.setResume(resumes.get(0)); // may be adding multiple resumes in the future 
                output.add(temp);
 
            }
@@ -112,14 +109,14 @@ public class DataLoader extends DataConstants {
                 ArrayList<Student> applicants = getapplicants(usersMap, applicantIDS);
                 String title = (String)listing.get(LISTING_TITLE);
                 String description = (String)listing.get(LISTING_DESCRIPTION);
-                String companyName = (String)listing.get(LISTING_COMPANY_NAME);
+                String company = (String)listing.get(LISTING_COMPANY_NAME);
                 String location = (String)listing.get(LISTING_LOCATION);
                 Boolean paid = (Boolean)listing.get(LISTING_PAID);
-                Boolean visable = (Boolean)listing.get(LISTING_HIDDEN);
+                Boolean visible = (Boolean)listing.get(LISTING_HIDDEN);
                 Double payRate = (Double)listing.get(LISTING_PAY_RATE);
                 UUID id = UUID.fromString((String)listing.get(LISTING_ID));
                 ArrayList<String> requiredSkills = getRequiredSkills(listing);
-                JobListing temp = new JobListing(companyName, title, description, location, paid, payRate, id, applicants, requiredSkills, visable);
+                JobListing temp = new JobListing(title, description, location, paid, payRate, company, id, applicants, requiredSkills, visible);
                 output.add(temp);
                 
             }

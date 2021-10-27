@@ -28,10 +28,12 @@ public class Student extends User{
         reviewsFromCompanies = new ArrayList<Review>();
     }
 
-    public Student(String firstName, String lastName, String email, String password, String yearInSchool, UUID id) {
+    public Student(String firstName, String lastName, String email, String password, String yearInSchool, UUID id, ArrayList<String> skills, ArrayList<String> classes, ArrayList<Review> reviews) {
         super(firstName, lastName, email, password, id);
         this.yearInSchool = yearInSchool;
-        reviewsFromCompanies = new ArrayList<Review>();
+        this.skills = skills;
+        this.classes = classes;
+        this.reviewsFromCompanies = reviews;
     }
     
     /**
@@ -126,7 +128,7 @@ public class Student extends User{
     public void addReview(Review review) {
         reviewsFromCompanies.add(review);
     }
-
+    
     /**
      * The setReviews method accepts an Arraylist<Review> and sets reviewsFromCompanies to it.
      * used in loading data from JSON
