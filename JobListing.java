@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 /**
@@ -6,6 +7,8 @@ import java.util.UUID;
  * @author Joshua DuPuis
  */
 public class JobListing {
+    private static final DecimalFormat DOLLAR_FORMAT = new DecimalFormat("$#,##0.00");
+
     private UUID id;
     private String title;
     private String description;
@@ -236,8 +239,21 @@ public class JobListing {
         return this.applicants;
     }
 
+    /**
+     * Returns a complete, neatly formatted String representation of the JobListing.
+     * @return The String summary of the JobListing
+     */
     public String toString() {
-        return title + "\nCompany: " + company + "\nDescription: " + description + "\nLocation: " + location +  "\nPaid: " + paid + "\nPay rate per hour: $" + payRate;
+        return title + "\nCompany: " + company + "\nDescription: " + description + "\nLocation: " + location +  "\nPaid: " + paid + "\nPay rate per hour: " + DOLLAR_FORMAT.format(payRate);
     }
 
+    /**
+     * Returns a brief, neatly formatted summary of the JobListing.
+     * @return The String summary of the JobListing
+     */
+    public String toStringSummary() {
+        return title + "\n" + 
+                "Company: " + company + "\n" + 
+                "Pay Rate: " + DOLLAR_FORMAT.format(payRate) + "/hr\n";
+    }
 }
