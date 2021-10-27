@@ -137,6 +137,15 @@ public class Student extends User{
     public void setReviews(ArrayList<Review> reviews) {
         this.reviewsFromCompanies = reviews;
     }
+
+    /**
+     * The getSkills method returns all of the skills the student has entered on their account.
+     * @return An ArrayList<String> of skills
+     */
+    public ArrayList<String> getSkills() {
+        return this.skills;
+    }
+
     /**
      * The setSkills method accepts an ArrayList<String> and sets the user's
      * list of skills equal to it.
@@ -145,6 +154,15 @@ public class Student extends User{
     public void setSkills(ArrayList<String> skills){
         this.skills = skills;
     }
+
+    /**
+     * The getSkills method returns all of the classes the student has entered on their account.
+     * @return An ArrayList<String> of classes
+     */
+    public ArrayList<String> getClasses() {
+        return this.classes;
+    }
+
     /**
      * The setClasses method accpets an ArrayList<String> and sets the
      * student's list of classes equal to it
