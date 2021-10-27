@@ -86,7 +86,9 @@ public class InternshipApplication {;
      * the user
      */
     public ArrayList<JobListing> search(String title) {
-        return null;
+        ArrayList<JobListing> search_result = new ArrayList<JobListing>();
+        search_result = database.searchListings(title);
+        return search_result;
     }
 
     /**
@@ -98,7 +100,7 @@ public class InternshipApplication {;
      * the user
      */
     public ArrayList<JobListing> search(double payRate) {
-        return null;
+        
     }
 
     /**
@@ -106,7 +108,19 @@ public class InternshipApplication {;
      * information associated with their account
      */
     public void editPersonalInfo() {
-
+        System.out.println("What would you like to edit?");
+        System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "email" +"\n"+"password");
+        String answer = Scanner.nextLine.toLowerCase()
+        Switch(answer) {
+            case "firstname":
+                user.editFirstName(answer);
+            case "lastname":
+                user.editLastName(answer);
+            case "email":
+                user.editEmail(answer);
+            case "password":
+                user.editPassword(answer);
+        }
     }
 
     /**
