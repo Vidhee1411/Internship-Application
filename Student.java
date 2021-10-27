@@ -156,7 +156,7 @@ public class Student extends User{
     }
 
     /**
-     * The getSkills method returns all of the classes the student has entered on their account.
+     * The getClasses method returns all of the classes the student has entered on their account.
      * @return An ArrayList<String> of classes
      */
     public ArrayList<String> getClasses() {
