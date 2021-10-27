@@ -117,7 +117,7 @@ public class WEandEducationTester {
         System.out.println(cp.getDescription());
         cp.addReview(rev);
 
-        JobListing jl = new JobListing("Professional Eater", "You will be training to face Joey Chestnut. Good luck . . .", "In-person", true, 500.25);
+        JobListing jl = new JobListing("Professional Eater", "You will be training to face Joey Chestnut. Good luck . . .", "In-person", true, 500.25, "Quarterly Insurance Co.");
         System.out.println(jl.toString());
         System.out.println(jl.getVisibility());
         jl.addRequiredSkill("programming");

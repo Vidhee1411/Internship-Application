@@ -12,6 +12,7 @@ public class JobListing {
     private String location;
     private boolean paid;
     private double payRate;
+    private String company;
     private ArrayList<String> requiredSkills;
     private boolean visible;
     private ArrayList<Student> applicants;
@@ -33,12 +34,13 @@ public class JobListing {
      * @param paid True if the internship is paid, false if not
      * @param payRate The payRate of the internship
      */
-    public JobListing(String title, String description, String location, Boolean paid, double payRate) {
+    public JobListing(String title, String description, String location, Boolean paid, double payRate, String company) {
         this.title = title;
         this.description = description;
         this.location = location;
         this.paid = paid;
         this.payRate = payRate;
+        this.company = company;
         requiredSkills = new ArrayList<String>();
         applicants = new ArrayList<Student>();
         visible = true;
@@ -57,11 +59,12 @@ public class JobListing {
      * @param location the location of the job
      * @param visable a boolean indicating if the listing is visable or hidden
      */
-    public JobListing(String title, String description, String location, Boolean paid, double payRate, UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills, boolean visible) {
+    public JobListing(String title, String description, String location, Boolean paid, double payRate, String company, UUID id, ArrayList<Student> applicants, ArrayList<String> requiredSkills, boolean visible) {
         this.title = title;
         this.description = description;
         this.paid = paid;
         this.payRate = payRate;
+        this.company = company;
         this.id = id;
         this.applicants = applicants;
         this.requiredSkills = requiredSkills;
@@ -152,6 +155,14 @@ public class JobListing {
         return this.payRate;
     }
 
+    public void editCompany(String company) {
+        this.company = company;
+    }
+
+    public String getCompany() {
+        return this.company;
+    }
+
         /**
      * The setVisibility method allows an employer or an administrator to
      * change whether a JobListing is visible or not.
@@ -226,7 +237,7 @@ public class JobListing {
     }
 
     public String toString() {
-        return title + "\nDescription: " + description + "\nLocation: " + location +  "\nPaid: " + paid + "\nPay rate per hour: $" + payRate;
+        return title + "\nCompany: " + company + "\nDescription: " + description + "\nLocation: " + location +  "\nPaid: " + paid + "\nPay rate per hour: $" + payRate;
     }
 
 }
