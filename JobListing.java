@@ -36,6 +36,7 @@ public class JobListing {
      * @param description The description of the JobListing
      * @param paid True if the internship is paid, false if not
      * @param payRate The payRate of the internship
+     * @param company The name of the company the JobListing is offerred by
      */
     public JobListing(String title, String description, String location, Boolean paid, double payRate, String company) {
         this.title = title;
@@ -55,6 +56,7 @@ public class JobListing {
      * @param description The description of the JobListing
      * @param paid True if the internship is paid, false if not
      * @param payRate The payRate of the internship
+     * @param company The name of the company the JobListing is offerred by
      * @param id UUID of the listing\
      * @param applicants the listings applicants
      * @param requiredSKills required skills for the listing 
