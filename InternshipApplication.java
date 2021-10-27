@@ -50,9 +50,7 @@ public class InternshipApplication {;
                 database.addUser(s1);
                 s1.createResume();
             case "employer":
-                System.out.println("Enter your company");
-                String company = scanner.nextLine();
-                Employer e1 = new Employer(firstname, lastname, email, password,company);
+                Employer e1 = new Employer(firstname, lastname, email, password);
                 database.addUser(e1);
             }
     }
@@ -66,7 +64,8 @@ public class InternshipApplication {;
      * @return true for a successful login, false otherwise.
      */
     public boolean logOn(String email, String password) {
-        return false;
+        boolean log = user.logOn(email, password);       
+        return log;
     }
 
     /**
@@ -74,7 +73,8 @@ public class InternshipApplication {;
      * using it
      */
     public void logOff() {
-
+        System.out.println("Logging off");
+        System.exit(0);
     }
 
     /**
