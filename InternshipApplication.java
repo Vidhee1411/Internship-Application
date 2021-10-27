@@ -216,7 +216,7 @@ public class InternshipApplication {;
      * company profile that already exists in the system
      */
     public void associateCompany() {
-
+        
     }
 
     /**
