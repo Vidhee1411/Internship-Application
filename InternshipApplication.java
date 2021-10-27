@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Console;
+
 
 /**
  * The InternshipApplication class is a Facade which runs every aspect of the
@@ -31,7 +33,28 @@ public class InternshipApplication {;
      * @return True if the account was successfully made, false otherwise
      */
     public boolean createAccount(String accountType) {
-        return false;
+        Console console = System.console();
+        System.out.println("Please enter your  first name ");
+        String firstname = scanner.nextLine();
+        System.out.println("Please enter your last name");
+        String lastname = scanner.nextLine();
+        System.out.println("Please enter your email");
+        String email = scanner.nextLine();
+        char[] passwordarr = console.readPassword("Please enter password:");
+        String password = new String(passwordarr);
+        switch(accountType.toLowerCase()) {
+            case "student":
+                System.out.println("Enter your year in school");
+                String year = scanner.nextLine();
+                Student s1 = new Student(firstname,lastname,email,password,year);
+                database.addUser(s1);
+                s1.createResume();
+            case "employer":
+                System.out.println("Enter your company");
+                String company = scanner.nextLine();
+                Employer e1 = new Employer(firstname, lastname, email, password,company);
+                database.addUser(e1);
+            }
     }
 
     /**
