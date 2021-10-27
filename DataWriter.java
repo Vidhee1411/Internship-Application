@@ -17,7 +17,7 @@ public class DataWriter extends DataConstants {
      * file to store data on each user.
      */
     public static void saveUsers() {
-        UserDatabase users = UserDatabase.getInstance();
+        SearchableDatabase users = SearchableDatabase.getInstance();
         ArrayList<User> userList = users.getUsers();
         
         ArrayList<Student> students = new ArrayList<>();
@@ -63,7 +63,9 @@ public class DataWriter extends DataConstants {
             studentDetails.put(STUDENT_PASSWORD, student.getPassword());
             studentDetails.put(STUDENT_PERMISSION, 0);
             studentDetails.put(STUDENT_REVIEWS, reviewsToJSONArray(student.getReviews()).toJSONString());
-            studentDetails.put(STUDENT_RESUMES, student.getResume());
+            studentDetails.put(STUDENT_CLASSES, arrayListToJsonArray(student.getClasses()));
+            studentDetails.put(STUDENT_SKILLS, arrayListToJsonArray(student.getSkills()));
+            studentDetails.put(STUDENT_RESUMES, resumeToJSONArray(student.getResume(), student));
             jsonStudents.add(studentDetails);
         }
        
@@ -101,22 +103,34 @@ public class DataWriter extends DataConstants {
      * @param resumes The ArrayList of reviews to convert
      * @return The JSONArray representation of reviews
      */
-    private static JSONArray resumesToJSONArray(ArrayList<Resume> resumes) {
+    private static JSONArray resumeToJSONArray(Resume resume, Student student) {
         JSONArray jsonResumes = new JSONArray();
-        for(Resume resume: resumes) {
-            //Since resumes are separate objects with their own info, put their info into separate JSONObjects
-            JSONObject resumeDetails = new JSONObject();
-            resumeDetails.put(RESUME_USER_ID, resume.getUUID());
-            resumeDetails.put(RESUME_SCHOOL_YEAR, resume.getYearInSchool());
-            resumeDetails.put(RESUME_SKILLS, arrayListToJsonArray(resume.getSkills()).toJSONString());
-            resumeDetails.put(RESUME_CLASSES, arrayListToJsonArray(resume.getClasses()).toJSONString());
-            resumeDetails.put(RESUME_WORK_EXPERIENCE, workExperiencesToJsonArray(resume.getExperiences()).toJSONString());
-            resumeDetails.put(RESUME_EDUCATION, educationsToJsonArray(resume.getEducation()).toJSONString());
-            //Are the skill indexes necessary to write? They aren't an instance variable in Resume
-            resumeDetails.put(RESUME_SKILL_INDEXES, arrayListToJsonArray(resume.getIndexes()).toJSONString());
-            jsonResumes.add(resumeDetails);
-        }
+        JSONObject resumeDetails = new JSONObject();
+        resumeDetails.put(RESUME_SCHOOL_YEAR, resume.getYearInSchool());
+        resumeDetails.put(RESUME_WORK_EXPERIENCE, workExperiencesToJsonArray(resume.getExperiences()).toJSONString());
+        resumeDetails.put(RESUME_EDUCATION, educationsToJsonArray(resume.getEducation()).toJSONString());
+        resumeDetails.put(RESUME_SKILL_INDEXES, arrayListToJsonArray(createIndexesArray(resume.getSkills(), student.getSkills())).toJSONString());
+        resumeDetails.put(RESUME_CLASS_INDEXES, arrayListToJsonArray(createIndexesArray(resume.getClasses(), student.getClasses())).toJSONString());
+        jsonResumes.add(resumeDetails);
         return jsonResumes;
+    }
+
+    /**
+     * Private helper method used to create an arrayList of indexes given a subList and mainList of elements. Returns
+     * an arrayList of the indexes of all the subList elements that are within the mainList.
+     * @param subList The list of elements to find the indexes of
+     * @param mainList The overall list of elements
+     * @return An arrayList with the mainList indexes of all the subList elements
+     */
+    private static ArrayList<Integer> createIndexesArray(ArrayList<String> subList, ArrayList<String> mainList) {
+        ArrayList<Integer> indexArray = new ArrayList<>();
+        int index;
+        for(String str : subList) {
+            index = mainList.indexOf(str);
+            //Redundancy check; if an element is somehow in the resume but not the student's account, don't keep it
+            if(index != -1) indexArray.add(index);
+        }
+        return indexArray;
     }
 
     /**
@@ -170,7 +184,7 @@ public class DataWriter extends DataConstants {
             employerDetails.put(EMPLOYER_LAST_NAME, employer.getLastName());
             employerDetails.put(EMPLOYER_EMAIL, employer.getEmail());
             employerDetails.put(EMPLOYER_PASSWORD, employer.getPassword());
-            employerDetails.put(EMPLOYER_PERMISSION, employer.getPermission());
+            employerDetails.put(EMPLOYER_PERMISSION, 1);
             employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().toString());
             jsonEmployer.add(employerDetails);
         }
@@ -197,7 +211,7 @@ public class DataWriter extends DataConstants {
             adminDetails.put(ADMIN_LAST_NAME, administrator.getLastName());
             adminDetails.put(ADMIN_EMAIL, administrator.getEmail());
             adminDetails.put(ADMIN_PASSWORD, administrator.getPassword());
-            adminDetails.put(ADMIN_PERMISSION, administrator.getPermission());
+            adminDetails.put(ADMIN_PERMISSION, -1);
             jsonAdministrator.add(adminDetails);
         }
 
@@ -240,13 +254,13 @@ public class DataWriter extends DataConstants {
      */
     public static JSONObject getJobListingJSON(JobListing jobListing) {
         JSONObject listingDetails = new JSONObject();
-        listingDetails.put(LISTING_ID, jobListing.getID().toString());
+        listingDetails.put(LISTING_ID, jobListing.getUUID().toString());
         listingDetails.put(LISTING_TITLE, jobListing.getTitle());
         listingDetails.put(LISTING_DESCRIPTION, jobListing.getDescription());
         listingDetails.put(LISTING_PAID, jobListing.getPaid());
         listingDetails.put(LISTING_PAY_RATE, jobListing.getPayRate());
-        listingDetails.put(LISTING_REQUIRED_SKILLS, arrayListToJsonArray(jobListing.getSkills()).toJSONString());
-        listingDetails.put(LISTING_COMPANY_NAME, jobListing.getCompanyName());
+        listingDetails.put(LISTING_REQUIRED_SKILLS, arrayListToJsonArray(jobListing.getRequiredSkills()).toJSONString());
+        listingDetails.put(LISTING_COMPANY_NAME, jobListing.getCompany());
         listingDetails.put(LISTING_HIDDEN, jobListing.getVisibility());
         listingDetails.put(LISTING_APPLICANT_IDS, studentsToJsonIDArray(jobListing.getApplicants()).toJSONString());
         return listingDetails;
