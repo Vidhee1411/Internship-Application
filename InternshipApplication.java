@@ -124,6 +124,13 @@ public class InternshipApplication {
     }
 
     /**
+     * This sort method allows a user to alphabetically sort the listings from the database.
+     */
+    public void sortAlphabetically() {
+        database.sortListingsAlphabetically();
+    }
+
+    /**
      * The editPersonalInfo method allows a user to edit the personal
      * information associated with their account
      */
@@ -222,29 +229,34 @@ public class InternshipApplication {
             System.out.println("You don't have valid permissions to do this.\n");
             return;
         }
-        ArrayList<JobListing> currentListings = database.getJobListings();
-        System.out.println("Please enter the number of the listing you would like to toggle the visibility of, or 0 to go back: ");
-        formatListingVisibilities(currentListings);
-        int listingChoice = getUserCommand(currentListings.size());
-        while(listingChoice != -1) {       
-            if(listingChoice < -1 || listingChoice >= currentListings.size() + 1) {
-                System.out.println("You chose a listing that wasn't listed. Try again with a valid choice, or type 0 to go back.");
-            }
-            else {
-                //If its a valid choice, toggle the visibility
-                JobListing chosenListing = currentListings.get(listingChoice);
-                boolean currentVisibility = chosenListing.getVisibility();
-                chosenListing.setVisibility(!currentVisibility);
 
-                if(!currentVisibility) {
-                    System.out.println("The chosen listing is now visible.");
+        try {
+            ArrayList<JobListing> currentListings = database.getJobListings();
+            System.out.println("Please enter the number of the listing you would like to toggle the visibility of, or 0 to go back: ");
+            formatListingVisibilities(currentListings);
+            int listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
+            while(listingChoice != -1) {       
+                if(listingChoice < -1 || listingChoice >= currentListings.size() + 1) {
+                    System.out.println("You chose a listing that wasn't listed. Try again with a valid choice, or type 0 to go back.");
                 }
                 else {
-                    System.out.println("The chosen listing is now hidden.");
+                    //If its a valid choice, toggle the visibility
+                    JobListing chosenListing = currentListings.get(listingChoice);
+                    boolean currentVisibility = chosenListing.getVisibility();
+                    chosenListing.setVisibility(!currentVisibility);
+    
+                    if(!currentVisibility) {
+                        System.out.println("The chosen listing is now visible.");
+                    }
+                    else {
+                        System.out.println("The chosen listing is now hidden.");
+                    }
+                    System.out.print("If you'd like to toggle the visibility of another listing, enter the number of the internship; 0 to go back: ");
                 }
+                listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
             }
-            System.out.println("If you'd like to toggle the visibility of another listing, enter the number of the internship; 0 to go back: ");
-            listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
+        } catch(Exception e) {
+            System.out.println("You've entered invalid input.");
         }
         System.out.println("\nReturning...\n");
     }
@@ -263,11 +275,121 @@ public class InternshipApplication {
         }
 
         for(int i = 1; i <= listingsSize; i++) {
-            JobListing jobListing = listings.get(i);
+            JobListing jobListing = listings.get(i-1);
             System.out.println(i + ". " + jobListing.toStringSummary() +
-                                "Visibility: " + jobListing.getVisibility() + "\n");
+                                "\n\tVisibility: " + jobListing.getVisibility() + "\n");
         }
     }
+
+    /**
+     * The toggleJobListingVisibility method allows an employer to toggle the visibility setting
+     * of a given jobListing.
+     */
+    public void toggleReviewVisibility() {
+        if(permission != -1) {
+            System.out.println("You don't have valid permissions to do this.\n");
+            return;
+        }
+
+        try {
+            System.out.println("Are you changing the visibility of a review on a [S]tudent profile or a [C]ompany profile? Enter 'S' or 'C' for your choice: ");
+            String reviewLocation = scanner.nextLine().toLowerCase();
+            int reviewChoice;
+
+            switch(reviewLocation) {
+                case("s"):
+                    System.out.print("What's the email of the student? ");
+                    String emailInput = scanner.nextLine();
+
+                    Student student = null;
+                    for(User user : database.getUsers()) {
+                        if(user.getEmail().equals(emailInput) && user.getPermission() == 0) {
+                            student = (Student) user;
+                        }
+                    }
+                    if(student == null) {
+                        System.out.println("No student account was found with that email.\n");
+                        return;
+                    }
+
+                    ArrayList<Review> studentReviews = student.getReviews();
+                    if(studentReviews.isEmpty()) {
+                        System.out.println("There are no reviews on the student profile to toggle. Returning...\n");
+                    }
+
+                    formatReviews(studentReviews);
+                    System.out.print("Please enter the number of the review to toggle the visibility of: ");
+                    reviewChoice = getUserCommand(studentReviews.size());
+                    if(reviewChoice == -1) {
+                        System.out.println("You chose an option that doesn't exist. Restart the command if you want to try again.\n");
+                        return;
+                    }
+                    else {
+                        studentReviews.get(reviewChoice).toggleVisibility();
+                        System.out.println("The chosen review's visibility has been toggled.");
+                        return;
+                    }
+                case("c"):
+                    System.out.print("What's the name of the company? ");
+                    String companyName = scanner.nextLine();
+                    ArrayList<CompanyProfile> results = database.searchProfiles(companyName);
+                    if(results.isEmpty()) {
+                        System.out.println("No company profiles match the given name. Restart the command if you want to try again.\n");
+                        return;
+                    }
+
+                    System.out.println("Which company is the one you'll be toggling the review visibility for?");
+                    for(int i = 1; i <= results.size(); i++) {
+                        System.out.println("\t" + i + ". " + results.get(i-1).toString() + "\n");
+                    }
+                    int profileIndex = getUserCommand(results.size());
+                    if(profileIndex == -1) {
+                        System.out.println("You chose an option that doesn't exist. Restart the command if you want to try again.\n");
+                        return;
+                    }
+                    CompanyProfile profileChoice= results.get(profileIndex);
+                    ArrayList<Review> profileReviews = profileChoice.getReviews();
+                    if(profileReviews.isEmpty()) {
+                        System.out.println("There are no reviews on the company profile to toggle. Returning...\n");
+                    }
+
+                    formatReviews(profileReviews);
+                    System.out.print("Please enter the number of the review to toggle the visibility of: ");
+                    reviewChoice = getUserCommand(profileReviews.size());
+                    if(reviewChoice == -1) {
+                        System.out.println("You chose an option that doesn't exist. Restart the command if you want to try again.\n");
+                        return;
+                    }
+                    else {
+                        profileReviews.get(reviewChoice).toggleVisibility();
+                        System.out.println("The chosen review's visibility has been toggled.");
+                        return;
+                    }
+                default:
+                    System.out.println("You've chosen an option that doesn't exist. Restart the command if you want to try again.\n");
+                    return;
+            }
+        } catch(Exception e) {
+            System.out.println("You've entered invalid input. Returning to previous screen...\n");
+            return;
+        }
+    }
+
+    /**
+     * Private helper method used to print out cleanly formatted and descriptive JobListings, including visibility.
+     * @param reviews The ArrayList of listings to print out
+     */
+    private void formatReviews(ArrayList<Review> reviews) {
+        int reviewsSize = reviews.size();
+        System.out.println(reviewsSize + " listing(s) available:\n");
+
+        for(int i = 1; i <= reviewsSize; i++) {
+            Review review = reviews.get(i-1);
+            System.out.println("\t" + i + ". " + review.toString() +
+                                "\n\tVisibility: " + review.getVisibility() + "\n");
+        }
+    }
+
 
     /**
      * The removeJobListing method allows an employer to remove a job listing
