@@ -108,6 +108,13 @@ public class InternshipUI {
         System.out.println(output);
     }
 
+    /**
+     * Private helper method which properly adjusts a user's number of choice to
+     * account for zero indexes. Returns the index of the choice after adjusting.
+     * 
+     * @param numCommands The total number of choices the user has to choose from
+     * @return The index of the desired command, or -1 if the user's choice is out of range
+     */
     private int getUserCommand(int numCommands) {
         String input = scanner.nextLine();
         int command = Integer.parseInt(input) - 1;
@@ -362,7 +369,7 @@ public class InternshipUI {
                 return true;
             }
             else {
-                System.out.println("\nThe email/password combination entered was invalid. Try again");
+                System.out.println("\nThe email/password combination entered was invalid. Try again, or create an account.");
                 return false;
             }
         } catch (Exception e) {
@@ -401,10 +408,5 @@ public class InternshipUI {
         else {
             System.out.println("Sorry, your account could not be created.");
         }
-    }
-
-    public static void main(String[] args) {
-        InternshipUI ui = new InternshipUI();
-        ui.run();
     }
 }
