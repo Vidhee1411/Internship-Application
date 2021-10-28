@@ -18,10 +18,10 @@ public class Education {
     
     /**
      * This is the parameterized constructor of the education class.
-     * @param nameofUniversity
-     * @param major
-     * @param gpa
-     * @param expectedGradDate
+     * @param nameofUniversity The name of the university the student attended
+     * @param major The student's major
+     * @param gpa The student's GPA
+     * @param expectedGradDate The student's expected graduation date
      */
     public Education(String nameOfUniversity, String major, double gpa, String expectedGradDate){
         this.nameOfUniversity = nameOfUniversity;

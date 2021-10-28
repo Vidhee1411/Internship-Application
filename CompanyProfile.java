@@ -154,5 +154,23 @@ public class CompanyProfile {
         return listings.remove(listing);
     }
 
+    /**
+     * The toString method returns a String representation of a CompanyProfile.
+     * @return A string representation of a company profile
+     */
+    public String toString() {
+        String ret = companyName + "\nAddress: " + hqAddress + "\nDescription: " + description + "\nReviews:\n";
+        
+        for (Review rev: reviewList) {
+            ret += rev.toString() + "\n";
+        }
+
+        for (JobListing listing: listings) {
+            ret += listing.toString() + "\n";
+        }
+
+        return ret;
+    }
+
     
 }

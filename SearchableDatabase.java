@@ -22,6 +22,7 @@ public class SearchableDatabase {
     private SearchableDatabase(){
         this.jobListings = new ArrayList<JobListing>();
         this.users = new ArrayList<User>();
+        this.companyProfiles = new ArrayList<CompanyProfile>();
     }
 
     /**
@@ -65,6 +66,24 @@ public class SearchableDatabase {
      */
     public void removeUser(User user){
         this.users.remove(user);
+    }
+
+    /**
+     * The addProfile method adds a company profile to the list of profiles in
+     * the database.
+     * @param profile The profile to be added to the list
+     */
+    public void addProfile(CompanyProfile profile) {
+        this.companyProfiles.add(profile);
+    }
+
+    /**
+     * The removeProfile method removes a company profile from the list of
+     * profiles in the database.
+     * @param profile The profile to be removed from the list
+     */
+    public void removeProfile(CompanyProfile profile) {
+        this.companyProfiles.remove(profile);
     }
 
     /**
