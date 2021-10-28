@@ -18,7 +18,7 @@ public class InternshipUI {
     private static final String CHOICE_PROMPT = "Please enter the number next to your preferred action: ";
     private String[] startMenuOptions = {"Log In","Create Account"};
     private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume"};
-    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile","Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student"};
+    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
 
@@ -253,20 +253,27 @@ public class InternshipUI {
                 	System.out.println("Profile created! Returning to home screen.");
                 }
                 break;
-            //Create a Job Listing
+            //Associate with a company profile
             case(2):
+                System.out.println("Please enter the name of the company you would like to associate with: ");
+                String input = scanner.nextLine();
+                application.associateCompany(input);
+                //Create a Job Listing
+            case(3):
                 createListing();
                 break;
             //Edit a Job Listing
-            case(3):
+            case(4):
                 application.editJobListing();
                 break;
             //Remove a Job Listing
-            case(4):
-                application.removeJobListing();
+            case(5):
+                System.out.println("Please enter the title of the listing you would like to remove: ");
+                String input2 = scanner.nextLine();
+                application.removeJobListing(input2);
                 break;
             //Review a Student
-            case(5):
+            case(6):
                 //The writeReview method itself could probably prompt the user to find the student to review.
             	application.writeReview();
         }

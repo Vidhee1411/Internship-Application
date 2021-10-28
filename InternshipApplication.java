@@ -50,13 +50,19 @@ public class InternshipApplication {
             case "student":
                 System.out.println("Enter your year in school");
                 String year = scanner.nextLine();
-                Student s1 = new Student(firstname,lastname,email,password,year);
-                database.addUser(s1);
-                s1.createResume();
+                if(email.substring(email.length() - 3, email.length()).equals("sc.edu")){
+                    Student s1 = new Student(firstname,lastname,email,password,year);
+                    database.addUser(s1);
+                    s1.createResume();
+                    return true;
+                }
+                return false;
             case "employer":
                 Employer e1 = new Employer(firstname, lastname, email, password);
                 database.addUser(e1);
+                return true;
             }
+            return false;
     }
 
     /**
@@ -113,7 +119,7 @@ public class InternshipApplication {
      */
     public ArrayList<JobListing> search(double payRate) {
         ArrayList<JobListing> search_result = new ArrayList<JobListing>();
-        search_result = database.sortListingsbyPay(payRate);
+        search_result = database.searchListingsbyPay(payRate);
         return search_result;
     }
 
@@ -122,9 +128,10 @@ public class InternshipApplication {
      * information associated with their account
      */
     public void editPersonalInfo() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("What would you like to edit?");
         System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "email" +"\n"+"password");
-        String answer = Scanner.nextLine.toLowerCase();
+        String answer = scanner.nextLine().toLowerCase();
         switch(answer) {
             case "firstname":
                 user.editFirstName(answer);
@@ -139,6 +146,7 @@ public class InternshipApplication {
                 user.editPassword(answer);
                 break;
         }
+        scanner.close();
     }
 
     /**
@@ -151,6 +159,10 @@ public class InternshipApplication {
      * @return The review created in this method
      */
     public void writeReview() {
+        if (permission == 1) {
+
+            this.user.ReviewStudent();
+        }
         //Old parameters: User user, int rating, String comment
 
     	//This method should prompt the employer to search through students, and prompt students to
@@ -208,9 +220,9 @@ public class InternshipApplication {
     public void toggleJobListingVisibility() {
         if(permission != -1) {
             System.out.println("You don't have valid permissions to do this.\n");
+            return;
         }
-        Employer employer = (Employer) user;
-        ArrayList<JobListing> currentListings = employer.getCompany().getListings();
+        ArrayList<JobListing> currentListings = database.getJobListings();
         System.out.println("Please enter the number of the listing you would like to toggle the visibility of, or 0 to go back: ");
         formatListingVisibilities(currentListings);
         int listingChoice = getUserCommand(currentListings.size());
@@ -262,11 +274,28 @@ public class InternshipApplication {
      * from the database of listings.
      * @param jobListing The job listing the employer wants to remove
      */
-    public void removeJobListing() {
-    	//This method should have no parameters and should prompt the employer to search through
-    	//their own listings to find the one to remove. As it is now, the InternshipUI has to somehow pass 
-    	//a JobListing to this method, which can probably be better handled here in this Application class.
-        database.removeJobListing(jobListing);
+    public void removeJobListing(String title) {
+        if (permission == 1) {
+            System.out.println("You don't have permission to access this method. Returning to home screen . . .");
+            return;
+        }
+        ArrayList <JobListing> removeResults;
+        if (permission == -1) {
+            removeResults = database.searchListings(title);
+        } else {
+            Employer employer = (Employer) user;
+            removeResults = employer.getCompany().getListings();
+        }
+        for (int i = 1; i <= removeResults.size(); i++) {
+            System.out.println(i + ": " + removeResults.get(i-1).toStringSummary());
+        }
+        System.out.println("Please enter the number of the job listing you would like to remove or enter 0 to go back to the main menu: ");
+        int input = getUserCommand(removeResults.size());
+        if (input == -1) {
+            return;
+        }
+        JobListing listingToRemove = removeResults.get(input);
+        database.removeJobListing(listingToRemove);
     }
 
     /**
@@ -278,9 +307,10 @@ public class InternshipApplication {
         System.out.print("Please enter the name of your company: ");
         String name = scanner.nextLine();
         System.out.print("Please enter the address of your company's headquarters: ");
-        String hqaddress = scanner.nextLine();
+        String hqAddress = scanner.nextLine();
         System.out.print("Please enter a description of your company: ");
         String description = scanner.nextLine();
+        this.database.addProfile(new CompanyProfile(name, hqAddress, description));
 
         return false;
     } 
@@ -289,8 +319,20 @@ public class InternshipApplication {
      * The associateCompany method allows employers to associate with a
      * company profile that already exists in the system
      */
-    public void associateCompany() {
-        
+    public void associateCompany(String company) {
+        ArrayList<CompanyProfile> profiles = database.searchProfiles(company);
+        for (int i = 1; i <= profiles.size(); i++) {
+            System.out.println(i + ": " + profiles.get(i-1).toString());
+        }
+        System.out.println("Please enter the number of the profile you would like to associate with: ");
+        int number = getUserCommand(profiles.size());
+        if (number == -1) {
+            System.out.println("You entered an invalid number. Returning to the home screen.")
+            return;
+        }
+        Employer employer = (Employer) user;
+        employer.associateCompany(profiles.get(number));
+
     }
 
     /**
