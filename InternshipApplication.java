@@ -50,13 +50,19 @@ public class InternshipApplication {;
             case "student":
                 System.out.println("Enter your year in school");
                 String year = scanner.nextLine();
-                Student s1 = new Student(firstname,lastname,email,password,year);
-                database.addUser(s1);
-                s1.createResume();
+                if(email.substring(email.length() - 3, email.length()).equals("sc.edu")){
+                    Student s1 = new Student(firstname,lastname,email,password,year);
+                    database.addUser(s1);
+                    s1.createResume();
+                    return true;
+                }
+                return false;
             case "employer":
                 Employer e1 = new Employer(firstname, lastname, email, password);
                 database.addUser(e1);
+                return true;
             }
+            return false;
     }
 
     /**
@@ -115,7 +121,7 @@ public class InternshipApplication {;
      * the user
      */
     public ArrayList<JobListing> search(double payRate) {
-        
+         return this.database.searchListingsbyPay(payRate);
     }
 
     /**
@@ -123,9 +129,10 @@ public class InternshipApplication {;
      * information associated with their account
      */
     public void editPersonalInfo() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("What would you like to edit?");
         System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "email" +"\n"+"password");
-        String answer = Scanner.nextLine.toLowerCase();
+        String answer = scanner.nextLine().toLowerCase();
         switch(answer) {
             case "firstname":
                 user.editFirstName(answer);
@@ -140,6 +147,7 @@ public class InternshipApplication {;
                 user.editPassword(answer);
                 break;
         }
+        scanner.close();
     }
 
     /**
@@ -263,7 +271,7 @@ public class InternshipApplication {;
      * from the database of listings.
      * @param jobListing The job listing the employer wants to remove
      */
-    public void removeJobListing() {
+    public void removeJobListing(JobListing jobListing) {
     	//This method should have no parameters and should prompt the employer to search through
     	//their own listings to find the one to remove. As it is now, the InternshipUI has to somehow pass 
     	//a JobListing to this method, which can probably be better handled here in this Application class.
@@ -279,9 +287,10 @@ public class InternshipApplication {;
         System.out.print("Please enter the name of your company: ");
         String name = scanner.nextLine();
         System.out.print("Please enter the address of your company's headquarters: ");
-        String hqaddress = scanner.nextLine();
+        String hqAddress = scanner.nextLine();
         System.out.print("Please enter a description of your company: ");
         String description = scanner.nextLine();
+        this.database.addProfile(new CompanyProfile(name, hqAddress, description));
 
         return false;
     } 

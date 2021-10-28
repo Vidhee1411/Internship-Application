@@ -173,7 +173,7 @@ public class SearchableDatabase {
      * The sortListingsbyPay method sorts all of the JobListings by pay in
      * ascending order.
      */
-    public ArrayList<JobListing> sortListingsbyPay(Double pay) {
+    public ArrayList<JobListing> searchListingsbyPay(Double pay) {
         ArrayList<JobListing> output = new ArrayList<>();
         for(JobListing listing:this.jobListings){
             if(listing.getPayRate() >= pay){
@@ -187,7 +187,7 @@ public class SearchableDatabase {
      * The sortListingsAlphabetically method puts all of the JobListings in
      * alphabetical order. 
      */
-    private void sortListingsAlphabetically() {
+    public  void sortListingsAlphabetically() {
         jobListings.sort(Comparator.comparing(JobListing::getTitle));
     }
 
@@ -195,7 +195,7 @@ public class SearchableDatabase {
      * The sortProfilesAlphabetically method puts all of the profiles in the
      * SearchableDatabase in alphabetical order.
      */
-    private void sortProfilesAlphabetically() {
+    public void sortProfilesAlphabetically() {
         companyProfiles.sort(Comparator.comparing(CompanyProfile::getCompanyName));
     }
 }
