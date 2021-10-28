@@ -14,7 +14,7 @@ import java.io.Console;
  * register new administrators.
  * @author Joshua DuPuis
  */
-public class InternshipApplication {;
+public class InternshipApplication {
     private User user;
     private int permission;
     private SearchableDatabase database;
@@ -72,12 +72,9 @@ public class InternshipApplication {;
      * 
      * @param email The User's email attempt
      * @param password The User's password attempt
-     * 
      * @return true for a successful login, false otherwise.
      */
-    public boolean logOn(String email, String password) {
-        //Old code: boolean log = user.logOn(email, password);                  We can probably remove this as the logOn method in the user class is unnecessary 
-        
+    public boolean logOn(String email, String password) {        
         //Assign the right user and permissions if logOn was successful
         for(User user : database.getUsers()) {
             if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
@@ -121,7 +118,9 @@ public class InternshipApplication {;
      * the user
      */
     public ArrayList<JobListing> search(double payRate) {
-         return this.database.searchListingsbyPay(payRate);
+        ArrayList<JobListing> search_result = new ArrayList<JobListing>();
+        search_result = database.searchListingsbyPay(payRate);
+        return search_result;
     }
 
     /**
@@ -160,6 +159,10 @@ public class InternshipApplication {;
      * @return The review created in this method
      */
     public void writeReview() {
+        if (permission == 1) {
+
+            this.user.ReviewStudent();
+        }
         //Old parameters: User user, int rating, String comment
 
     	//This method should prompt the employer to search through students, and prompt students to
@@ -217,9 +220,9 @@ public class InternshipApplication {;
     public void toggleJobListingVisibility() {
         if(permission != -1) {
             System.out.println("You don't have valid permissions to do this.\n");
+            return;
         }
-        Employer employer = (Employer) user;
-        ArrayList<JobListing> currentListings = employer.getCompany().getListings();
+        ArrayList<JobListing> currentListings = database.getJobListings();
         System.out.println("Please enter the number of the listing you would like to toggle the visibility of, or 0 to go back: ");
         formatListingVisibilities(currentListings);
         int listingChoice = getUserCommand(currentListings.size());
@@ -271,11 +274,28 @@ public class InternshipApplication {;
      * from the database of listings.
      * @param jobListing The job listing the employer wants to remove
      */
-    public void removeJobListing(JobListing jobListing) {
-    	//This method should have no parameters and should prompt the employer to search through
-    	//their own listings to find the one to remove. As it is now, the InternshipUI has to somehow pass 
-    	//a JobListing to this method, which can probably be better handled here in this Application class.
-        database.removeJobListing(jobListing);
+    public void removeJobListing(String title) {
+        if (permission == 1) {
+            System.out.println("You don't have permission to access this method. Returning to home screen . . .");
+            return;
+        }
+        ArrayList <JobListing> removeResults;
+        if (permission == -1) {
+            removeResults = database.searchListings(title);
+        } else {
+            Employer employer = (Employer) user;
+            removeResults = employer.getCompany().getListings();
+        }
+        for (int i = 1; i <= removeResults.size(); i++) {
+            System.out.println(i + ": " + removeResults.get(i-1).toStringSummary());
+        }
+        System.out.println("Please enter the number of the job listing you would like to remove or enter 0 to go back to the main menu: ");
+        int input = getUserCommand(removeResults.size());
+        if (input == -1) {
+            return;
+        }
+        JobListing listingToRemove = removeResults.get(input);
+        database.removeJobListing(listingToRemove);
     }
 
     /**
@@ -299,8 +319,20 @@ public class InternshipApplication {;
      * The associateCompany method allows employers to associate with a
      * company profile that already exists in the system
      */
-    public void associateCompany() {
-        
+    public void associateCompany(String company) {
+        ArrayList<CompanyProfile> profiles = database.searchProfiles(company);
+        for (int i = 1; i <= profiles.size(); i++) {
+            System.out.println(i + ": " + profiles.get(i-1).toString());
+        }
+        System.out.println("Please enter the number of the profile you would like to associate with: ");
+        int number = getUserCommand(profiles.size());
+        if (number == -1) {
+            System.out.println("You entered an invalid number. Returning to the home screen.")
+            return;
+        }
+        Employer employer = (Employer) user;
+        employer.associateCompany(profiles.get(number));
+
     }
 
     /**

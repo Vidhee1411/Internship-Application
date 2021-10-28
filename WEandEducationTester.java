@@ -146,9 +146,12 @@ public class WEandEducationTester {
         sd.addProfile(cp3);
         sd.addProfile(cp4);
         sd.addProfile(cp5);
-        ArrayList<CompanyProfile> result = sd.searchProfiles("Wengleton's");
-        for (CompanyProfile list: result) {
+        //ArrayList<CompanyProfile> result = sd.searchProfiles("Wengleton's");
+
+        ArrayList<JobListing> result = sd.sortListingsbyPay(14.0);
+        for (JobListing list: result) {
             System.out.println(list.toString());
+            System.out.println();
         }
         /*System.out.println(jl.toString());
         System.out.println(jl.getVisibility());
