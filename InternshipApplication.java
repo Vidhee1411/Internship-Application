@@ -14,7 +14,7 @@ import java.io.Console;
  * register new administrators.
  * @author Joshua DuPuis
  */
-public class InternshipApplication {;
+public class InternshipApplication {
     private User user;
     private int permission;
     private SearchableDatabase database;
@@ -66,12 +66,9 @@ public class InternshipApplication {;
      * 
      * @param email The User's email attempt
      * @param password The User's password attempt
-     * 
      * @return true for a successful login, false otherwise.
      */
-    public boolean logOn(String email, String password) {
-        //Old code: boolean log = user.logOn(email, password);                  We can probably remove this as the logOn method in the user class is unnecessary 
-        
+    public boolean logOn(String email, String password) {        
         //Assign the right user and permissions if logOn was successful
         for(User user : database.getUsers()) {
             if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
@@ -115,7 +112,9 @@ public class InternshipApplication {;
      * the user
      */
     public ArrayList<JobListing> search(double payRate) {
-        
+        ArrayList<JobListing> search_result = new ArrayList<JobListing>();
+        search_result = database.sortListingsbyPay(payRate);
+        return search_result;
     }
 
     /**
