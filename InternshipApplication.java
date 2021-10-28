@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.json.simple.parser.ParseException;
+
 import java.io.Console;
 
 
@@ -13,6 +16,7 @@ import java.io.Console;
  */
 public class InternshipApplication {;
     private User user;
+    private int permission;
     private SearchableDatabase database;
     private Scanner scanner;
 
@@ -40,8 +44,8 @@ public class InternshipApplication {;
         String lastname = scanner.nextLine();
         System.out.println("Please enter your email");
         String email = scanner.nextLine();
-        char[] passwordarr = console.readPassword("Please enter password:");
-        String password = new String(passwordarr);
+        char[] passwordArr = console.readPassword("Please enter password:");
+        String password = new String(passwordArr);
         switch(accountType.toLowerCase()) {
             case "student":
                 System.out.println("Enter your year in school");
@@ -57,15 +61,26 @@ public class InternshipApplication {;
 
     /**
      * The logOn method allows a user with an existing account to log on to the
-     * system
-     * @param email The User's email
-     * @param password The User's password
+     * system. Additionally sets the appropriate instance variables in the InternshipApplication 
+     * for the logged on user.
+     * 
+     * @param email The User's email attempt
+     * @param password The User's password attempt
      * 
      * @return true for a successful login, false otherwise.
      */
     public boolean logOn(String email, String password) {
-        boolean log = user.logOn(email, password);       
-        return log;
+        //Old code: boolean log = user.logOn(email, password);                  We can probably remove this as the logOn method in the user class is unnecessary 
+        
+        //Assign the right user and permissions if logOn was successful
+        for(User user : database.getUsers()) {
+            if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                this.user = user;
+                permission = this.user.getPermission();
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -110,16 +125,20 @@ public class InternshipApplication {;
     public void editPersonalInfo() {
         System.out.println("What would you like to edit?");
         System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "email" +"\n"+"password");
-        String answer = Scanner.nextLine.toLowerCase()
-        Switch(answer) {
+        String answer = Scanner.nextLine.toLowerCase();
+        switch(answer) {
             case "firstname":
                 user.editFirstName(answer);
+                break;
             case "lastname":
                 user.editLastName(answer);
+                break;
             case "email":
                 user.editEmail(answer);
+                break;
             case "password":
                 user.editPassword(answer);
+                break;
         }
     }
 
@@ -181,6 +200,62 @@ public class InternshipApplication {;
     	//This method should have no parameters and should prompt the employer to search through
     	//their own listings. As it is now, the InternshipUI has to somehow pass a JobListing to 
     	//this method, which can probably be better handled here in this Application class.
+    }
+
+    /**
+     * The toggleJobListingVisibility method allows an employer to toggle the visibility setting
+     * of a given jobListing.
+     */
+    public void toggleJobListingVisibility() {
+        if(permission != -1) {
+            System.out.println("You don't have valid permissions to do this.\n");
+        }
+        Employer employer = (Employer) user;
+        ArrayList<JobListing> currentListings = employer.getCompany().getListings();
+        System.out.println("Please enter the number of the listing you would like to toggle the visibility of, or 0 to go back: ");
+        formatListingVisibilities(currentListings);
+        int listingChoice = getUserCommand(currentListings.size());
+        while(listingChoice != -1) {       
+            if(listingChoice < -1 || listingChoice >= currentListings.size() + 1) {
+                System.out.println("You chose a listing that wasn't listed. Try again with a valid choice, or type 0 to go back.");
+            }
+            else {
+                //If its a valid choice, toggle the visibility
+                JobListing chosenListing = currentListings.get(listingChoice);
+                boolean currentVisibility = chosenListing.getVisibility();
+                chosenListing.setVisibility(!currentVisibility);
+
+                if(!currentVisibility) {
+                    System.out.println("The chosen listing is now visible.");
+                }
+                else {
+                    System.out.println("The chosen listing is now hidden.");
+                }
+            }
+            System.out.println("If you'd like to toggle the visibility of another listing, enter the number of the internship; 0 to go back: ");
+            listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
+        }
+        System.out.println("\nReturning...\n");
+    }
+
+    /**
+     * Private helper method used to print out cleanly formatted and descriptive JobListings, including visibility.
+     * @param listings The ArrayList of listings to print out
+     */
+    private void formatListingVisibilities(ArrayList<JobListing> listings) {
+        int listingsSize = listings.size();
+        if(listingsSize == 0) {
+            System.out.println("There are no job listings at this time...\n");
+        }
+        else {
+            System.out.println(listingsSize + " listing(s) available:\n");
+        }
+
+        for(int i = 1; i <= listingsSize; i++) {
+            JobListing jobListing = listings.get(i);
+            System.out.println(i + ". " + jobListing.toStringSummary() +
+                                "Visibility: " + jobListing.getVisibility() + "\n");
+        }
     }
 
     /**
@@ -273,5 +348,20 @@ public class InternshipApplication {;
 
     public User getUser(){
         return this.user;
+    }
+
+    /**
+     * Private helper method which properly adjusts a user's number of choice to
+     * account for zero indexes. Returns the index of the choice after adjusting.
+     * 
+     * @param numCommands The total number of choices the user has to choose from
+     * @return The index of the desired command, or -1 if the user's choice is out of range
+     */
+    private int getUserCommand(int numCommands) {
+        String input = scanner.nextLine();
+        int command = Integer.parseInt(input) - 1;
+
+        if(command >= 0 && command <= numCommands-1) return command;
+        return -1;
     }
 }
