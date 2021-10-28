@@ -332,7 +332,7 @@ public class InternshipUI {
             //Edit job listing visibility 
             case(4):
                 //Application has no direct way to change the visibility of a listing. Is a new method required?
-                application.editJobListing(jobListing);
+                application.toggleJobListingVisibility();
                 break;
             //Edit review visibility
             case(5):
