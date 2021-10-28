@@ -21,6 +21,7 @@ public class InternshipUI {
     private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
+    private String[] internshipSortOptions = {"Alphabetically (Ascending)"};
 
     public InternshipUI() {
         scanner = new Scanner(System.in);
@@ -140,7 +141,7 @@ public class InternshipUI {
                 break;
             //Search for internship
             case(1):
-                searchInternship();
+                sortAndSearchInternships();
                 break;
             //Review an Internship
             case(2):
@@ -160,14 +161,30 @@ public class InternshipUI {
     /**
      * Private helper method which displays appropriate prompts for searching through the internship database.
      */
-    private void searchInternship() {
+    private void sortAndSearchInternships() {
         try {
+            System.out.println("How would you like your results sorted?");
+            displayMenu(internshipSortOptions);
+
+            int userCommand = getUserCommand(internshipSearchOptions.length);
+            System.out.print("Please enter the number next to your desired sorting: ");
+
+            switch(userCommand) {
+                case(-1):
+                    System.out.println("You chose an invalid choice. Try again.");
+                    return;
+                //Alphabetically (Ascending)
+                case(0):
+                    application.sortAlphabetically();
+                    break;
+            }
+
             //Searching results loop
             ArrayList<JobListing> results = new ArrayList<>();
-            System.out.println("What criteria would you like to search by?");
+            System.out.println("Now what criteria would you like to search by?");
             displayMenu(internshipSearchOptions);
             
-            int userCommand = getUserCommand(internshipSearchOptions.length);
+            userCommand = getUserCommand(internshipSearchOptions.length);
             System.out.print("Please enter the number next to your desired search method: ");
 
             switch(userCommand) {
@@ -183,8 +200,7 @@ public class InternshipUI {
                 case(1):
                     System.out.print("Please enter the minimum pay rate you'd like (e.g. 7.30 for $7.30/hr): ");
                     double minPay = Double.parseDouble(scanner.nextLine());
-                    application.search(minPay);
-                    results = application.search(scanner.nextLine());
+                    results = application.search(minPay);
                     formatSearchResults(results);
                     break;
             }
@@ -324,7 +340,7 @@ public class InternshipUI {
                 break;
             //Search for an Internship
             case(1):
-                searchInternship();
+                sortAndSearchInternships();
                 break;
             //Remove User Account
             case(2):
@@ -338,20 +354,16 @@ public class InternshipUI {
                 break;
             //Edit job listing visibility 
             case(4):
-                //Application has no direct way to change the visibility of a listing. Is a new method required?
                 application.toggleJobListingVisibility();
                 break;
             //Edit review visibility
             case(5):
-            	//There is no facade option for this. Maybe add it there or do another private method here?
-            	application..
+            	application.toggleReviewVisibility();
             	break;
             //Create new admin
             case(6):
             	//Needs a specific method in the facade or a lot of prompting here.
-            	//Either way, it would need to be immediately written to the database like
-            	//any other newly created account.
-            	Administrator admin = new Administrator(null, null, null, null, null);
+            	Administrator admin = new Administrator();
             	
         }
     }
