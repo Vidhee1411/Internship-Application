@@ -28,6 +28,18 @@ public class Student extends User{
         reviewsFromCompanies = new ArrayList<Review>();
     }
 
+    /**
+     * This student constructor creates a student with every field set. Used in loading students from json
+     * @param firstName The first name of the student
+     * @param lastName The last name of the student
+     * @param email The student's school email
+     * @param password The password for the student's account
+     * @param yearInSchool The student's year in school
+     * @param id The students uuid
+     * @param skills An ArrayList<String> containing the students skills
+     * @param classes An ArrayList,String> containing the classes that the student has taken
+     * @param reviews An arrayList<Review> containing all the reviews of the student 
+     */
     public Student(String firstName, String lastName, String email, String password, String yearInSchool, UUID id, ArrayList<String> skills, ArrayList<String> classes, ArrayList<Review> reviews) {
         super(firstName, lastName, email, password, id);
         this.yearInSchool = yearInSchool;

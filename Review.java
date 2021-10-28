@@ -38,15 +38,6 @@ public class Review {
     }
 
     /**
-     * The toString method turns the resume into a String that can be printed
-     * to the console.
-     * @return A String containing the review
-     */
-    public String toString() {
-        return reviewerFirstName + " " + reviewerLastName + " - " + rating + "/10 \nDescription: " + description;
-    }
-
-    /**
      * The toggleVisibility method changes the visibility of a review - if the
      * review is hidden, it reveals it and vice versa.
      */
@@ -78,10 +69,6 @@ public class Review {
         return this.description;
     }
 
-    public boolean getHidden(){
-        return this.hidden;
-    }
-
     /**
      * The setRating method allows a user to change the rating on a review.
      * @param rating The new rating for the review
@@ -97,5 +84,14 @@ public class Review {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    /**
+     * The toString method turns the resume into a String that can be printed
+     * to the console.
+     * @return A String containing the review
+     */
+    public String toString() {
+        return reviewerFirstName + " " + reviewerLastName + " - " + rating + "/10 \nDescription: " + description;
     }
 }
