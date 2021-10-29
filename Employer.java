@@ -43,14 +43,12 @@ public class Employer extends User {
     /**
      * The reviewStudent method allows an employer to create a review about a
      * student and post it on the student's page.
-     * @param firstName The first name of the employer
-     * @param lastName The last name of the employer
      * @param rating The rating out of 10 they give the student
      * @param comment The description of the review
      * @param student The student the employer is reviewing
      */
-    public void reviewStudent(String firstName, String lastName, int rating, String comment, Student student) {
-        Review review = new Review (firstName, lastName, rating, comment);
+    public void reviewStudent(int rating, String comment, Student student) {
+        Review review = new Review (this.firstName, this.lastName, rating, comment);
         student.addReview(review);
     }
 

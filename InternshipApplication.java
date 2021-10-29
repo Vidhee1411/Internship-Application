@@ -194,47 +194,164 @@ public class InternshipApplication {
      * @return The review created in this method
      */
     public void writeReview() {
-        if (permission == 1) {
+        try {
+            if (permission != 1 || permission != 0) {
+                System.out.println("You don't have valid permissions to use this command.\n");
+                return;
+            }
+            //Student leaving a review on a company profile
+            else if(permission == 0) {
+                Student student = (Student) this.user;
+                System.out.print("Enter the name of the company you'd like to review: ");
+                ArrayList<CompanyProfile> companyChoices = database.searchProfiles(scanner.nextLine());
+                if(companyChoices.isEmpty()) {
+                    System.out.println("No companies were found with the given name. Retry this command if you want to try again.\n");
+                    return;
+                } 
+    
+                formatCompanyProfiles(companyChoices);
+                System.out.println("If any of these choices match the company you want to review, enter the number listed beside it. Enter 0 to exit.");
+                int index = getUserCommand(companyChoices.size());
+                if(index == -1) {
+                    System.out.println("Returning...\n");
+                    return;
+                }
+                else {
+                    CompanyProfile companyToReview = companyChoices.get(index);
+                    System.out.print("On a scale of 1 to 5 (no decimals), what is your rating of the company (e.g. 3)? ");
+                    int rating = scanner.nextInt();
+                    scanner.nextLine();
+                    if(rating > 5 || rating < 1) {
+                        System.out.println("You entered an invalid rating. The review could not be created.\n");
+                        return;
+                    }
+                    System.out.println("Enter the comment you would like to leave with your review: ");
+                    String comment = scanner.nextLine().trim();
 
-            this.user.ReviewStudent();
+                    student.reviewCompany(rating, comment, companyToReview);
+                    System.out.println("Your review for " + companyToReview.getCompanyName() + " has been made successfully. Returning...\n");
+                }
+            }
+            //Employer leaving review on a student profile
+            else {
+                Employer employer = (Employer) this.user;
+                Student student = null;
+
+                System.out.print("Enter the email of the student you'd like to leave a review for: ");
+                String studentEmail = scanner.nextLine();
+                for(User user : database.getUsers()) {
+                    if(user.getPermission() == 0 && user.getEmail().equals(studentEmail)) {
+                        student = (Student) user;
+                    }
+                }
+                if(student == null) {
+                    System.out.println("No student account has the email you've provided.\n");
+                    return;
+                }
+
+                System.out.print("On a scale of 1 to 5 (no decimals), what is your rating of the company (e.g. 3)? ");
+                int rating = scanner.nextInt();
+                scanner.nextLine();
+                if(rating > 5 || rating < 1) {
+                    System.out.println("You entered an invalid rating. The review could not be created.\n");
+                    return;
+                }
+                System.out.println("Enter the comment you would like to leave with your review: ");
+                String comment = scanner.nextLine().trim();
+                employer.reviewStudent(rating, comment, student);
+                System.out.println("Your review for " + student.getFirstName() + " " + 
+                    student.getLastName() + " has been made successfully. Returning...\n");
+            }
+        } catch(Exception e) {
+            System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
-        //Old parameters: User user, int rating, String comment
+    }
 
-    	//This method should prompt the employer to search through students, and prompt students to
-    	//search through listings to find/select the correct one to review. As it is now, the 
-    	//InternshipUI has to pass all three parameters as well as prompt the user to
-    	//figure out what to leave a review on, which can probably be better handled here 
-    	//in this Application class (which has direct access to the User and databases.
-    	
-    	//If we don't want to split this into two separate review methods, we need to
-    	//check user permissions to see what they should be looking for (e.g. if user.getPermission()
-    	// == 0, then it's a student, so let them search listings only.
+    /**
+     * Private helper method used to print out cleanly formatted and descriptive JobListings, including visibility.
+     * @param reviews The ArrayList of listings to print out
+     */
+    private void formatCompanyProfiles(ArrayList<CompanyProfile> companies) {
+        int companiesSize = companies.size();
+        System.out.println(companiesSize + " listing(s) available:\n");
+
+        for(int i = 1; i <= companiesSize; i++) {
+            CompanyProfile company = companies.get(i-1);
+            System.out.println("\t" + i + ". " + company.toString() + "\n");
+        }
     }
 
     /**
      * The createResume method allows a student user to create a resume that
      * employers can view when the student applies for a job
-     * @return The resume created by the student
      */
+<<<<<<< HEAD
     public void createResume(Student student) {
         student.createResume(ArrayList<int> skill);
+=======
+    public void createResume() {
+        if(permission != 0) {
+            System.out.println("You don't have valid permissions to use this command.\n");
+            return;
+        }
+        Student student = (Student) this.user;
+        student.createResume();
+        System.out.println("Resume created. Returning...\n");
+>>>>>>> b246ae4ca66ea08e494261d90b2acb94d1dcc78f
     }
 
     /**
      * The editResume method allows a student to edit information on their
      * resume
      */
+<<<<<<< HEAD
     public void editResume(Resume resume) {
 
+=======
+    public void editResume() {
+        if(permission != 0) {
+            System.out.println("You don't have valid permissions to use this command.\n");
+            return;
+        }
+        Student student = (Student) this.user;
+        student.createResume();
+>>>>>>> b246ae4ca66ea08e494261d90b2acb94d1dcc78f
     }
 
     /**
      * The createJobListing method allows an employer to create a Job Listing
-     * that students can apply for
-     * @return The JobListing created by the employer
+     * that students can apply for on their company profile.
      */
-    public JobListing createJobListing(){
-        return null;
+    public void createJobListing(){
+        if(permission != 1) {
+            System.out.println("You don't have valid permissions to use this command.\n");
+            return;
+        }
+        Employer employer = (Employer) this.user;
+        CompanyProfile company = employer.getCompany();
+        if(company == null) {
+            System.out.println("You currently have no company listed on your profile. Create a new company profile or associate with " + 
+                "a pre-existing one before creating a job listing.");
+            return;
+        }
+        
+        try {
+            System.out.print("What is the title of the listing? ");
+            String title = scanner.nextLine();
+            System.out.print("What is the description of the listing? ");
+            String description = scanner.nextLine();
+            System.out.print("Where is the job/internship being offerred (e.g. Online, Five Points, etc.)? ");
+            String location = scanner.nextLine();
+            System.out.print("What is the pay rate for the position in dollars per hour (e.g. 7.25)? If unpaid, enter 0");
+            double payRate = scanner.nextDouble();
+            scanner.nextLine();
+            boolean paid = (payRate <= 0.00);
+            
+            company.addListing(new JobListing(title, description, location, paid, payRate, company.getCompanyName())); 
+            System.out.println("Your listing has been added. Returning...\n"); 
+        } catch(Exception e) {
+            System.out.println("You entered invalid input. Retry the command to try again.\n");
+        }
     }
 
     /**
@@ -245,8 +362,9 @@ public class InternshipApplication {
     public void editJobListing() {
         if(permission != 1) {
             System.out.println("You don't have valid permissions to use this command.\n");
+            return;
         }
-        Employer employer = (Employer) user;
+        Employer employer = (Employer) this.user;
         ArrayList<JobListing> companyListings = employer.getCompany().getListings();
 
         if(companyListings.isEmpty()) {
@@ -299,7 +417,7 @@ public class InternshipApplication {
                     return;
             }
         } catch(Exception e) {
-            System.out.println("You entered invald input. Retry the command to try again.\n");
+            System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
     }
     
@@ -334,10 +452,8 @@ public class InternshipApplication {
             }
             System.out.println("Returning...\n");
         } catch(Exception e) {
-            System.out.println("You entered invald input. Retry the command to try again.\n");
+            System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
-
-
     }
 
     /**
