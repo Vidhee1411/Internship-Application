@@ -137,24 +137,51 @@ public class InternshipApplication {
      * information associated with their account
      */
     public void editPersonalInfo() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("What would you like to edit?");
-        System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "email" +"\n"+"password");
-        String answer = scanner.nextLine().toLowerCase();
-        switch(answer) {
-            case "firstname":
-                user.editFirstName(answer);
-                break;
-            case "lastname":
-                user.editLastName(answer);
-                break;
-            case "email":
-                user.editEmail(answer);
-                break;
-            case "password":
-                user.editPassword(answer);
-                break;
+        System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "Email" +"\n"+"Password");
+        try {
+            String answer = scanner.nextLine().toLowerCase();
+            switch(answer) {
+                case "firstname":
+                    System.out.println("What would you like your first name to be?");
+                    String newFirstName = scanner.nextLine();
+                    user.editFirstName(newFirstName);
+                    break;
+                case "lastname":
+                    System.out.println("What would you like your last name to be?");
+                    String newLastName = scanner.nextLine();
+                    user.editLastName(newLastName);
+                    break;
+                case "email":
+                    System.out.println("What would you like your email to be?");
+                    String newEmail = scanner.nextLine();
+                    if(newEmail.length() < 3) {
+                        System.out.println("Email is too short. Returning...\n");
+                    } 
+                    //If it's a student changing their email address, check for .edu
+                    if(permission == 0 && !(newEmail.substring(newEmail.length()-4).equals(".edu"))) {
+                        System.out.println("Your new email must still be one associated with the university.");
+                        return;
+                    }
+                    user.editEmail(newEmail);
+                    break;
+                case "password":
+                    System.out.println("What would you like your new password to be?");
+                    String newPassword = scanner.nextLine();
+                    if(newPassword.length() < 8) {
+                        System.out.println("Your password must be 8 characters or longer.");
+                        return;
+                    }
+                    user.editPassword(newPassword);
+                    break;
+                default:
+                    System.out.println("You entered an option that wasn't listed. Restart this command if you want to try again\n.");
+                    return;
+            }
+        } catch(Exception e) {
+            System.out.println("You've entered invalid input. Restart the command to try again.\n");
         }
+       
     }
 
     /**
