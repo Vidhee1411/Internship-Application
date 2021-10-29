@@ -53,7 +53,7 @@ public class Student extends User{
      * the student's first name, last name, and email to the resume.
      */
     public void createResume(ArrayList<Integer> skillindexs, ArrayList<Integer> class_indexs, ArrayList<WorkExperience> workExperiences, ArrayList<Education> education) {
-        resume = new Resume(super.getFirstName(), super.getLastName(), super.getEmail(), this.yearInSchool);
+        Resume resume = new Resume(super.getFirstName(), super.getLastName(), super.getEmail(), this.yearInSchool);
         resume.setEducation(education);
         resume.setWorkExperience(workExperiences);
         for(Integer index:skillindexs){
@@ -62,6 +62,7 @@ public class Student extends User{
         for(Integer index:class_indexs){
             resume.addClass(this.classes.get(index));
         }
+        this.resume = resume;
       
     }
 

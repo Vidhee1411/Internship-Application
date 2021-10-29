@@ -285,10 +285,6 @@ public class InternshipApplication {
      * The createResume method allows a student user to create a resume that
      * employers can view when the student applies for a job
      */
-<<<<<<< HEAD
-    public void createResume(Student student) {
-        student.createResume(ArrayList<int> skill);
-=======
     public void createResume() {
         if(permission != 0) {
             System.out.println("You don't have valid permissions to use this command.\n");
@@ -297,7 +293,6 @@ public class InternshipApplication {
         Student student = (Student) this.user;
         student.createResume();
         System.out.println("Resume created. Returning...\n");
->>>>>>> b246ae4ca66ea08e494261d90b2acb94d1dcc78f
     }
 
     /**
