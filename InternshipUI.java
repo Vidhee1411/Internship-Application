@@ -17,7 +17,7 @@ public class InternshipUI {
     private static final String START_MESSAGE = "Welcome!";
     private static final String CHOICE_PROMPT = "Please enter the number next to your preferred action: ";
     private String[] startMenuOptions = {"Log In","Create Account"};
-    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","Log Out"};
+    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","Print Resume to Text File","Log Out"};
     private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
@@ -152,8 +152,11 @@ public class InternshipUI {
             case(4):
                 application.editResume();
                 break;
-            //Log out
             case(5):
+                application.printResumeToFile();
+                break;
+            //Log out
+            case(6):
                 application.logOff();
                 loggedOut = true;
                 break;
