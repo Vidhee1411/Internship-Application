@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.UUID;
 import org.json.simple.parser.ParseException;
-
 import java.io.Console;
 
 
@@ -153,7 +152,6 @@ public class InternshipApplication {
                 user.editPassword(answer);
                 break;
         }
-        scanner.close();
     }
 
     /**
@@ -397,8 +395,8 @@ public class InternshipApplication {
      * @param jobListing The job listing the employer wants to remove
      */
     public void removeJobListing(String title) {
-        if (permission == 1) {
-            System.out.println("You don't have permission to access this method. Returning to home screen . . .");
+        if (permission != 1 || permission != 1) {
+            System.out.println("You don't have permission to use this command. Returning to home screen . . .");
             return;
         }
         ArrayList <JobListing> removeResults;
@@ -449,7 +447,7 @@ public class InternshipApplication {
         System.out.println("Please enter the number of the profile you would like to associate with: ");
         int number = getUserCommand(profiles.size());
         if (number == -1) {
-            System.out.println("You entered an invalid number. Returning to the home screen.")
+            System.out.println("You entered an invalid number. Returning to the home screen.");
             return;
         }
         Employer employer = (Employer) user;
@@ -475,10 +473,43 @@ public class InternshipApplication {
      * @param user The account that the Administrator wishes to remove
      */
     public void removeAccount() {
-        //Old parameter: User user
-    	//UI class should probably not have to pass a User to the method. Instead, this method
-    	//should use the InternshipApplication's Database variable to prompt/find it.
-    	//So we want to remove the parameter.
+        if(permission != -1) {
+            System.out.println("You don't have permission to use this command. Returning to home screen . . .");
+            return;
+        }
+        
+        try {
+            System.out.print("What's the email of the user you want to remove? ");
+        String emailInput = scanner.nextLine();
+
+        User usertoRemove = null;
+        for(User user : database.getUsers()) {
+            if(user.getEmail().equals(emailInput)) {
+                usertoRemove = user;
+            }
+        }
+        if(usertoRemove == null) {
+            System.out.println("No account is associated with that email. Returning to previous menu...\n");
+        }
+        
+        System.out.println("Are you sure you want to remove this user? [Y/N]");
+        String choice = scanner.nextLine().toLowerCase();
+        if(choice.equals("n")) {
+            System.out.println("Aborting command. Returning to previous menu...\n");
+            return;
+        }
+        else if(choice.equals("y")) {
+            Administrator user = (Administrator) this.user;
+            user.removeAccount(usertoRemove);
+            System.out.println("The specified user has been removed.\n");
+            return;
+        }
+        else {
+            System.out.println("You entered something that wasn't 'Y' or 'N'. Restart the command if you want to try again.\n");
+        }
+        } catch(Exception e) {
+            System.out.println("You entered an invalid input. Returning...\n");
+        }
     }
 
     /**
@@ -486,8 +517,26 @@ public class InternshipApplication {
      * administrators to the system. No employee and no student can do this.
      */
     public void registerAdmin() {
-        if(this.user.getPermission() == -1){
-            
+        if(this.user.getPermission() != -1){
+            System.out.println("You don't have permission to use this command. Returning to home screen . . .");
+            return;
+        }
+        try {
+            System.out.println("What is the first name of the new administrator?");
+            String firstName = scanner.nextLine();
+            System.out.println("What is the last name of the new administrator?");
+            String lastName = scanner.nextLine();
+            System.out.println("What is the email of the new administrator?");
+            String email = scanner.nextLine();
+            System.out.println("What is the password the new administrator?");
+            String password = scanner.nextLine();
+            UUID newUUID = UUID.randomUUID();
+
+            database.addUser(new Administrator(firstName, lastName, email, password, newUUID));
+            System.out.println("A new admininstrator has successfully been registered.");
+        } catch(Exception e) {
+            System.out.println("You entered an invalid input. Please restart the command to try again.\n");
+            return;
         }
     }
 
