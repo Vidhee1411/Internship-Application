@@ -255,6 +255,6 @@ public class JobListing {
     public String toStringSummary() {
         return title + "\n" + 
                 "Company: " + company + "\n" + 
-                "Pay Rate: " + DOLLAR_FORMAT.format(payRate) + "/hr\n";
+                "Pay Rate: " + DOLLAR_FORMAT.format(payRate) + "/hr";
     }
 }

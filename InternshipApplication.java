@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.UUID;
 import org.json.simple.parser.ParseException;
-
 import java.io.Console;
 
 
@@ -88,10 +87,13 @@ public class InternshipApplication {
 
     /**
      * The logOff method logs a user out of the system once they are finished
-     * using it
+     * using it. Writes current database data to JSON files through the DataWriter class.
      */
     public void logOff() {
         System.out.println("Logging off");
+        DataWriter.saveUsers();
+        DataWriter.saveCompanyProfiles();
+        DataWriter.saveJobListings();
         System.exit(0);
     }
 
@@ -124,29 +126,62 @@ public class InternshipApplication {
     }
 
     /**
+     * This sort method allows a user to alphabetically sort the listings from the database.
+     */
+    public void sortAlphabetically() {
+        database.sortListingsAlphabetically();
+    }
+
+    /**
      * The editPersonalInfo method allows a user to edit the personal
      * information associated with their account
      */
     public void editPersonalInfo() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("What would you like to edit?");
-        System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "email" +"\n"+"password");
-        String answer = scanner.nextLine().toLowerCase();
-        switch(answer) {
-            case "firstname":
-                user.editFirstName(answer);
-                break;
-            case "lastname":
-                user.editLastName(answer);
-                break;
-            case "email":
-                user.editEmail(answer);
-                break;
-            case "password":
-                user.editPassword(answer);
-                break;
+        System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "Email" +"\n"+"Password");
+        try {
+            String answer = scanner.nextLine().toLowerCase();
+            switch(answer) {
+                case "firstname":
+                    System.out.println("What would you like your first name to be?");
+                    String newFirstName = scanner.nextLine();
+                    user.editFirstName(newFirstName);
+                    break;
+                case "lastname":
+                    System.out.println("What would you like your last name to be?");
+                    String newLastName = scanner.nextLine();
+                    user.editLastName(newLastName);
+                    break;
+                case "email":
+                    System.out.println("What would you like your email to be?");
+                    String newEmail = scanner.nextLine();
+                    if(newEmail.length() < 3) {
+                        System.out.println("Email is too short. Returning...\n");
+                    } 
+                    //If it's a student changing their email address, check for .edu
+                    if(permission == 0 && !(newEmail.substring(newEmail.length()-4).equals(".edu"))) {
+                        System.out.println("Your new email must still be one associated with the university.");
+                        return;
+                    }
+                    user.editEmail(newEmail);
+                    break;
+                case "password":
+                    System.out.println("What would you like your new password to be?");
+                    String newPassword = scanner.nextLine();
+                    if(newPassword.length() < 8) {
+                        System.out.println("Your password must be 8 characters or longer.");
+                        return;
+                    }
+                    user.editPassword(newPassword);
+                    break;
+                default:
+                    System.out.println("You entered an option that wasn't listed. Restart this command if you want to try again\n.");
+                    return;
+            }
+        } catch(Exception e) {
+            System.out.println("You've entered invalid input. Restart the command to try again.\n");
         }
-        scanner.close();
+       
     }
 
     /**
@@ -208,9 +243,101 @@ public class InternshipApplication {
      * @param jobListing The jobListing the employer wants to edit
      */
     public void editJobListing() {
-    	//This method should have no parameters and should prompt the employer to search through
-    	//their own listings. As it is now, the InternshipUI has to somehow pass a JobListing to 
-    	//this method, which can probably be better handled here in this Application class.
+        if(permission != 1) {
+            System.out.println("You don't have valid permissions to use this command.\n");
+        }
+        Employer employer = (Employer) user;
+        ArrayList<JobListing> companyListings = employer.getCompany().getListings();
+
+        if(companyListings.isEmpty()) {
+            System.out.println("There are no listings to edit on your company profile.\n");
+            return;
+        }
+
+        try {
+            System.out.print("Please enter the number of the listing you would you like to edit the information of: ");
+            formatListingVisibilities(companyListings);
+            int listingChoice = getUserCommand(companyListings.size());
+            JobListing listingToEdit = companyListings.get(listingChoice);
+
+            System.out.println("What would you like to edit?");
+            System.out.println("Title\n" + "Description\n" + "Location\n" + "Pay Rate\n" + "Visibility\n" + "Skills\n");
+            String answer = scanner.nextLine().toLowerCase();
+            switch(answer) {
+                case "title":
+                    System.out.println("What would you like the title to be?");
+                    String newTitle= scanner.nextLine();
+                    listingToEdit.editTitle(newTitle);
+                    break;
+                case "description":
+                    System.out.println("What would you like the description to be?");
+                    String newDescription = scanner.nextLine();
+                    listingToEdit.editDescription(newDescription);
+                    break;
+                case "location":
+                    System.out.println("What would you like the location to be?");
+                    String newLocation = scanner.nextLine();
+                    listingToEdit.editLocation(newLocation);
+                    break;
+                case "pay rate":
+                case "payrate":
+                    System.out.println("What would you like the pay rate to be (in $/hour, e.g. 7.25)?");
+                    double newPayRate = scanner.nextDouble();
+                    scanner.nextLine();
+                    listingToEdit.editPayRate(newPayRate);
+                    break;
+                case "visibility":
+                    System.out.println("Toggling visibility...");
+                    listingToEdit.setVisibility(!listingToEdit.getVisibility());
+                    break;
+                case "skill":
+                case "skills":
+                    editJobListingSkills(listingToEdit);
+                    break;
+                default:
+                    System.out.println("You entered an option that wasn't listed. Restart this command if you want to try again\n.");
+                    return;
+            }
+        } catch(Exception e) {
+            System.out.println("You entered invald input. Retry the command to try again.\n");
+        }
+    }
+    
+    /**
+     * Private helper method which prompts the user to add or remove skills from a job listing.
+     * @param listing
+     */
+    private void editJobListingSkills(JobListing listing) {
+        System.out.println("These are the current skills: " + listing.getRequiredSkills());
+        System.out.println("Would you like to [A]dd or [R]emove a skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
+        try {
+            String choice = scanner.nextLine().toLowerCase();
+            while(!choice.equals("q")) {
+                switch(choice) {
+                    case("a"):
+                        System.out.print("Enter the name of the skill you want to add: ");
+                        listing.addRequiredSkill(scanner.nextLine());
+                        break;
+                    case("r"):
+                        if(listing.getRequiredSkills().isEmpty()) {
+                            System.out.println("There are no skills to remove.");
+                            break;
+                        }
+                        System.out.print("Enter the name of the skill you want to remove: ");
+                        listing.removeRequiredSkill(scanner.nextLine());
+                        break;
+                    default:
+                        System.out.println("You entered an invalid option.");
+                }
+                System.out.println("These are the current skills: " + listing.getRequiredSkills());
+                System.out.println("Would you like to [A]dd or [R]emove another skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
+            }
+            System.out.println("Returning...\n");
+        } catch(Exception e) {
+            System.out.println("You entered invald input. Retry the command to try again.\n");
+        }
+
+
     }
 
     /**
@@ -222,29 +349,34 @@ public class InternshipApplication {
             System.out.println("You don't have valid permissions to do this.\n");
             return;
         }
-        ArrayList<JobListing> currentListings = database.getJobListings();
-        System.out.println("Please enter the number of the listing you would like to toggle the visibility of, or 0 to go back: ");
-        formatListingVisibilities(currentListings);
-        int listingChoice = getUserCommand(currentListings.size());
-        while(listingChoice != -1) {       
-            if(listingChoice < -1 || listingChoice >= currentListings.size() + 1) {
-                System.out.println("You chose a listing that wasn't listed. Try again with a valid choice, or type 0 to go back.");
-            }
-            else {
-                //If its a valid choice, toggle the visibility
-                JobListing chosenListing = currentListings.get(listingChoice);
-                boolean currentVisibility = chosenListing.getVisibility();
-                chosenListing.setVisibility(!currentVisibility);
 
-                if(!currentVisibility) {
-                    System.out.println("The chosen listing is now visible.");
+        try {
+            ArrayList<JobListing> currentListings = database.getJobListings();
+            System.out.println("Please enter the number of the listing you would like to toggle the visibility of, or 0 to go back: ");
+            formatListingVisibilities(currentListings);
+            int listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
+            while(listingChoice != -1) {       
+                if(listingChoice < -1 || listingChoice >= currentListings.size() + 1) {
+                    System.out.println("You chose a listing that wasn't listed. Try again with a valid choice, or type 0 to go back.");
                 }
                 else {
-                    System.out.println("The chosen listing is now hidden.");
+                    //If its a valid choice, toggle the visibility
+                    JobListing chosenListing = currentListings.get(listingChoice);
+                    boolean currentVisibility = chosenListing.getVisibility();
+                    chosenListing.setVisibility(!currentVisibility);
+    
+                    if(!currentVisibility) {
+                        System.out.println("The chosen listing is now visible.");
+                    }
+                    else {
+                        System.out.println("The chosen listing is now hidden.");
+                    }
+                    System.out.print("If you'd like to toggle the visibility of another listing, enter the number of the internship; 0 to go back: ");
                 }
+                listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
             }
-            System.out.println("If you'd like to toggle the visibility of another listing, enter the number of the internship; 0 to go back: ");
-            listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
+        } catch(Exception e) {
+            System.out.println("You've entered invalid input.");
         }
         System.out.println("\nReturning...\n");
     }
@@ -263,11 +395,121 @@ public class InternshipApplication {
         }
 
         for(int i = 1; i <= listingsSize; i++) {
-            JobListing jobListing = listings.get(i);
+            JobListing jobListing = listings.get(i-1);
             System.out.println(i + ". " + jobListing.toStringSummary() +
-                                "Visibility: " + jobListing.getVisibility() + "\n");
+                                "\n\tVisibility: " + jobListing.getVisibility() + "\n");
         }
     }
+
+    /**
+     * The toggleJobListingVisibility method allows an employer to toggle the visibility setting
+     * of a given jobListing.
+     */
+    public void toggleReviewVisibility() {
+        if(permission != -1) {
+            System.out.println("You don't have valid permissions to do this.\n");
+            return;
+        }
+
+        try {
+            System.out.println("Are you changing the visibility of a review on a [S]tudent profile or a [C]ompany profile? Enter 'S' or 'C' for your choice: ");
+            String reviewLocation = scanner.nextLine().toLowerCase();
+            int reviewChoice;
+
+            switch(reviewLocation) {
+                case("s"):
+                    System.out.print("What's the email of the student? ");
+                    String emailInput = scanner.nextLine();
+
+                    Student student = null;
+                    for(User user : database.getUsers()) {
+                        if(user.getEmail().equals(emailInput) && user.getPermission() == 0) {
+                            student = (Student) user;
+                        }
+                    }
+                    if(student == null) {
+                        System.out.println("No student account was found with that email.\n");
+                        return;
+                    }
+
+                    ArrayList<Review> studentReviews = student.getReviews();
+                    if(studentReviews.isEmpty()) {
+                        System.out.println("There are no reviews on the student profile to toggle. Returning...\n");
+                    }
+
+                    formatReviews(studentReviews);
+                    System.out.print("Please enter the number of the review to toggle the visibility of: ");
+                    reviewChoice = getUserCommand(studentReviews.size());
+                    if(reviewChoice == -1) {
+                        System.out.println("You chose an option that doesn't exist. Restart the command if you want to try again.\n");
+                        return;
+                    }
+                    else {
+                        studentReviews.get(reviewChoice).toggleVisibility();
+                        System.out.println("The chosen review's visibility has been toggled.");
+                        return;
+                    }
+                case("c"):
+                    System.out.print("What's the name of the company? ");
+                    String companyName = scanner.nextLine();
+                    ArrayList<CompanyProfile> results = database.searchProfiles(companyName);
+                    if(results.isEmpty()) {
+                        System.out.println("No company profiles match the given name. Restart the command if you want to try again.\n");
+                        return;
+                    }
+
+                    System.out.println("Which company is the one you'll be toggling the review visibility for?");
+                    for(int i = 1; i <= results.size(); i++) {
+                        System.out.println("\t" + i + ". " + results.get(i-1).toString() + "\n");
+                    }
+                    int profileIndex = getUserCommand(results.size());
+                    if(profileIndex == -1) {
+                        System.out.println("You chose an option that doesn't exist. Restart the command if you want to try again.\n");
+                        return;
+                    }
+                    CompanyProfile profileChoice= results.get(profileIndex);
+                    ArrayList<Review> profileReviews = profileChoice.getReviews();
+                    if(profileReviews.isEmpty()) {
+                        System.out.println("There are no reviews on the company profile to toggle. Returning...\n");
+                    }
+
+                    formatReviews(profileReviews);
+                    System.out.print("Please enter the number of the review to toggle the visibility of: ");
+                    reviewChoice = getUserCommand(profileReviews.size());
+                    if(reviewChoice == -1) {
+                        System.out.println("You chose an option that doesn't exist. Restart the command if you want to try again.\n");
+                        return;
+                    }
+                    else {
+                        profileReviews.get(reviewChoice).toggleVisibility();
+                        System.out.println("The chosen review's visibility has been toggled.");
+                        return;
+                    }
+                default:
+                    System.out.println("You've chosen an option that doesn't exist. Restart the command if you want to try again.\n");
+                    return;
+            }
+        } catch(Exception e) {
+            System.out.println("You've entered invalid input. Returning to previous screen...\n");
+            return;
+        }
+    }
+
+    /**
+     * Private helper method used to print out cleanly formatted and descriptive JobListings, including visibility.
+     * @param reviews The ArrayList of listings to print out
+     */
+    private void formatReviews(ArrayList<Review> reviews) {
+        int reviewsSize = reviews.size();
+        System.out.println(reviewsSize + " listing(s) available:\n");
+
+        for(int i = 1; i <= reviewsSize; i++) {
+            Review review = reviews.get(i-1);
+            System.out.println("\t" + i + ". " + review.toString() +
+                                "\n\tVisibility: " + review.getVisibility() + "\n");
+        }
+    }
+
 
     /**
      * The removeJobListing method allows an employer to remove a job listing
@@ -275,8 +517,8 @@ public class InternshipApplication {
      * @param jobListing The job listing the employer wants to remove
      */
     public void removeJobListing(String title) {
-        if (permission == 1) {
-            System.out.println("You don't have permission to access this method. Returning to home screen . . .");
+        if (permission != 1 || permission != 1) {
+            System.out.println("You don't have permission to use this command. Returning to home screen . . .");
             return;
         }
         ArrayList <JobListing> removeResults;
@@ -327,7 +569,7 @@ public class InternshipApplication {
         System.out.println("Please enter the number of the profile you would like to associate with: ");
         int number = getUserCommand(profiles.size());
         if (number == -1) {
-            System.out.println("You entered an invalid number. Returning to the home screen.")
+            System.out.println("You entered an invalid number. Returning to the home screen.");
             return;
         }
         Employer employer = (Employer) user;
@@ -353,10 +595,43 @@ public class InternshipApplication {
      * @param user The account that the Administrator wishes to remove
      */
     public void removeAccount() {
-        //Old parameter: User user
-    	//UI class should probably not have to pass a User to the method. Instead, this method
-    	//should use the InternshipApplication's Database variable to prompt/find it.
-    	//So we want to remove the parameter.
+        if(permission != -1) {
+            System.out.println("You don't have permission to use this command. Returning to home screen . . .");
+            return;
+        }
+        
+        try {
+            System.out.print("What's the email of the user you want to remove? ");
+        String emailInput = scanner.nextLine();
+
+        User usertoRemove = null;
+        for(User user : database.getUsers()) {
+            if(user.getEmail().equals(emailInput)) {
+                usertoRemove = user;
+            }
+        }
+        if(usertoRemove == null) {
+            System.out.println("No account is associated with that email. Returning to previous menu...\n");
+        }
+        
+        System.out.println("Are you sure you want to remove this user? [Y/N]");
+        String choice = scanner.nextLine().toLowerCase();
+        if(choice.equals("n")) {
+            System.out.println("Aborting command. Returning to previous menu...\n");
+            return;
+        }
+        else if(choice.equals("y")) {
+            Administrator user = (Administrator) this.user;
+            user.removeAccount(usertoRemove);
+            System.out.println("The specified user has been removed.\n");
+            return;
+        }
+        else {
+            System.out.println("You entered something that wasn't 'Y' or 'N'. Restart the command if you want to try again.\n");
+        }
+        } catch(Exception e) {
+            System.out.println("You entered an invalid input. Returning...\n");
+        }
     }
 
     /**
@@ -364,8 +639,26 @@ public class InternshipApplication {
      * administrators to the system. No employee and no student can do this.
      */
     public void registerAdmin() {
-        if(this.user.getPermission() == -1){
-            
+        if(this.user.getPermission() != -1){
+            System.out.println("You don't have permission to use this command. Returning to home screen . . .");
+            return;
+        }
+        try {
+            System.out.println("What is the first name of the new administrator?");
+            String firstName = scanner.nextLine();
+            System.out.println("What is the last name of the new administrator?");
+            String lastName = scanner.nextLine();
+            System.out.println("What is the email of the new administrator?");
+            String email = scanner.nextLine();
+            System.out.println("What is the password the new administrator?");
+            String password = scanner.nextLine();
+            UUID newUUID = UUID.randomUUID();
+
+            database.addUser(new Administrator(firstName, lastName, email, password, newUUID));
+            System.out.println("A new admininstrator has successfully been registered.");
+        } catch(Exception e) {
+            System.out.println("You entered an invalid input. Please restart the command to try again.\n");
+            return;
         }
     }
 
@@ -392,7 +685,7 @@ public class InternshipApplication {
     }
 
     /**
-     * Private helper method which properly adjusts a user's number of choice to
+     * Private helper method which properly adjusts a user's prompted choice to
      * account for zero indexes. Returns the index of the choice after adjusting.
      * 
      * @param numCommands The total number of choices the user has to choose from

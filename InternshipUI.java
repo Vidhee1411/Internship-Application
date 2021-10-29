@@ -17,10 +17,13 @@ public class InternshipUI {
     private static final String START_MESSAGE = "Welcome!";
     private static final String CHOICE_PROMPT = "Please enter the number next to your preferred action: ";
     private String[] startMenuOptions = {"Log In","Create Account"};
-    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume"};
-    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student"};
-    private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account"};
+    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","Log Out"};
+    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
+    private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
+    private String[] internshipSortOptions = {"Alphabetically (Ascending)"};
+    boolean loggedIn = false;
+    boolean loggedOut = false;
 
     public InternshipUI() {
         scanner = new Scanner(System.in);
@@ -33,7 +36,6 @@ public class InternshipUI {
      * use.
      */
     public void run() {
-        boolean loggedIn = false;
         int userPermission = -1;
         int userCommand;
         System.out.println(START_MESSAGE);
@@ -62,7 +64,6 @@ public class InternshipUI {
         }
 
         // The main application menu loops, accessible once logged in. Changes depending on user type
-        boolean loggedOut = false;
         while(!loggedOut) {
             switch(userPermission) {
                 //Options for administrators
@@ -85,11 +86,8 @@ public class InternshipUI {
                     userCommand = getUserCommand(mainMenuOptionsEmployer.length);
                     resolveEmployerOptions(userCommand);
                     break;
-                default:
-                //May not be necessary, but could be a useful redundancy check for valid permissions
             }
         }
-        //This is unreachable. Add a way to set loggedOut = true;                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         System.out.println("You have been successfully logged out. Take care!");
     }
 
@@ -140,7 +138,7 @@ public class InternshipUI {
                 break;
             //Search for internship
             case(1):
-                searchInternship();
+                sortAndSearchInternships();
                 break;
             //Review an Internship
             case(2):
@@ -154,20 +152,41 @@ public class InternshipUI {
             case(4):
                 application.editResume();
                 break;
+            //Log out
+            case(5):
+                application.logOff();
+                loggedOut = true;
+                break;
         }
     }
     
     /**
      * Private helper method which displays appropriate prompts for searching through the internship database.
      */
-    private void searchInternship() {
+    private void sortAndSearchInternships() {
         try {
+            System.out.println("How would you like your results sorted?");
+            displayMenu(internshipSortOptions);
+
+            int userCommand = getUserCommand(internshipSearchOptions.length);
+            System.out.print("Please enter the number next to your desired sorting: ");
+
+            switch(userCommand) {
+                case(-1):
+                    System.out.println("You chose an invalid choice. Try again.");
+                    return;
+                //Alphabetically (Ascending)
+                case(0):
+                    application.sortAlphabetically();
+                    break;
+            }
+
             //Searching results loop
             ArrayList<JobListing> results = new ArrayList<>();
-            System.out.println("What criteria would you like to search by?");
+            System.out.println("Now what criteria would you like to search by?");
             displayMenu(internshipSearchOptions);
             
-            int userCommand = getUserCommand(internshipSearchOptions.length);
+            userCommand = getUserCommand(internshipSearchOptions.length);
             System.out.print("Please enter the number next to your desired search method: ");
 
             switch(userCommand) {
@@ -183,8 +202,7 @@ public class InternshipUI {
                 case(1):
                     System.out.print("Please enter the minimum pay rate you'd like (e.g. 7.30 for $7.30/hr): ");
                     double minPay = Double.parseDouble(scanner.nextLine());
-                    application.search(minPay);
-                    results = application.search(scanner.nextLine());
+                    results = application.search(minPay);
                     formatSearchResults(results);
                     break;
             }
@@ -274,8 +292,13 @@ public class InternshipUI {
                 break;
             //Review a Student
             case(6):
-                //The writeReview method itself could probably prompt the user to find the student to review.
             	application.writeReview();
+                break;
+            //Log out
+            case(7):
+                application.logOff();
+                loggedOut = true;
+                break;
         }
     }
     
@@ -324,7 +347,7 @@ public class InternshipUI {
                 break;
             //Search for an Internship
             case(1):
-                searchInternship();
+                sortAndSearchInternships();
                 break;
             //Remove User Account
             case(2):
@@ -338,21 +361,21 @@ public class InternshipUI {
                 break;
             //Edit job listing visibility 
             case(4):
-                //Application has no direct way to change the visibility of a listing. Is a new method required?
                 application.toggleJobListingVisibility();
                 break;
             //Edit review visibility
             case(5):
-            	//There is no facade option for this. Maybe add it there or do another private method here?
-            	application..
+            	application.toggleReviewVisibility();
             	break;
             //Create new admin
             case(6):
-            	//Needs a specific method in the facade or a lot of prompting here.
-            	//Either way, it would need to be immediately written to the database like
-            	//any other newly created account.
-            	Administrator admin = new Administrator(null, null, null, null, null);
-            	
+            	application.registerAdmin();
+                break;
+            //Log out
+            case(7):
+                application.logOff();
+                loggedOut = true;
+                break;
         }
     }
     
