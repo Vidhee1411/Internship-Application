@@ -52,20 +52,19 @@ public class Student extends User{
      * The createResume method allows the student to create a resume. It adds
      * the student's first name, last name, and email to the resume.
      */
-    public void createResume() {
+    public void createResume(ArrayList<Integer> skillindexs, ArrayList<Integer> class_indexs, ArrayList<WorkExperience> workExperiences, ArrayList<Education> education) {
         resume = new Resume(super.getFirstName(), super.getLastName(), super.getEmail(), this.yearInSchool);
-        /*if (skills != null) {
-            for (String skill: skills) {
-                resume.addSkill(skill);
-            }
+        resume.setEducation(education);
+        resume.setWorkExperience(workExperiences);
+        for(Integer index:skillindexs){
+            resume.addSkill(this.skills.get(index));
         }
-
-        if (classes != null) {
-            for (String course: classes) {
-                resume.addClass(course);
-            }
-        }*/
+        for(Integer index:class_indexs){
+            resume.addClass(this.classes.get(index));
+        }
+      
     }
+
     /**
      * The setResume method sets a student's resume to the resume passed in by
      * the user.
