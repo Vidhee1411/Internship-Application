@@ -394,6 +394,19 @@ public class InternshipApplication {
     }
 
     /**
+     * The printResumeToFile method allows a student to print the contents of their resume
+     * to a text file called "resume.txt".
+     */
+    public void printResumeToFile() {
+        if(permission != 0) {
+            System.out.println("You don't have valid permissions to use this command.\n");
+            return;
+        }
+        Student student = (Student) user;
+        student.getResume().toFile();
+    }
+
+    /**
      * The createJobListing method allows an employer to create a Job Listing
      * that students can apply for on their company profile.
      */
