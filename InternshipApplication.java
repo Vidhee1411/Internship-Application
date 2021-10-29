@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
-import org.json.simple.parser.ParseException;
 import java.io.Console;
 
 
@@ -43,25 +42,28 @@ public class InternshipApplication {
         String lastname = scanner.nextLine();
         System.out.println("Please enter your email");
         String email = scanner.nextLine();
-        char[] passwordArr = console.readPassword("Please enter password:");
+        char[] passwordArr = console.readPassword("Please enter password: ");
         String password = new String(passwordArr);
+
         switch(accountType.toLowerCase()) {
             case "student":
-                System.out.println("Enter your year in school");
-                String year = scanner.nextLine();
-                if(email.substring(email.length() - 3, email.length()).equals("sc.edu")){
+                if(email.substring(email.length() - 6, email.length()).equals("sc.edu")){
+                    System.out.println("Enter your year in school (e.g. junior)");
+                    String year = scanner.nextLine();
                     Student s1 = new Student(firstname,lastname,email,password,year);
                     database.addUser(s1);
-                    s1.createResume();
+                    this.user = s1;
+                    this.createResume();
                     return true;
                 }
-                return false;
+                System.out.println("Your email must be your UofSC school email.\n");
+                break;
             case "employer":
                 Employer e1 = new Employer(firstname, lastname, email, password);
                 database.addUser(e1);
                 return true;
-            }
-            return false;
+        }
+        return false;
     }
 
     /**
@@ -340,7 +342,7 @@ public class InternshipApplication {
                     System.out.print("\tGive a description of this work experience: ");
                     String description = scanner.nextLine();
 
-                    workExperiences.add(new WorkExperience(jobTitle, company, dateRange, description);
+                    workExperiences.add(new WorkExperience(jobTitle, company, dateRange, description));
                     System.out.print("\nWork experience #" + count + " has been added. Would you like to add another [Y/N]? ");
                 }
                 else { 
