@@ -92,7 +92,7 @@ public class DataWriter extends DataConstants {
             reviewDetails.put(REVIEW_LAST_NAME, review.getLastName());
             reviewDetails.put(REVIEW_RATING, review.getRating());
             reviewDetails.put(REVIEW_MESSAGE, review.getMessage());
-            reviewDetails.put(REVIEW_HIDDEN, review.getHidden());
+            reviewDetails.put(REVIEW_HIDDEN, review.getVisibility());
             jsonReviews.add(reviewDetails);
         }
         return jsonReviews;
