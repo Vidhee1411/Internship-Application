@@ -243,9 +243,101 @@ public class InternshipApplication {
      * @param jobListing The jobListing the employer wants to edit
      */
     public void editJobListing() {
-    	//This method should have no parameters and should prompt the employer to search through
-    	//their own listings. As it is now, the InternshipUI has to somehow pass a JobListing to 
-    	//this method, which can probably be better handled here in this Application class.
+        if(permission != 1) {
+            System.out.println("You don't have valid permissions to use this command.\n");
+        }
+        Employer employer = (Employer) user;
+        ArrayList<JobListing> companyListings = employer.getCompany().getListings();
+
+        if(companyListings.isEmpty()) {
+            System.out.println("There are no listings to edit on your company profile.\n");
+            return;
+        }
+
+        try {
+            System.out.print("Please enter the number of the listing you would you like to edit the information of: ");
+            formatListingVisibilities(companyListings);
+            int listingChoice = getUserCommand(companyListings.size());
+            JobListing listingToEdit = companyListings.get(listingChoice);
+
+            System.out.println("What would you like to edit?");
+            System.out.println("Title\n" + "Description\n" + "Location\n" + "Pay Rate\n" + "Visibility\n" + "Skills\n");
+            String answer = scanner.nextLine().toLowerCase();
+            switch(answer) {
+                case "title":
+                    System.out.println("What would you like the title to be?");
+                    String newTitle= scanner.nextLine();
+                    listingToEdit.editTitle(newTitle);
+                    break;
+                case "description":
+                    System.out.println("What would you like the description to be?");
+                    String newDescription = scanner.nextLine();
+                    listingToEdit.editDescription(newDescription);
+                    break;
+                case "location":
+                    System.out.println("What would you like the location to be?");
+                    String newLocation = scanner.nextLine();
+                    listingToEdit.editLocation(newLocation);
+                    break;
+                case "pay rate":
+                case "payrate":
+                    System.out.println("What would you like the pay rate to be (in $/hour, e.g. 7.25)?");
+                    double newPayRate = scanner.nextDouble();
+                    scanner.nextLine();
+                    listingToEdit.editPayRate(newPayRate);
+                    break;
+                case "visibility":
+                    System.out.println("Toggling visibility...");
+                    listingToEdit.setVisibility(!listingToEdit.getVisibility());
+                    break;
+                case "skill":
+                case "skills":
+                    editJobListingSkills(listingToEdit);
+                    break;
+                default:
+                    System.out.println("You entered an option that wasn't listed. Restart this command if you want to try again\n.");
+                    return;
+            }
+        } catch(Exception e) {
+            System.out.println("You entered invald input. Retry the command to try again.\n");
+        }
+    }
+    
+    /**
+     * Private helper method which prompts the user to add or remove skills from a job listing.
+     * @param listing
+     */
+    private void editJobListingSkills(JobListing listing) {
+        System.out.println("These are the current skills: " + listing.getRequiredSkills());
+        System.out.println("Would you like to [A]dd or [R]emove a skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
+        try {
+            String choice = scanner.nextLine().toLowerCase();
+            while(!choice.equals("q")) {
+                switch(choice) {
+                    case("a"):
+                        System.out.print("Enter the name of the skill you want to add: ");
+                        listing.addRequiredSkill(scanner.nextLine());
+                        break;
+                    case("r"):
+                        if(listing.getRequiredSkills().isEmpty()) {
+                            System.out.println("There are no skills to remove.");
+                            break;
+                        }
+                        System.out.print("Enter the name of the skill you want to remove: ");
+                        listing.removeRequiredSkill(scanner.nextLine());
+                        break;
+                    default:
+                        System.out.println("You entered an invalid option.");
+                }
+                System.out.println("These are the current skills: " + listing.getRequiredSkills());
+                System.out.println("Would you like to [A]dd or [R]emove another skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
+            }
+            System.out.println("Returning...\n");
+        } catch(Exception e) {
+            System.out.println("You entered invald input. Retry the command to try again.\n");
+        }
+
+
     }
 
     /**
@@ -593,7 +685,7 @@ public class InternshipApplication {
     }
 
     /**
-     * Private helper method which properly adjusts a user's number of choice to
+     * Private helper method which properly adjusts a user's prompted choice to
      * account for zero indexes. Returns the index of the choice after adjusting.
      * 
      * @param numCommands The total number of choices the user has to choose from
