@@ -248,6 +248,15 @@ public class Resume {
     public ArrayList<Education> getEducation() {
         return education;
     }
+    /**
+     * sets the education ArrayList to the one passed to the method
+     * @param education an ArrayList<Education> containing all education objects for the resume
+     */
+    public void setEducation(ArrayList<Education> education){
+        this.education = education;
+    }
+
+    
 
     /**
      * The getExperiences method returns the previous work experiences on the
@@ -256,6 +265,13 @@ public class Resume {
      */
     public ArrayList<WorkExperience> getExperiences() {
         return workExperiences;
+    }
+    /**
+     * sets the workExperience ArrayList to the on passed to the method
+     * @param work an ArrayList<WorkExperience> containing all the WorkExperience objects for the resume
+     */
+    public void setWorkExperience(ArrayList<WorkExperience> work){
+        this.workExperiences = work;
     }
     /**
      * writes the resume to a txt file

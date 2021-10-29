@@ -216,15 +216,15 @@ public class InternshipApplication {
      * employers can view when the student applies for a job
      * @return The resume created by the student
      */
-    public Resume createResume() {
-        return null;
+    public void createResume(Student student) {
+        student.createResume(ArrayList<int> skill);
     }
 
     /**
      * The editResume method allows a student to edit information on their
      * resume
      */
-    public void editResume() {
+    public void editResume(Resume resume) {
 
     }
 
