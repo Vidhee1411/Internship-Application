@@ -288,6 +288,9 @@ public class InternshipApplication {
         Student student = (Student) this.user;
         ArrayList<Integer> skillIndexes = new ArrayList<>();
         ArrayList<Integer> classIndexes = new ArrayList<>();
+        ArrayList<WorkExperience> workExperiences = new ArrayList<>();
+        ArrayList<Education> educations = new ArrayList<>();
+
         try {
             //Get appropriate skills
             System.out.println("Which skills would you like to add to your resume? Enter the name of each skill one at a time, and type 0 when done.");
@@ -305,36 +308,89 @@ public class InternshipApplication {
                 skillName = scanner.nextLine();
             }
 
-        //Get appropriate classes
-        
+            //Get appropriate classes
+            System.out.println("Which classes would you like to add to your resume? Enter the name of each class one at a time, and type 0 when done.");
+            System.out.println("These are your current classes: " + student.getClasses());
+            String className = scanner.nextLine();
+            while(!className.equals("0")) {
+                int classIndex = student.getClassIndex(className);
+                if(classIndex != -1) {
+                    classIndexes.add(classIndex);
+                    System.out.println("Class added successfully.");
+                }
+                else {
+                    System.out.println("That class isn't on your profile. Be sure to add any new skills to your profile first!");
+                }
+                className = scanner.nextLine();
+            }
+
+            //Create work experiences
+            System.out.print("Would you like to add any work experiences [Y/N]? ");
+            String yesNoOption = scanner.nextLine().toLowerCase();
+            int count = 1;
+            while(!yesNoOption.equals("n")) {
+                if(yesNoOption.equals("y")) {
+                    System.out.println("Work Experience #" + count++ + ":");
+                    System.out.print("\tWhat is the title of this work experience? ");
+                    String jobTitle = scanner.nextLine();
+                    System.out.print("\tWhat is the company/organization you worked for? ");
+                    String company = scanner.nextLine();
+                    System.out.print("\tProvide the date range of this experience (e.g. 7/7/21-8/7/21): ");
+                    String dateRange = scanner.nextLine();
+                    System.out.print("\tGive a description of this work experience: ");
+                    String description = scanner.nextLine();
+
+                    workExperiences.add(new WorkExperience(jobTitle, company, dateRange, description);
+                    System.out.print("\nWork experience #" + count + " has been added. Would you like to add another [Y/N]? ");
+                }
+                else { 
+                    System.out.print("You entered an answer that wasn't Y or N. Try again: ");
+                }
+                yesNoOption = scanner.nextLine().toLowerCase();
+            }
+            
+            //Create Educations
+            System.out.print("Would you like to add any education (colleges, major, gpa, etc.) [Y/N]? ");
+            yesNoOption = scanner.nextLine().toLowerCase();
+            count = 1;
+            while(!yesNoOption.equals("n")) {
+                if(yesNoOption.equals("y")) {
+                    System.out.println("Education Item #" + count++ + ":");
+                    System.out.print("\tWhat university/college did you attend? ");
+                    String nameOfUniversity = scanner.nextLine();
+                    System.out.print("\tWhat is/was your major at said university/college? ");
+                    String major = scanner.nextLine();
+                    System.out.print("\tWhat was your GPA there? (e.g. 2.45, 4.00): ");
+                    double gpa = scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.print("\tWhat is your expected grad date (or actual grad date if graduated) (e.g. Spring 2024)? ");
+                    String expectedGradDate = scanner.nextLine();
+
+                    educations.add(new Education(nameOfUniversity, major, gpa, expectedGradDate));
+                    System.out.print("\nEducation Item #" + count + " has been added. Would you like to add another [Y/N]? ");
+                }
+                else { 
+                    System.out.print("You entered an answer that wasn't Y or N. Try again: ");
+                }
+                yesNoOption = scanner.nextLine().toLowerCase();
+            }
+            student.createResume(skillIndexes, classIndexes, workExperiences, educations);
+            System.out.println("Your resume was created successfully. Returning...\n");
         } catch(Exception e) {
             System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
-
-
-
-
-
-        student.createResume();
-        System.out.println("Resume created. Returning...\n");
     }
 
     /**
      * The editResume method allows a student to edit information on their
-     * resume
+     * resume by overwriting it with a new one.
      */
-<<<<<<< HEAD
-    public void editResume(Resume resume) {
-
-=======
     public void editResume() {
         if(permission != 0) {
             System.out.println("You don't have valid permissions to use this command.\n");
             return;
         }
-        Student student = (Student) this.user;
-        student.createResume();
->>>>>>> b246ae4ca66ea08e494261d90b2acb94d1dcc78f
+        this.createResume();
     }
 
     /**
