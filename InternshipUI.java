@@ -17,11 +17,13 @@ public class InternshipUI {
     private static final String START_MESSAGE = "Welcome!";
     private static final String CHOICE_PROMPT = "Please enter the number next to your preferred action: ";
     private String[] startMenuOptions = {"Log In","Create Account"};
-    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume"};
-    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student"};
-    private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account"};
+    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","Log Out"};
+    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
+    private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
     private String[] internshipSortOptions = {"Alphabetically (Ascending)"};
+    boolean loggedIn = false;
+    boolean loggedOut = false;
 
     public InternshipUI() {
         scanner = new Scanner(System.in);
@@ -34,7 +36,6 @@ public class InternshipUI {
      * use.
      */
     public void run() {
-        boolean loggedIn = false;
         int userPermission = -1;
         int userCommand;
         System.out.println(START_MESSAGE);
@@ -63,7 +64,6 @@ public class InternshipUI {
         }
 
         // The main application menu loops, accessible once logged in. Changes depending on user type
-        boolean loggedOut = false;
         while(!loggedOut) {
             switch(userPermission) {
                 //Options for administrators
@@ -86,11 +86,8 @@ public class InternshipUI {
                     userCommand = getUserCommand(mainMenuOptionsEmployer.length);
                     resolveEmployerOptions(userCommand);
                     break;
-                default:
-                //May not be necessary, but could be a useful redundancy check for valid permissions
             }
         }
-        //This is unreachable. Add a way to set loggedOut = true;                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         System.out.println("You have been successfully logged out. Take care!");
     }
 
@@ -154,6 +151,11 @@ public class InternshipUI {
             //Edit your resume
             case(4):
                 application.editResume();
+                break;
+            //Log out
+            case(5):
+                application.logOff();
+                loggedOut = true;
                 break;
         }
     }
@@ -290,8 +292,13 @@ public class InternshipUI {
                 break;
             //Review a Student
             case(6):
-                //The writeReview method itself could probably prompt the user to find the student to review.
             	application.writeReview();
+                break;
+            //Log out
+            case(7):
+                application.logOff();
+                loggedOut = true;
+                break;
         }
     }
     
@@ -363,6 +370,11 @@ public class InternshipUI {
             //Create new admin
             case(6):
             	application.registerAdmin();
+                break;
+            //Log out
+            case(7):
+                application.logOff();
+                loggedOut = true;
                 break;
         }
     }
