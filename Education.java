@@ -101,8 +101,8 @@ public class Education {
      * @return A string representation of an education experience
      */
     public String toString() {
-        return nameOfUniversity + "\t\t\t" + "Expected Graduation Date: " + 
-            expectedGradDate + "\n" + "Major: " + collegeMajor + "\t\t\t" +
+        return nameOfUniversity + "\n" + "Expected Graduation Date: " + 
+            expectedGradDate + "\n" + "Major: " + collegeMajor + "\n" +
             "GPA: " + GPA;
     }
 

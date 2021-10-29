@@ -2,6 +2,9 @@
  * The resume class creates a resume of the student in the internship system.
  * @author Vidhee Patel and Joshua DuPuis
  */
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 public class Resume {
     private String studentFirstName;
@@ -64,6 +67,7 @@ public class Resume {
         this.classes = classes;
         this.education = education;
         this.workExperiences = workExperiences;
+        this.yearInSchool = yearInSchool;
     }
 
     /**
@@ -252,6 +256,41 @@ public class Resume {
      */
     public ArrayList<WorkExperience> getExperiences() {
         return workExperiences;
+    }
+    /**
+     * writes the resume to a txt file
+     */
+    public void toFile(){
+        try {
+            File myObj = new File("resume.txt");
+            myObj.createNewFile();
+            FileWriter writer = new FileWriter("resume.txt");
+            writer.write(this.studentFirstName + " " + this.studentLastName + "\n");
+            writer.write("Year in school: " + this.yearInSchool + "\n");
+            writer.write("Contact: " + this.studentUSCEmail + "\n");
+            writer.write("\nSkills: \n");
+            for(String skill: skills){
+            writer.write(skill + "\n");
+            }
+            writer.write("\nClasses: \n");
+            for(String class_: this.classes){
+                writer.write(class_ + "\n");
+            }
+            writer.write("\nEducation: \n");
+            for(Education education: this.education){
+                writer.write(education.toString() + "\n");
+            }
+            writer.write("\nWork Experiences: \n");
+            for(WorkExperience work: this.workExperiences){
+                writer.write(work.toString() + "\n");
+            }
+            writer.close();
+            
+           
+
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
     }
 
      /**
