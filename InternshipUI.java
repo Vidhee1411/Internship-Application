@@ -362,9 +362,8 @@ public class InternshipUI {
             	break;
             //Create new admin
             case(6):
-            	//Needs a specific method in the facade or a lot of prompting here.
-            	Administrator admin = new Administrator();
-            	
+            	application.registerAdmin();
+                break;
         }
     }
     
