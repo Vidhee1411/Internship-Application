@@ -87,10 +87,13 @@ public class InternshipApplication {
 
     /**
      * The logOff method logs a user out of the system once they are finished
-     * using it
+     * using it. Writes current database data to JSON files through the DataWriter class.
      */
     public void logOff() {
         System.out.println("Logging off");
+        DataWriter.saveUsers();
+        DataWriter.saveCompanyProfiles();
+        DataWriter.saveJobListings();
         System.exit(0);
     }
 
