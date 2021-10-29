@@ -305,7 +305,7 @@ public class Resume {
            
 
         } catch (Exception e) {
-            //TODO: handle exception
+            e.printStackTrace();
         }
     }
 
