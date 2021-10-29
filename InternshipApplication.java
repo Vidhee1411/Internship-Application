@@ -187,11 +187,6 @@ public class InternshipApplication {
     /**
      * The writeReview method allows either an employer or a student to write a
      * review.
-     * @param user The user writing the review
-     * @param rating The number rating out of 5 of the student or company being
-     * reviewed
-     * @param comment The reviewer's comment about the reviewee
-     * @return The review created in this method
      */
     public void writeReview() {
         try {
@@ -291,6 +286,35 @@ public class InternshipApplication {
             return;
         }
         Student student = (Student) this.user;
+        ArrayList<Integer> skillIndexes = new ArrayList<>();
+        ArrayList<Integer> classIndexes = new ArrayList<>();
+        try {
+            //Get appropriate skills
+            System.out.println("Which skills would you like to add to your resume? Enter the name of each skill one at a time, and type 0 when done.");
+            System.out.println("These are your current skills: " + student.getSkills());
+            String skillName = scanner.nextLine();
+            while(!skillName.equals("0")) {
+                int skillIndex = student.getSkillIndex(skillName);
+                if(skillIndex != -1) {
+                    skillIndexes.add(skillIndex);
+                    System.out.println("Skill added successfully.");
+                }
+                else {
+                    System.out.println("That skill isn't on your profile. Be sure to add any new skills to your profile first!");
+                }
+                skillName = scanner.nextLine();
+            }
+
+        //Get appropriate classes
+        
+        } catch(Exception e) {
+            System.out.println("You entered invalid input. Retry the command to try again.\n");
+        }
+
+
+
+
+
         student.createResume();
         System.out.println("Resume created. Returning...\n");
     }
