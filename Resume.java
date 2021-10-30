@@ -147,8 +147,11 @@ public class Resume {
      */
     public void removeSkill(String skill) {
         for (String iterate: this.skills) {
+            System.out.println("Im in the first loop");
             if (iterate.equals(skill)){
+                System.out.println("Im in the second loop");
                 this.skills.remove(iterate);
+                System.out.println("This is the final check");
             }
         }
     }
@@ -315,7 +318,7 @@ public class Resume {
      * @return The String representation of the resume
      */
     public String toString() {
-        String ret = studentFirstName + " " + studentLastName + "\n" + studentUSCEmail + "\n";
+        String ret = studentFirstName + " " + studentLastName + "\n" + studentUSCEmail + "\n\nEducation:\n";
         for (Education ed: education) {
             ret += ed.toString() + "\n";
         }

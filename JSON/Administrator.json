@@ -1,18 +1,1 @@
-[
-    {
-        "userID":"1b07e5ff-9ace-4007-a493-740a14e54ac0",
-        "firstName":"Dee-ad",
-        "lastName":"Mon",
-        "email":"deeadmonAdmin@admin.com",
-        "password":"admin",
-        "permission":-1
-    }, 
-    {
-        "userID":"a316032d-9641-4659-a14f-e03fca8d4416",
-        "firstName":"Adam",
-        "lastName":"Ministrator",
-        "email":"adammin@admin.com",
-        "password": "An1!Actually2!Strong3!Password4!",
-        "permission":-1
-    }
-]
+[]

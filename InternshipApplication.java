@@ -36,7 +36,7 @@ public class InternshipApplication {
      */
     public boolean createAccount(String accountType) {
         Console console = System.console();
-        System.out.println("Please enter your  first name ");
+        System.out.println("Please enter your first name ");
         String firstname = scanner.nextLine();
         System.out.println("Please enter your last name");
         String lastname = scanner.nextLine();
@@ -47,17 +47,22 @@ public class InternshipApplication {
 
         switch(accountType.toLowerCase()) {
             case "student":
-                if(email.substring(email.length() - 6, email.length()).equals("sc.edu")){
-                    System.out.println("Enter your year in school (e.g. junior)");
-                    String year = scanner.nextLine();
-                    Student s1 = new Student(firstname,lastname,email,password,year);
-                    database.addUser(s1);
-                    this.user = s1;
-                    this.createResume();
-                    return true;
+                while (!(email.substring(email.length() - 6, email.length()).equals("sc.edu"))) {
+                    System.out.println("Please enter your school email containing \"sc.edu\"");
+                    email = scanner.nextLine();
                 }
-                System.out.println("Your email must be your UofSC school email.\n");
-                break;
+                while (password.length() < 8) {
+                    System.out.println("Your password must be 8 characters or longer.");
+                    passwordArr = console.readPassword("Please enter password: ");
+                    password = new String (passwordArr);
+                }
+                System.out.println("Enter your year in school (e.g. junior)");
+                String year = scanner.nextLine();
+                Student s1 = new Student(firstname,lastname,email,password,year);
+                database.addUser(s1);
+                this.user = s1;
+                return true;     
+                
             case "employer":
                 Employer e1 = new Employer(firstname, lastname, email, password);
                 database.addUser(e1);
@@ -96,7 +101,6 @@ public class InternshipApplication {
         DataWriter.saveUsers();
         DataWriter.saveCompanyProfiles();
         DataWriter.saveJobListings();
-        System.exit(0);
     }
 
     /**
@@ -139,35 +143,40 @@ public class InternshipApplication {
      * information associated with their account
      */
     public void editPersonalInfo() {
+        System.out.println("Your Personal Information:\nFirst name: " + user.getFirstName() + "\nLast Name: " + user.getLastName() + "\nEmail: " + user.getEmail() + "\nPassword: " + user.getPassword());
         System.out.println("What would you like to edit?");
-        System.out.println("Firstname"+"\n" + "Lastname" +"\n" + "Email" +"\n"+"Password");
+        System.out.println("[F]irst name\n[L]ast name\n[E]mail\n[P]assword");
         try {
             String answer = scanner.nextLine().toLowerCase();
             switch(answer) {
-                case "firstname":
+                case "f":
                     System.out.println("What would you like your first name to be?");
                     String newFirstName = scanner.nextLine();
                     user.editFirstName(newFirstName);
+                    System.out.println("The first name on your account is: " + user.getFirstName());
                     break;
-                case "lastname":
+                case "l":
                     System.out.println("What would you like your last name to be?");
                     String newLastName = scanner.nextLine();
                     user.editLastName(newLastName);
+                    System.out.println("The last name on your account is: " + user.getLastName());
                     break;
-                case "email":
+                case "e":
                     System.out.println("What would you like your email to be?");
                     String newEmail = scanner.nextLine();
                     if(newEmail.length() < 3) {
                         System.out.println("Email is too short. Returning...\n");
                     } 
                     //If it's a student changing their email address, check for .edu
-                    if(permission == 0 && !(newEmail.substring(newEmail.length()-4).equals(".edu"))) {
+                    if(permission == 0 && !(newEmail.substring(newEmail.length()-6).equals("sc.edu"))) {
                         System.out.println("Your new email must still be one associated with the university.");
                         return;
                     }
                     user.editEmail(newEmail);
+                    System.out.println("The email on your account is: " + user.getEmail());
+
                     break;
-                case "password":
+                case "p":
                     System.out.println("What would you like your new password to be?");
                     String newPassword = scanner.nextLine();
                     if(newPassword.length() < 8) {
@@ -175,6 +184,7 @@ public class InternshipApplication {
                         return;
                     }
                     user.editPassword(newPassword);
+                    System.out.println("The password on your account is: " + user.getPassword());
                     break;
                 default:
                     System.out.println("You entered an option that wasn't listed. Restart this command if you want to try again\n.");
@@ -293,6 +303,22 @@ public class InternshipApplication {
         ArrayList<WorkExperience> workExperiences = new ArrayList<>();
         ArrayList<Education> educations = new ArrayList<>();
 
+        System.out.println("Please enter a skill to add to your account profile, or enter \"0\" to continue.");
+        String input = scanner.nextLine();
+        while (!(input.equals("0"))) {
+            student.addSkill(input);
+            System.out.println("Enter another skill, or enter \"0\" to continue.");
+            input = scanner.nextLine();
+        }
+
+        System.out.println("Please enter a class to add to your account profile, or enter \"0\" to continue.");
+        input = scanner.nextLine();
+        while (!(input.equals("0"))) {
+            student.addClass(input);
+            System.out.println("Enter another class, or enter \"0\" to continue.");
+            input = scanner.nextLine();
+        }
+
         try {
             //Get appropriate skills
             System.out.println("Which skills would you like to add to your resume? Enter the name of each skill one at a time, and type 0 when done.");
@@ -332,7 +358,7 @@ public class InternshipApplication {
             int count = 1;
             while(!yesNoOption.equals("n")) {
                 if(yesNoOption.equals("y")) {
-                    System.out.println("Work Experience #" + count++ + ":");
+                    System.out.println("Work Experience #" + count + ":");
                     System.out.print("\tWhat is the title of this work experience? ");
                     String jobTitle = scanner.nextLine();
                     System.out.print("\tWhat is the company/organization you worked for? ");
@@ -343,7 +369,7 @@ public class InternshipApplication {
                     String description = scanner.nextLine();
 
                     workExperiences.add(new WorkExperience(jobTitle, company, dateRange, description));
-                    System.out.print("\nWork experience #" + count + " has been added. Would you like to add another [Y/N]? ");
+                    System.out.print("\nWork experience #" + count++ + " has been added. Would you like to add another [Y/N]? ");
                 }
                 else { 
                     System.out.print("You entered an answer that wasn't Y or N. Try again: ");
@@ -357,7 +383,7 @@ public class InternshipApplication {
             count = 1;
             while(!yesNoOption.equals("n")) {
                 if(yesNoOption.equals("y")) {
-                    System.out.println("Education Item #" + count++ + ":");
+                    System.out.println("Education Item #" + count + ":");
                     System.out.print("\tWhat university/college did you attend? ");
                     String nameOfUniversity = scanner.nextLine();
                     System.out.print("\tWhat is/was your major at said university/college? ");
@@ -369,7 +395,7 @@ public class InternshipApplication {
                     String expectedGradDate = scanner.nextLine();
 
                     educations.add(new Education(nameOfUniversity, major, gpa, expectedGradDate));
-                    System.out.print("\nEducation Item #" + count + " has been added. Would you like to add another [Y/N]? ");
+                    System.out.print("\nEducation Item #" + count++ + " has been added. Would you like to add another [Y/N]? ");
                 }
                 else { 
                     System.out.print("You entered an answer that wasn't Y or N. Try again: ");
@@ -392,7 +418,61 @@ public class InternshipApplication {
             System.out.println("You don't have valid permissions to use this command.\n");
             return;
         }
-        this.createResume();
+        Student student = ((Student)user);
+        boolean editingResume = true;
+        while(editingResume) {
+            System.out.println("Your current resume:\n" + student.getResume().toString());
+            System.out.println("What would you like to edit on your resume?");
+            System.out.println("1. Skills\n2. Previous Work Experiences\n3. Education\n4. Classes\n5. Return to Main Menu");
+            System.out.println("Please enter the number of your preferred action: ");
+            String input = scanner.nextLine();
+            switch(input) {
+                case("1"):
+                    System.out.println("Skills in your profile: " + student.getSkills());
+                    System.out.println("Please enter \"1\" to add a skill to your resume, \"2\" to remove a skill from your resume, or \"3\" to go back:");
+                    String input2 = scanner.nextLine();
+                    switch (input2) {
+                        case("1"):
+                            System.out.println("Please enter a skill to add to your resume");
+                            String newSkill = scanner.nextLine();
+                            if (student.getSkills().indexOf(newSkill) == -1) {
+                                System.out.println("You entered a skill that isn't in your profile. Returning to previous screen.");
+                                break;
+                            }
+                            if (student.getResume().getSkills().indexOf(newSkill) != -1) {
+                                System.out.println("You entered a skill that is already on your resume. Returning to previous screen.");
+                                break;
+                            }
+                            student.getResume().addSkill(newSkill);
+                            break;
+                        case("2"):
+                            System.out.println("Please enter a skill to remove from your resume");
+                            String removeSkill = scanner.nextLine();
+                            if (student.getResume().getSkills().indexOf(removeSkill) == -1) {
+                                System.out.println("You entered a skill that isn't on your resume. Returning to previous screen.");
+                                break;
+                            }
+                            student.getResume().removeSkill(removeSkill);
+                            break;
+                        case("3"):
+                            break;
+                    }
+                    break;
+                case("2"):
+                    System.out.println("WorkExperience");
+                    break;
+                case("3"):
+                    System.out.println("Education");
+                    break;
+                case("4"):
+                    System.out.println("Classes");
+                    break;
+                case("5"):
+                    System.out.println("Returning to main menu");
+                    editingResume = false;
+                    break;
+            }
+        }
     }
 
     /**

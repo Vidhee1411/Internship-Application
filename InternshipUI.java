@@ -16,14 +16,15 @@ public class InternshipUI {
     private Scanner scanner;
     private static final String START_MESSAGE = "Welcome!";
     private static final String CHOICE_PROMPT = "Please enter the number next to your preferred action: ";
-    private String[] startMenuOptions = {"Log In","Create Account"};
+    private String[] startMenuOptions = {"Log In","Create Account", "Exit System"};
     private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","Print Resume to Text File","Log Out"};
     private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
     private String[] internshipSortOptions = {"Alphabetically (Ascending)"};
     boolean loggedIn = false;
-    boolean loggedOut = false;
+//    boolean loggedOut = false;
+    boolean onSystem = true;
 
     public InternshipUI() {
         scanner = new Scanner(System.in);
@@ -39,56 +40,61 @@ public class InternshipUI {
         int userPermission = -1;
         int userCommand;
         System.out.println(START_MESSAGE);
+        while(onSystem) {
+            // The start menu loop. Loops until guest quits or successfully logs in
+            while(!loggedIn) {
+                displayMenu(startMenuOptions);
+                userCommand = getUserCommand(startMenuOptions.length);
 
-        // The start menu loop. Loops until guest quits or successfully logs in
-        while(!loggedIn) {
-            displayMenu(startMenuOptions);
-            userCommand = getUserCommand(startMenuOptions.length);
+                if(userCommand == -1) {
+                    System.out.println("That was an invalid choice. Please try again.");
+                    continue;
+                }
 
-            if(userCommand == -1) {
-                System.out.println("That was an invalid choice. Please try again.");
-                continue;
+                switch(userCommand) {
+                    case(0):
+                        if(!logOn()) continue;
+
+                        loggedIn = true;
+                        userPermission = application.getUser().getPermission();
+                        break;
+                    case(1):
+                        createAccount();
+                        break;
+                    case(2):
+                        System.out.print("Exiting the system");
+                        onSystem = false;
+                        System.exit(0);
+                }
             }
 
-            switch(userCommand) {
-                case(0):
-                    if(!logOn()) continue;
+            // The main application menu loops, accessible once logged in. Changes depending on user type
+            while(loggedIn) {
+                switch(userPermission) {
+                    //Options for administrators
+                    case(-1):
+                        displayMenu(mainMenuOptionsAdmin);
+                        userCommand = getUserCommand(mainMenuOptionsAdmin.length);
+                        resolveAdminOptions(userCommand);
+                        break;
 
-                    loggedIn = true;
-                    userPermission = application.getUser().getPermission();
-                    break;
-                case(1):
-                    createAccount();
-                    break;
+                    //Options for students
+                    case(0):
+                        displayMenu(mainMenuOptionsStudent);
+                        userCommand = getUserCommand(mainMenuOptionsStudent.length);
+                        resolveStudentOptions(userCommand);
+                        break;
+
+                    //Options for employers
+                    case(1):
+                        displayMenu(mainMenuOptionsEmployer);
+                        userCommand = getUserCommand(mainMenuOptionsEmployer.length);
+                        resolveEmployerOptions(userCommand);
+                        break;
+                }
             }
+            System.out.println("You have been successfully logged out. Take care!");
         }
-
-        // The main application menu loops, accessible once logged in. Changes depending on user type
-        while(!loggedOut) {
-            switch(userPermission) {
-                //Options for administrators
-                case(-1):
-                    displayMenu(mainMenuOptionsAdmin);
-                    userCommand = getUserCommand(mainMenuOptionsAdmin.length);
-                    resolveAdminOptions(userCommand);
-                    break;
-
-                //Options for students
-                case(0):
-                    displayMenu(mainMenuOptionsStudent);
-                    userCommand = getUserCommand(mainMenuOptionsStudent.length);
-                    resolveStudentOptions(userCommand);
-                    break;
-
-                //Options for employers
-                case(1):
-                    displayMenu(mainMenuOptionsEmployer);
-                    userCommand = getUserCommand(mainMenuOptionsEmployer.length);
-                    resolveEmployerOptions(userCommand);
-                    break;
-            }
-        }
-        System.out.println("You have been successfully logged out. Take care!");
     }
 
     /**
@@ -158,7 +164,7 @@ public class InternshipUI {
             //Log out
             case(6):
                 application.logOff();
-                loggedOut = true;
+                loggedIn = false;
                 break;
         }
     }
@@ -300,7 +306,7 @@ public class InternshipUI {
             //Log out
             case(7):
                 application.logOff();
-                loggedOut = true;
+                loggedIn = false;
                 break;
         }
     }
@@ -377,7 +383,7 @@ public class InternshipUI {
             //Log out
             case(7):
                 application.logOff();
-                loggedOut = true;
+                loggedIn = false;
                 break;
         }
     }
@@ -417,19 +423,22 @@ public class InternshipUI {
     private void createAccount() {
         System.out.print("What type of account would you like to create? ([S]tudent or [E]mployer): ");
         String accountType = "";
-        try {
-            switch(scanner.nextLine()) {
-                case("S"): 
-                    accountType = "student";
-                    break;
-                case("E"):
-                    accountType = "employer";
-                    break;
-                default:
-                    System.out.println("You entered an invalid account option. Try again.");
+        while (!(accountType.equals("student") || accountType.equals("employer"))) {
+            try {
+                switch(scanner.nextLine().toUpperCase()) {
+                    case("S"): 
+                        accountType = "student";
+                        break;
+                    case("E"):
+                        accountType = "employer";
+                        break;
+                    default:
+                        System.out.println("You entered an invalid account option. Try again.");
+                   }
+                }
+            catch (Exception e) {
+                System.out.println("Your input was invalid. Account could not be created.");
             }
-        } catch (Exception e) {
-            System.out.println("Your input was invalid. Account could not be created.");
         }
 
         //If account was successfully created

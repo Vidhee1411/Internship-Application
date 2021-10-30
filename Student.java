@@ -26,6 +26,8 @@ public class Student extends User{
         super(firstName, lastName, email, password);
         this.yearInSchool = yearInSchool;
         reviewsFromCompanies = new ArrayList<Review>();
+        skills = new ArrayList<String>();
+        classes = new ArrayList<String>();
     }
 
     /**
@@ -168,6 +170,14 @@ public class Student extends User{
     }
 
     /**
+     * The addSkill method adds a skill to the student's list of skills.
+     * @param skill The student's new skill
+     */
+    public void addSkill(String skill) {
+        skills.add(skill);
+    }
+
+    /**
      * The getClasses method returns all of the classes the student has entered on their account.
      * @return An ArrayList<String> of classes
      */
@@ -182,6 +192,14 @@ public class Student extends User{
      */
     public void setClasses(ArrayList<String> classes){
         this.classes = classes;
+    }
+
+    /**
+     * The addClass method adds a class to the student's list of classes.
+     * @param class The student's new class
+     */
+    public void addClass(String classe) {
+        classes.add(classe);
     }
 
     /**
