@@ -1,55 +1,33 @@
 [
     {
-        "userID":"2f58f2f6-e8af-409c-95f2-ff5d2ddcbe2a",
-        "firstName":"Lucky",
-        "lastName":"Labanowski",
-        "email":"blessedRNG@lucky.edu",
-        "password":"LadyLuck54321",
-        "permission":0,
-        "reviews":[],
-        "yearInSchool":"junior",
-        "skills":["Lucky"],
-        "classes":["Probability for Engineers"],
-        "resumes":[{
-            "skillindexes":[0],
-            "classindexes":[0],
-            "workExperiences":[{"title":"Junior Blackjack Dealer",
-                "company": "Blackjack-4-Kids",
-                "dateRange":"7/7/21-8/7/21",
-                "description": "Definitely legal."}],
-            "education":[{"universityName":"Lucky University",
-                "collegeMajor":"Computer Science",
-                "GPA":3.33,
-                "expectedGradDate":"Spring 2024"
-             }]
-
+      "companyID":"d44e30b9-8339-49d7-b4a5-8bb91ff62517",
+      "associatedEmployersIDs":["50b1380c-e8a2-4774-ab78-de654d11133a"],
+      "companyName":"WeyLand-Yutani",
+      "hqAddress":"135 Sulaco Drive ",
+      "description":"pushing the boundries of science",
+      "currentListingIDs":["42ae5bba-25c6-429b-9f4e-beaf1a1fbce8","570cc4a5-5d72-4d5e-afbd-29a0853dab74"],
+      "reviews":
+        [{
+          "firstName":"Bolaji",
+          "lastName":"Bandjo",
+          "rating":5,
+          "message":"I had a fantastic experience during my time at Weyland-Yutani",
+          "hidden":false
         }]
-    },
-    {
-        "userID":"72dc6510-d92d-4cfe-beb5-3787df5b00e5",
-        "firstName":"Ferris",
-        "lastName":"Bueller",
-        "email":"btotheeuller@school.edu",
-        "password":"password",
-        "permission":0,
-        "reviews":[{"firstName":"Ben",
-            "lastName":"Stein",
-            "rating":1,
-            "message":"He just showed up expecting money!",
-            "hidden":false}],
-        "yearInSchool":"senior",
-        "skills":["Cool","Great talker","Excellent driving skills"],
-        "classes":["Public Speaking", "Improv 101"],
-        "resumes":[{
-            "skillindexes":[0,2],
-            "classindexes":[0],
-            "workExperiences":[],
-            "education":[{"universityName":"University of South Carolina",
-                "collegeMajor":"Computer Engineering",
-                "GPA":2.50,
-                "expectedGradDate":"Winter 2023"
-            }]
-        }]
-
-    }
-]
+    },{
+        "companyID":"82f5175e-1315-4e0d-a9e0-be6733fd5674",
+        "associatedEmployersIDs":[],
+        "companyName":"Black Mesa",
+        "hqAddress":"163 Resonance Lane  ",
+        "description":"Working to make a better tomorrow for all mankind",
+        "currentListingIDs":[],
+        "reviews":
+          [{
+            "firstName":"Barney",
+            "lastName":"Calhoun",
+            "rating":2,
+            "message":"unsafe working enviroment",
+            "hidden":false
+          }]
+      }
+  ]
