@@ -401,7 +401,9 @@ public class InternshipUI {
             System.out.print("Enter email: ");
             email = scanner.nextLine();
             System.out.print("Enter password: ");
-            password = String.valueOf(console.readPassword());
+            //password = String.valueOf(console.readPassword());
+            // todo fix cant type in the console
+            password = scanner.nextLine();
 
             if(application.logOn(email, password)) {
                 System.out.println("\nHello, " + application.getUser().getFirstName());
