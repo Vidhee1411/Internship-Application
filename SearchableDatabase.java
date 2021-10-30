@@ -31,7 +31,9 @@ public class SearchableDatabase {
      */
     public static SearchableDatabase getInstance() {
         if(searchableDatabase == null){
-            return new SearchableDatabase();
+            SearchableDatabase temp = new SearchableDatabase();
+            searchableDatabase = temp;
+            return searchableDatabase;
         }
         return searchableDatabase;
     }
