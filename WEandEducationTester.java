@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-import jdk.internal.jshell.tool.resources.l10n;
 public class WEandEducationTester {
     
     public static void main( String[] args ) {
@@ -148,7 +147,7 @@ public class WEandEducationTester {
         sd.addProfile(cp5);
         //ArrayList<CompanyProfile> result = sd.searchProfiles("Wengleton's");
 
-        ArrayList<JobListing> result = sd.sortListingsbyPay(14.0);
+        ArrayList<JobListing> result = sd.searchListingsbyPay(14.0);
         for (JobListing list: result) {
             System.out.println(list.toString());
             System.out.println();

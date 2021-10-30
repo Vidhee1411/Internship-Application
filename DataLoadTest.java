@@ -5,6 +5,7 @@ import java.util.Map;
 public class DataLoadTest {
     
     public static void main(String[] args){ 
+        
         SearchableDatabase a = DataLoader.loadData();
         ArrayList<User> temp = a.getUsers();
         Student student = (Student)temp.get(2);
