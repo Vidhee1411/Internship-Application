@@ -147,11 +147,7 @@ public class WEandEducationTester {
         sd.addProfile(cp5);
         //ArrayList<CompanyProfile> result = sd.searchProfiles("Wengleton's");
 
-<<<<<<< HEAD
         ArrayList<JobListing> result = sd.searchListingsbyPay(14.0);
-=======
-        ArrayList<JobListing> result = sd.sortl;
->>>>>>> e7750622091ee83839671e9489219ab1d4452d6d
         for (JobListing list: result) {
             System.out.println(list.toString());
             System.out.println();

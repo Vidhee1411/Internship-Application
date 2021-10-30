@@ -453,6 +453,7 @@ public class InternshipApplication {
                                 break;
                             }
                             student.getResume().removeSkill(removeSkill);
+                            break;
                         case("3"):
                             break;
                     }
