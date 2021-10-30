@@ -8,8 +8,7 @@ public class DataLoadTest {
         
         SearchableDatabase a = DataLoader.loadData();
         ArrayList<User> temp = a.getUsers();
-        Student student = (Student)temp.get(2);
-        student.getResume().toFile();
+        
 
     }
 }
