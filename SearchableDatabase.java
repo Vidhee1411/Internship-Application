@@ -182,7 +182,12 @@ public class SearchableDatabase {
         }
         return output;
     }
-
+    /**
+     * sorts Joblistings by payrate
+     */
+    public void sortListingsbyPay(){
+        this.jobListings.sort(Comparator.comparingDouble(JobListing::getPayRate));
+    }
     /**
      * The sortListingsAlphabetically method puts all of the JobListings in
      * alphabetical order. 
