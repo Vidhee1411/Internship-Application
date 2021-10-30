@@ -1,1 +1,55 @@
-[]
+[
+    {
+        "userID":"2f58f2f6-e8af-409c-95f2-ff5d2ddcbe2a",
+        "firstName":"Lucky",
+        "lastName":"Labanowski",
+        "email":"blessedRNG@lucky.edu",
+        "password":"LadyLuck54321",
+        "permission":0,
+        "reviews":[],
+        "yearInSchool":"junior",
+        "skills":["Lucky"],
+        "classes":["Probability for Engineers"],
+        "resumes":[{
+            "skillindexes":[0],
+            "classindexes":[0],
+            "workExperiences":[{"title":"Junior Blackjack Dealer",
+                "company": "Blackjack-4-Kids",
+                "dateRange":"7/7/21-8/7/21",
+                "description": "Definitely legal."}],
+            "education":[{"universityName":"Lucky University",
+                "collegeMajor":"Computer Science",
+                "GPA":3.33,
+                "expectedGradDate":"Spring 2024"
+             }]
+
+        }]
+    },
+    {
+        "userID":"72dc6510-d92d-4cfe-beb5-3787df5b00e5",
+        "firstName":"Ferris",
+        "lastName":"Bueller",
+        "email":"btotheeuller@school.edu",
+        "password":"password",
+        "permission":0,
+        "reviews":[{"firstName":"Ben",
+            "lastName":"Stein",
+            "rating":1,
+            "message":"He just showed up expecting money!",
+            "hidden":false}],
+        "yearInSchool":"senior",
+        "skills":["Cool","Great talker","Excellent driving skills"],
+        "classes":["Public Speaking", "Improv 101"],
+        "resumes":[{
+            "skillindexes":[0,2],
+            "classindexes":[0],
+            "workExperiences":[],
+            "education":[{"universityName":"University of South Carolina",
+                "collegeMajor":"Computer Engineering",
+                "GPA":2.50,
+                "expectedGradDate":"Winter 2023"
+            }]
+        }]
+
+    }
+]
