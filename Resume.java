@@ -277,15 +277,15 @@ public class Resume {
             writer.write("Contact: " + this.studentUSCEmail + "\n");
             writer.write("\nSkills: \n");
             for(String skill: skills){
-            writer.write(skill + "\n");
+            writer.write("   - " + skill + "\n");
             }
             writer.write("\nClasses: \n");
             for(String class_: this.classes){
-                writer.write(class_ + "\n");
+                writer.write("   - " + class_ + "\n");
             }
             writer.write("\nEducation: \n");
             for(Education education: this.education){
-                writer.write(education.toString() + "\n");
+                writer.write(education.toString());
             }
             writer.write("\nWork Experiences: \n");
             for(WorkExperience work: this.workExperiences){
@@ -306,30 +306,30 @@ public class Resume {
      * @return The String representation of the resume
      */
     public String toString() {
-        String ret = studentFirstName + " " + studentLastName + "\n" + studentUSCEmail + "\n\nEducation:\n";
+        String ret = studentFirstName + " " + studentLastName + "\n" + studentUSCEmail + "\n--------------------------\nEducation:\n";
         for (Education ed: education) {
-            ret += ed.toString() + "\n";
+            ret += ed.toString();
         }
 
-        ret += "\nClasses: \n";
+        ret += "--------------------------\nClasses: \n";
 
         for(String class1: classes) {
-            ret += class1 + "\n";
+            ret += "   - " + class1 + "\n";
         }
 
-        ret += "\nExperiences: \n";
+        ret += "--------------------------\nExperiences: \n";
 
         for (WorkExperience we: workExperiences) {
             ret += we.toString() + "\n";
         }
 
-        ret += "\nSkills: \n";
+        ret += "--------------------------\nSkills: \n";
 
         for (String skill: skills) {
-            ret += skill + "\n";
+            ret += "   - " + skill + "\n";
         }
 
-        return ret;
+        return ret + "--------------------------\n";
     }
     
 }
