@@ -118,6 +118,14 @@ public class CompanyProfile {
     }
 
     /**
+     * The setUUID method sets the CompanyProfile's companyID.
+     * @param uuid The UUID to set the CompanyProfile's to
+     */
+    public void setUUID(UUID uuid) {
+        this.companyID  = uuid;
+    }
+
+    /**
      * The setAddress method allows a user to set a company's address to appear
      * on their profile.
      * @param address The new address of the company
@@ -159,17 +167,21 @@ public class CompanyProfile {
      * @return A string representation of a company profile
      */
     public String toString() {
-        String ret = companyName + "\nAddress: " + hqAddress + "\nDescription: " + description + "\nReviews:\n";
+        String ret = "Name: " + companyName + "\nAddress: " + hqAddress + "\nDescription: " + description + "\n\nReviews:\n";
         
         for (Review rev: reviewList) {
+            if(rev == null) continue;
             ret += rev.toString() + "\n";
         }
 
+        ret += "\nListings: \n";
+
         for (JobListing listing: listings) {
+            if(listing == null) continue;
             ret += listing.toString() + "\n";
         }
 
-        return ret;
+        return ret + "\n";
     }
 
     
