@@ -35,17 +35,15 @@ public class InternshipApplication {
      * @return True if the account was successfully made, false otherwise
      */
     public boolean createAccount(String accountType) {
-        //Console console = System.console();
+        Console console = System.console();
         System.out.println("Please enter your first name ");
         String firstname = scanner.nextLine();
         System.out.println("Please enter your last name");
         String lastname = scanner.nextLine();
         System.out.println("Please enter your email");
         String email = scanner.nextLine();
-        System.out.println("Please enter your password");
-        String password = scanner.nextLine();
-        // broken char[] passwordArr = console.readPassword("Please enter password: ");
-        //String password = new String(passwordArr);
+        char[] passwordArr = console.readPassword("Please enter password: ");
+        String password = new String(passwordArr);
 
         switch(accountType.toLowerCase()) {
             case "student":
@@ -55,9 +53,8 @@ public class InternshipApplication {
                 }
                 while (password.length() < 8) {
                     System.out.println("Your password must be 8 characters or longer.");
-                    password = scanner.nextLine();
-                    // broken passwordArr = console.readPassword("Please enter password: ");
-                    //password = new String (passwordArr);
+                     passwordArr = console.readPassword("Please enter password: ");
+                    password = new String (passwordArr);
                 }
                 System.out.println("Enter your year in school (e.g. junior)");
                 String year = scanner.nextLine();
