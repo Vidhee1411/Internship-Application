@@ -66,6 +66,7 @@ public class InternshipApplication {
             case "employer":
                 Employer e1 = new Employer(firstname, lastname, email, password);
                 database.addUser(e1);
+                this.user = e1;
                 return true;
         }
         return false;
