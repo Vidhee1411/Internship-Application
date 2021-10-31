@@ -174,11 +174,8 @@ public class InternshipUI {
      */
     private void sortAndSearchInternships() {
         try {
-            System.out.println("How would you like your results sorted?");
             displayMenu(internshipSortOptions);
-
-            int userCommand = getUserCommand(internshipSearchOptions.length);
-            System.out.print("Please enter the number next to your desired sorting: ");
+            int userCommand = getUserCommand(internshipSortOptions.length);
 
             switch(userCommand) {
                 case(-1):
@@ -196,7 +193,7 @@ public class InternshipUI {
             displayMenu(internshipSearchOptions);
             
             userCommand = getUserCommand(internshipSearchOptions.length);
-            System.out.print("Please enter the number next to your desired search method: ");
+
 
             switch(userCommand) {
                 case(-1):
