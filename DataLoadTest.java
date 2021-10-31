@@ -11,7 +11,5 @@ public class DataLoadTest {
          tempUI.run();
          System.out.println("");
          temp.logOff();
-        
-
     }
 }

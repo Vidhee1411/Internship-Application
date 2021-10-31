@@ -281,7 +281,9 @@ public class DataWriter extends DataConstants {
         JSONArray jsonApplicants = new JSONArray();
         for(Student student: students) {
             //May have to remove the toString if it doesn't work
-            jsonApplicants.add(student.getUUID().toString());
+            if (!(student == null)) {
+                jsonApplicants.add(student.getUUID().toString());
+            }
         }
         return jsonApplicants;
     } 

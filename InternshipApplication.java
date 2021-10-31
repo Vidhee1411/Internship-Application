@@ -222,7 +222,7 @@ public class InternshipApplication {
                     System.out.println("The password on your account is: " + user.getPassword());
                     break;
                 default:
-                    System.out.println("You entered an option that wasn't listed. Restart this command if you want to try again\n.");
+                    System.out.println("You entered an option that wasn't listed. Restart this command if you want to try again.\n");
                     return;
             }
         } catch(Exception e) {
@@ -237,7 +237,7 @@ public class InternshipApplication {
      */
     public void writeReview() {
         try {
-            if (permission != 1 || permission != 0) {
+            if (permission > 1 || permission < 0) {
                 System.out.println("You don't have valid permissions to use this command.\n");
                 return;
             }
@@ -340,19 +340,27 @@ public class InternshipApplication {
 
         System.out.println("Resumes require skills and classes to be added to your profile.\n" 
             + "Please enter any skills you'd like to add to your account profile (one at a time), or enter \"0\" to continue."
-            + "\tThese are the current skills on your profile: " + student.getSkills());
+            + "\nThese are the current skills on your profile: " + student.getSkills());
         String input = scanner.nextLine();
         while (!(input.equals("0"))) {
-            student.addSkill(input);
+            if (student.getSkills().contains(input)) {
+                System.out.println("That skill is already in your profile.");
+            } else {
+                student.addSkill(input);
+            }
             System.out.println("Enter another skill, or enter \"0\" to continue.");
             input = scanner.nextLine();
         }
 
         System.out.println("Please enter any classes you'd like to add to your account profile (one at a time), or enter \"0\" to continue."
-        + "\tThese are the current classes on your profile: " + student.getClasses());
+        + "\nThese are the current classes on your profile: " + student.getClasses());
         input = scanner.nextLine();
         while (!(input.equals("0"))) {
-            student.addClass(input);
+            if (student.getClasses().contains(input)) {
+                System.out.println("That class is already in your profile.");
+            } else {
+                student.addClass(input);
+            }
             System.out.println("Enter another class, or enter \"0\" to continue.");
             input = scanner.nextLine();
         }
@@ -657,13 +665,14 @@ public class InternshipApplication {
             String description = scanner.nextLine();
             System.out.print("Where is the job/internship being offerred (e.g. Online, Five Points, etc.)? ");
             String location = scanner.nextLine();
-            System.out.print("What is the pay rate for the position in dollars per hour (e.g. 7.25)? If unpaid, enter 0");
+            System.out.print("What is the pay rate for the position in dollars per hour (e.g. 7.25)? If unpaid, enter 0: ");
             double payRate = scanner.nextDouble();
             scanner.nextLine();
             boolean paid = (payRate <= 0.00);
-            
-            company.addListing(new JobListing(title, description, location, paid, payRate, company.getCompanyName())); 
-            System.out.println("Your listing has been added. Returning...\n"); 
+            JobListing jobListingToAdd = new JobListing(title, description, location, paid, payRate, company.getCompanyName());
+            jobListingToAdd.setUUID(UUID.randomUUID());
+            company.addListing(jobListingToAdd); 
+            System.out.println("Your listing has been added. Be sure to add any required skills by editing your listing back at the home menu!\n"); 
         } catch(Exception e) {
             System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
@@ -732,6 +741,7 @@ public class InternshipApplication {
                     return;
             }
         } catch(Exception e) {
+            System.out.println(e);
             System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
     }
@@ -742,10 +752,11 @@ public class InternshipApplication {
      */
     private void editJobListingSkills(JobListing listing) {
         System.out.println("These are the current skills: " + listing.getRequiredSkills());
-        System.out.println("Would you like to [A]dd or [R]emove a skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
-        try {
-            String choice = scanner.nextLine().toLowerCase();
-            while(!choice.equals("q")) {
+        boolean input = true;
+        while(input) {
+            System.out.println("Would you like to [A]dd or [R]emove a skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
+            try {
+                String choice = scanner.nextLine().toLowerCase();
                 switch(choice) {
                     case("a"):
                         System.out.print("Enter the name of the skill you want to add: ");
@@ -753,21 +764,22 @@ public class InternshipApplication {
                         break;
                     case("r"):
                         if(listing.getRequiredSkills().isEmpty()) {
-                            System.out.println("There are no skills to remove.");
-                            break;
+                        System.out.println("There are no skills to remove.");
+                        break;
                         }
                         System.out.print("Enter the name of the skill you want to remove: ");
                         listing.removeRequiredSkill(scanner.nextLine());
                         break;
+                    case("q"):
+                        System.out.println("Returning...\n");
+                        input = false;
                     default:
-                        System.out.println("You entered an invalid option.");
+                        System.out.println("You entered an invalid option. Try again.");
                 }
                 System.out.println("These are the current skills: " + listing.getRequiredSkills());
-                System.out.println("Would you like to [A]dd or [R]emove another skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
+            } catch(Exception e) {
+                System.out.println("You entered invalid input. Retry the command to try again.\n");
             }
-            System.out.println("Returning...\n");
-        } catch(Exception e) {
-            System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
     }
 
@@ -820,6 +832,7 @@ public class InternshipApplication {
         int listingsSize = listings.size();
         if(listingsSize == 0) {
             System.out.println("There are no job listings at this time...\n");
+            return;
         }
         else {
             System.out.println(listingsSize + " listing(s) available:\n");
@@ -866,9 +879,12 @@ public class InternshipApplication {
                     ArrayList<Review> studentReviews = student.getReviews();
                     if(studentReviews.isEmpty()) {
                         System.out.println("There are no reviews on the student profile to toggle. Returning...\n");
+                        return;
                     }
 
-                    formatReviews(studentReviews);
+                    for (int i = 0; i < studentReviews.size(); i++) {
+                        System.out.println((i+1) + ". " + studentReviews.get(i).toString() + "\nVisible: " + studentReviews.get(i).getVisibility());
+                    }
                     System.out.print("Please enter the number of the review to toggle the visibility of: ");
                     reviewChoice = getUserCommand(studentReviews.size());
                     if(reviewChoice == -1) {
@@ -891,7 +907,7 @@ public class InternshipApplication {
 
                     System.out.println("Which company is the one you'll be toggling the review visibility for?");
                     for(int i = 1; i <= results.size(); i++) {
-                        System.out.println("\t" + i + ". " + results.get(i-1).toString() + "\n");
+                        System.out.println( i + ". " + results.get(i-1).getCompanyName() + "\n");
                     }
                     int profileIndex = getUserCommand(results.size());
                     if(profileIndex == -1) {
@@ -904,7 +920,9 @@ public class InternshipApplication {
                         System.out.println("There are no reviews on the company profile to toggle. Returning...\n");
                     }
 
-                    formatReviews(profileReviews);
+                    for (int i = 0; i < profileReviews.size(); i++) {
+                        System.out.println((i+1) + ". " + profileReviews.get(i).toString() + "\nVisible: " + profileReviews.get(i).getVisibility());
+                    }
                     System.out.print("Please enter the number of the review to toggle the visibility of: ");
                     reviewChoice = getUserCommand(profileReviews.size());
                     if(reviewChoice == -1) {
@@ -931,10 +949,21 @@ public class InternshipApplication {
      * @param reviews The ArrayList of listings to print out
      */
     private void formatReviews(ArrayList<Review> reviews) {
-        int reviewsSize = reviews.size();
-        System.out.println(reviewsSize + " listing(s) available:\n");
+        if (reviews.size() == 0) {
+            return;
+        }
+        ArrayList<Integer> hiddenIndices = new ArrayList<Integer>();
+        for (int i = 0; i < reviews.size(); i++) {
+            if (reviews.get(i).getVisibility() == false) {
+                hiddenIndices.add(0, i);
+            }
+        }
+        for (Integer index: hiddenIndices) {
+            reviews.remove(reviews.get(index));
+        }
+        System.out.println(reviews.size() + " review(s) available:\n");
 
-        for(int i = 1; i <= reviewsSize; i++) {
+        for(int i = 1; i <= reviews.size(); i++) {
             Review review = reviews.get(i-1);
             System.out.println("\t" + i + ". " + review.toString() +
                                 "\n\tVisibility: " + review.getVisibility() + "\n");
@@ -955,10 +984,10 @@ public class InternshipApplication {
         ArrayList <JobListing> removeResults;
         if (permission == -1) {
             removeResults = database.searchListings(title);
-        } else {
-            Employer employer = (Employer) user;
-            removeResults = employer.getCompany().getListings();
-        }
+        } 
+        Employer employer = (Employer) user;
+        removeResults = employer.getCompany().getListings();
+        
         for (int i = 1; i <= removeResults.size(); i++) {
             System.out.println(i + ": " + removeResults.get(i-1).toStringSummary());
         }
@@ -968,7 +997,10 @@ public class InternshipApplication {
             return;
         }
         JobListing listingToRemove = removeResults.get(input);
+        employer.getCompany().removeListing(listingToRemove);
         database.removeJobListing(listingToRemove);
+
+        System.out.println("\nThe job listing has been removed. Returning...\n");
     }
 
     /**
@@ -977,35 +1009,87 @@ public class InternshipApplication {
      * @return True if the profile was successfully created, false otherwise
      */
     public boolean createCompanyProfile() {
-        System.out.print("Please enter the name of your company: ");
-        String name = scanner.nextLine();
-        System.out.print("Please enter the address of your company's headquarters: ");
-        String hqAddress = scanner.nextLine();
-        System.out.print("Please enter a description of your company: ");
-        String description = scanner.nextLine();
-        this.database.addProfile(new CompanyProfile(name, hqAddress, description));
+        if(permission != 1) {
+            System.out.println("You don't have valid permissions to do this.\n");
+            return false;
+        }
+        try {
+            System.out.print("Please enter the name of your company: ");
+            String name = scanner.nextLine();
+            System.out.print("Please enter the address of your company's headquarters: ");
+            String hqAddress = scanner.nextLine();
+            System.out.print("Please enter a description of your company: ");
+            String description = scanner.nextLine();
+            CompanyProfile companyProfileToAdd = new CompanyProfile(name, hqAddress, description);
+            companyProfileToAdd.setUUID(UUID.randomUUID());
+            this.database.addProfile(companyProfileToAdd);
+            return true;
+        } catch(Exception e) {
+            System.out.println("You've entered invalid input. Returning to previous screen...\n");
+            return false;
+        }
 
-        return false;
     } 
 
     /**
      * The associateCompany method allows employers to associate with a
      * company profile that already exists in the system
      */
-    public void associateCompany(String company) {
-        ArrayList<CompanyProfile> profiles = database.searchProfiles(company);
-        for (int i = 1; i <= profiles.size(); i++) {
-            System.out.println(i + ": " + profiles.get(i-1).toString());
-        }
-        System.out.println("Please enter the number of the profile you would like to associate with: ");
-        int number = getUserCommand(profiles.size());
-        if (number == -1) {
-            System.out.println("You entered an invalid number. Returning to the home screen.");
+    public void associateCompany() {
+        if(permission != 1) {
+            System.out.println("You don't have valid permissions to do this.\n");
             return;
         }
-        Employer employer = (Employer) user;
-        employer.associateCompany(profiles.get(number));
+        //Check if any profiles exist at all
+        ArrayList<CompanyProfile> allProfiles = database.getCompanyProfiles();
+        if(allProfiles.isEmpty()) {
+            System.out.println("\nWhoops! There are no existing company profiles at this time. Why don't you create one?\n");
+            return;
+        }
 
+        try {
+            System.out.println("Please enter the name of the company you would like to associate with: ");
+            String companyToSearch = scanner.nextLine();
+
+            //Check if any search results match
+            ArrayList<CompanyProfile> profiles = database.searchProfiles(companyToSearch);
+            if(profiles.isEmpty()) {
+                System.out.println("\nNo company profile could be found with that name. If it doesn't exist, try creating a new company profile.\n");
+                return;
+            }
+
+            System.out.println();   //formatting
+            for (int i = 1; i <= profiles.size(); i++) {
+                System.out.println(i + ": " + profiles.get(i-1).toString() + "----------------------------------");
+            }
+            System.out.println("Please enter the number of the profile you would like to associate with: ");
+            int number = getUserCommand(profiles.size());
+            if (number == -1) {
+                System.out.println("\nYou entered an invalid number. Returning to the home screen.\n");
+                return;
+            }
+            Employer employer = (Employer) user;
+            employer.associateCompany(profiles.get(number));   
+            System.out.println("\nCompany associated! Now you can begin to add listings to the profile if you desire.\n"); 
+        } catch(Exception e) {
+            System.out.println("\nYou've entered invalid input. Returning to previous screen...\n");
+            return;
+        }
+    }
+
+    public void viewCompanyProfile() {
+        if(permission != 1) {
+            System.out.println("You don't have valid permissions to do this.\n");
+            return;
+        }
+        Employer employer = (Employer) this.user;
+
+        if(employer.getCompany() == null) {
+            System.out.println("\nYou have to create a company profile or associate with a pre-existing one before you can view it. Returning...\n");
+            return;
+        }
+        System.out.println("Here's your current company profile: \n" + 
+            employer.getCompany().toString());
     }
 
     /**
@@ -1015,9 +1099,44 @@ public class InternshipApplication {
      * to remove
      * @return Returns true if the company exits, false otherwise
      */
-    public boolean removeProfile() {
-      //Old parameter: CompanyProfile company
-      return false;
+    public void removeProfile() {
+      if (permission != -1) {
+          System.out.println("You don't have permission to use this command. Returning to home screen . . .");
+          return;
+      }
+      try {
+          System.out.println("What is the name of the company you would like to remove?");
+          String nameInput = scanner.nextLine();
+          CompanyProfile profileToRemove = null;
+            for(CompanyProfile profile : database.getCompanyProfiles()) {
+                if(profile.getCompanyName().equals(nameInput)) {
+                    profileToRemove = profile;
+                }
+            }
+            if(profileToRemove == null) {
+                System.out.println("No company profile is associated with that name. Returning to previous menu...\n");
+                return;
+            }
+            System.out.println("Are you sure you want to remove this profile? [Y/N]");
+            String choice = scanner.nextLine().toLowerCase();
+            if(choice.equals("n")) {
+                System.out.println("Aborting command. Returning to previous menu...\n");
+                return;
+            }
+            else if(choice.equals("y")) {
+                database.removeProfile(profileToRemove);
+                System.out.println("The specified profile has been removed.\n");
+                return;
+            }
+            else {
+                System.out.println("You entered something that wasn't 'Y' or 'N'. Restart the command if you want to try again.\n");
+            }
+
+      } catch(Exception e) {
+        System.out.println("You entered an invalid input. Returning...\n");
+        return;
+      }
+      return;
     }
 
     /**
@@ -1026,40 +1145,41 @@ public class InternshipApplication {
      * @param user The account that the Administrator wishes to remove
      */
     public void removeAccount() {
-        if(permission != -1) {
+        if (permission != -1) {
             System.out.println("You don't have permission to use this command. Returning to home screen . . .");
             return;
         }
         
         try {
-            System.out.print("What's the email of the user you want to remove? ");
-        String emailInput = scanner.nextLine();
+            System.out.print("What is the email of the user you want to remove? ");
+            String emailInput = scanner.nextLine();
 
-        User usertoRemove = null;
-        for(User user : database.getUsers()) {
-            if(user.getEmail().equals(emailInput)) {
-                usertoRemove = user;
+            User usertoRemove = null;
+            for(User user : database.getUsers()) {
+                if(user.getEmail().equals(emailInput)) {
+                    usertoRemove = user;
+                }
             }
-        }
-        if(usertoRemove == null) {
-            System.out.println("No account is associated with that email. Returning to previous menu...\n");
-        }
+            if(usertoRemove == null) {
+                System.out.println("No account is associated with that email. Returning to previous menu...\n");
+                return;
+            }
         
-        System.out.println("Are you sure you want to remove this user? [Y/N]");
-        String choice = scanner.nextLine().toLowerCase();
-        if(choice.equals("n")) {
-            System.out.println("Aborting command. Returning to previous menu...\n");
-            return;
-        }
-        else if(choice.equals("y")) {
-            Administrator user = (Administrator) this.user;
-            user.removeAccount(usertoRemove);
-            System.out.println("The specified user has been removed.\n");
-            return;
-        }
-        else {
-            System.out.println("You entered something that wasn't 'Y' or 'N'. Restart the command if you want to try again.\n");
-        }
+            System.out.println("Are you sure you want to remove this user? [Y/N]");
+            String choice = scanner.nextLine().toLowerCase();
+            if(choice.equals("n")) {
+                System.out.println("Aborting command. Returning to previous menu...\n");
+                return;
+            }
+            else if(choice.equals("y")) {
+                Administrator user = (Administrator) this.user;
+                user.removeAccount(usertoRemove);
+                System.out.println("The specified user has been removed.\n");
+                return;
+            }
+            else {
+                System.out.println("You entered something that wasn't 'Y' or 'N'. Restart the command if you want to try again.\n");
+            }
         } catch(Exception e) {
             System.out.println("You entered an invalid input. Returning...\n");
         }
@@ -1081,7 +1201,7 @@ public class InternshipApplication {
             String lastName = scanner.nextLine();
             System.out.println("What is the email of the new administrator?");
             String email = scanner.nextLine();
-            System.out.println("What is the password the new administrator?");
+            System.out.println("What is the password of the new administrator?");
             String password = scanner.nextLine();
             UUID newUUID = UUID.randomUUID();
 

@@ -18,7 +18,7 @@ public class InternshipUI {
     private static final String CHOICE_PROMPT = "Please enter the number next to your preferred action: ";
     private String[] startMenuOptions = {"Log In","Create Account", "Exit System"};
     private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","View Resume","Print Resume to Text File","Log Out"};
-    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
+    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company","View Company Profile","Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
     private String[] internshipSortOptions = {"Alphabetically (Ascending)"};
@@ -108,7 +108,7 @@ public class InternshipUI {
         for(int i = 0; i < menu.length; i++) {
             output += "\t" + (i+1) + ".  " + menu[i] + "\n";
         }
-        output += CHOICE_PROMPT;
+        //output += CHOICE_PROMPT;
         System.out.println(output);
     }
 
@@ -182,8 +182,8 @@ public class InternshipUI {
             System.out.println("How would you like your results sorted?");
             displayMenu(internshipSortOptions);
 
-            int userCommand = getUserCommand(internshipSearchOptions.length);
             System.out.print("Please enter the number next to your desired sorting: ");
+            int userCommand = getUserCommand(internshipSearchOptions.length);
 
             switch(userCommand) {
                 case(-1):
@@ -197,18 +197,18 @@ public class InternshipUI {
 
             //Searching results loop
             ArrayList<JobListing> results = new ArrayList<>();
-            System.out.println("what criteria would you like to search by?");
+            System.out.println("What criteria would you like to search by?");
             displayMenu(internshipSearchOptions);
             
+            System.out.println("Please enter the number next to your desired search method: ");
             userCommand = getUserCommand(internshipSearchOptions.length);
-            System.out.print("Please enter the number next to your desired search method: ");
 
             switch(userCommand) {
                 case(-1):
                     System.out.println("You chose an invalid choice. Try again.");
                 //By internship title
                 case(0):
-                    System.out.print("Please enter the title of the internship: ");
+                    System.out.println("Please enter the title of the internship: ");
                     results = application.search(scanner.nextLine());
                     formatSearchResults(results);
                     break;
@@ -239,13 +239,13 @@ public class InternshipUI {
                 }
                 System.out.println("If you'd like to learn about another option, enter the number of the internship; 0 to go back or A to apply: ");
                 if(scanner.hasNextInt()){
-                resultChoice = Integer.parseInt(scanner.nextLine()) - 1;
+                    resultChoice = Integer.parseInt(scanner.nextLine()) - 1;
                 }else{
                     String otherChoice = scanner.nextLine();
                     if ((otherChoice.toLowerCase().contains("a") && this.application.getUser().getPermission() == 0)) {
-                    Student student = (Student) this.application.getUser();
-                    student.applyForInternship(results.get(resultChoice));
-                    System.out.print("Successfully applyed ");
+                        Student student = (Student) this.application.getUser();
+                        student.applyForInternship(results.get(resultChoice));
+                        System.out.println("You successfully applied!");
                      }
                      resultChoice = -1;
                  }   
@@ -260,15 +260,23 @@ public class InternshipUI {
      * @param results
      */
     private void formatSearchResults(ArrayList<JobListing> results) {
-        int resultSize = results.size();
-        if(resultSize == 0) {
+        if(results.size() == 0) {
             System.out.println("None of the internships have your criteria. Resetting...\n");
         }
         else {
-            System.out.println(resultSize + " result(s) found!\n");
+            ArrayList<Integer> indicesOfHiddens = new ArrayList<Integer> ();
+            for (int i = 0; i < results.size(); i++) {
+                if (results.get(i).getVisibility() == false) {
+                    indicesOfHiddens.add(0, i);
+                }
+            }
+            for (Integer index: indicesOfHiddens) {
+                results.remove(results.get(index));
+            }
+            System.out.println(results.size() + " result(s) found!\n");
         }
 
-        for(int i = 0; i < resultSize ; i++) {
+        for(int i = 0; i < results.size(); i++) {
             JobListing jobListing = results.get(i);
             System.out.println(i + 1 + ". " + jobListing.toStringSummary());
         }
@@ -292,34 +300,36 @@ public class InternshipUI {
             case(1):
             	// Have method itself print out the specific errors if the profile can't be created
                 if(application.createCompanyProfile()) {
-                	System.out.println("Profile created! Returning to home screen.");
+                	System.out.println("\nProfile created! Be sure to associate with it once you return to the home screen.\n");
                 }
                 break;
             //Associate with a company profile
             case(2):
-                System.out.println("Please enter the name of the company you would like to associate with: ");
-                String input = scanner.nextLine();
-                application.associateCompany(input);
-                //Create a Job Listing
+                application.associateCompany();
+                break;
             case(3):
+                application.viewCompanyProfile();
+                break;
+            //Create a Job Listing
+            case(4):
                 createListing();
                 break;
             //Edit a Job Listing
-            case(4):
+            case(5):
                 application.editJobListing();
                 break;
             //Remove a Job Listing
-            case(5):
+            case(6):
                 System.out.println("Please enter the title of the listing you would like to remove: ");
                 String input2 = scanner.nextLine();
                 application.removeJobListing(input2);
                 break;
             //Review a Student
-            case(6):
+            case(7):
             	application.writeReview();
                 break;
             //Log out
-            case(7):
+            case(8):
                 application.logOff();
                 loggedIn = false;
                 break;
@@ -379,9 +389,7 @@ public class InternshipUI {
                 break;
             //Remove Company Profile
             case(3):
-                if(!application.removeProfile()) {
-                    System.out.println("The Company profile does not exist.\n");
-                };
+                application.removeProfile();
                 break;
             //Edit job listing visibility 
             case(4):
