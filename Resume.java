@@ -273,24 +273,25 @@ public class Resume {
             myObj.createNewFile();
             FileWriter writer = new FileWriter("resume.txt");
             writer.write(this.studentFirstName + " " + this.studentLastName + "\n");
-            writer.write("Year in school: " + this.yearInSchool + "\n");
+            writer.write("Year In School: " + this.yearInSchool + "\n");
             writer.write("Contact: " + this.studentUSCEmail + "\n");
-            writer.write("\nSkills: \n");
-            for(String skill: skills){
-            writer.write("   - " + skill + "\n");
-            }
-            writer.write("\nClasses: \n");
-            for(String class_: this.classes){
-                writer.write("   - " + class_ + "\n");
-            }
-            writer.write("\nEducation: \n");
+            writer.write("\n--------------------------\nEducation:\n");
             for(Education education: this.education){
                 writer.write(education.toString());
             }
-            writer.write("\nWork Experiences: \n");
+            writer.write("--------------------------\nClasses: \n");
+            for(String class_: this.classes){
+                writer.write("   - " + class_ + "\n");
+            }
+            writer.write("--------------------------\nPrevious Work Experience: \n");
             for(WorkExperience work: this.workExperiences){
                 writer.write(work.toString() + "\n");
             }
+            writer.write("--------------------------\nSkills: \n");
+            for(String skill: skills){
+                writer.write("   - " + skill + "\n");
+            }
+            writer.write("--------------------------\n");
             writer.close();
             
            
@@ -306,7 +307,7 @@ public class Resume {
      * @return The String representation of the resume
      */
     public String toString() {
-        String ret = studentFirstName + " " + studentLastName + "\n" + studentUSCEmail + "\n--------------------------\nEducation:\n";
+        String ret = studentFirstName + " " + studentLastName + "\nYear In School: " + yearInSchool + "\nContact: " + studentUSCEmail + "\n--------------------------\nEducation:\n";
         for (Education ed: education) {
             ret += ed.toString();
         }
@@ -317,7 +318,7 @@ public class Resume {
             ret += "   - " + class1 + "\n";
         }
 
-        ret += "--------------------------\nExperiences: \n";
+        ret += "--------------------------\nPrevious Work Experience: \n";
 
         for (WorkExperience we: workExperiences) {
             ret += we.toString() + "\n";

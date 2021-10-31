@@ -194,6 +194,13 @@ public class JobListing {
     }
 
     /**
+     * The setUUID method sets the listing's UUID
+     * @param uuid The UUID to set the Job Listing's id to
+     */
+    public void setUUID(UUID uuid) {
+        this.id = uuid;
+    }
+    /**
      * The addRequiredSkill method adds a required skill to the list of skills
      * needed to apply to a specific JobListing.
      * @param skill The skill an employer wishes to add to a JobListing
@@ -245,7 +252,9 @@ public class JobListing {
      * @return The String summary of the JobListing
      */
     public String toString() {
-        return title + "\nCompany: " + company + "\nDescription: " + description + "\nLocation: " + location +  "\nPaid: " + paid + "\nPay rate per hour: " + DOLLAR_FORMAT.format(payRate);
+        return "\t" + title + "\n\tCompany: " + company + "\n\tDescription: " + description + "\n\tLocation: " + 
+            location +  "\n\tPaid: " + paid + "\n\tPay rate per hour: " + DOLLAR_FORMAT.format(payRate) + 
+            "\n\tRequired Skills: " + requiredSkills.toString() + "\n";
     }
 
     /**

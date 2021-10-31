@@ -92,6 +92,6 @@ public class Review {
      * @return A String containing the review
      */
     public String toString() {
-        return reviewerFirstName + " " + reviewerLastName + " - " + rating + "/10 \nDescription: " + description;
+        return reviewerFirstName + " " + reviewerLastName + " - " + rating + "/5 \nDescription: " + description;
     }
 }
