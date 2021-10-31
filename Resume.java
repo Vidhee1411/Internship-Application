@@ -2,7 +2,6 @@
  * The resume class creates a resume of the student in the internship system.
  * @author Vidhee Patel and Joshua DuPuis
  */
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
