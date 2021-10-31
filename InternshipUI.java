@@ -237,7 +237,7 @@ public class InternshipUI {
                 resultChoice = Integer.parseInt(scanner.nextLine()) - 1;
                 }else{
                     String otherChoice = scanner.nextLine();
-                    if ((otherChoice.contains("a") || otherChoice.contains("A")) && this.application.getUser().getPermission() == 0){
+                    if ((otherChoice.toLowerCase().contains("a") && this.application.getUser().getPermission() == 0){
                     Student student = (Student) this.application.getUser();
                     student.applyForInternship(results.get(resultChoice));
                     System.out.print("Successfully applyed ");

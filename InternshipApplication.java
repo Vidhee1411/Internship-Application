@@ -47,7 +47,7 @@ public class InternshipApplication {
 
         switch(accountType.toLowerCase()) {
             case "student":
-                while (!(email.substring(email.length() - 6, email.length()).equals("sc.edu"))) {
+                while (!(email.substring(email.length() - 6, email.length()).equals("sc.edu")) && email.length() >= 11) {
                     System.out.println("Please enter your school email containing \"sc.edu\"");
                     email = scanner.nextLine();
                 }
