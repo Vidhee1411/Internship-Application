@@ -14,10 +14,10 @@ import java.io.Console;
 public class InternshipUI {
     private InternshipApplication application;
     private Scanner scanner;
-    private static final String START_MESSAGE = "Welcome!";
+    private static final String START_MESSAGE = "Welcome!\n";
     private static final String CHOICE_PROMPT = "Please enter the number next to your preferred action: ";
     private String[] startMenuOptions = {"Log In","Create Account", "Exit System"};
-    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","Print Resume to Text File","Log Out"};
+    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","View Resume","Print Resume to Text File","Log Out"};
     private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company", "Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
@@ -62,7 +62,7 @@ public class InternshipUI {
                         createAccount();
                         break;
                     case(2):
-                        System.out.print("Exiting the system");
+                        System.out.print("\nExiting the system. Take care!");
                         onSystem = false;
                         System.exit(0);
                 }
@@ -93,7 +93,7 @@ public class InternshipUI {
                         break;
                 }
             }
-            System.out.println("You have been successfully logged out. Take care!");
+            System.out.println("You have been successfully logged out.\n");
         }
     }
 
@@ -104,7 +104,7 @@ public class InternshipUI {
      * @param menu The menu to be displayed
      */
     private void displayMenu(String[] menu) {
-        String output = "";
+        String output = "~~~~~~~~~~~~Options~~~~~~~~~~~~\n";
         for(int i = 0; i < menu.length; i++) {
             output += "\t" + (i+1) + ".  " + menu[i] + "\n";
         }
@@ -158,11 +158,16 @@ public class InternshipUI {
             case(4):
                 application.editResume();
                 break;
+            //View your resume
             case(5):
+                application.viewResume();
+                break;
+            //Print Resume to File
+            case(6):
                 application.printResumeToFile();
                 break;
             //Log out
-            case(6):
+            case(7):
                 application.logOff();
                 loggedIn = false;
                 break;
@@ -237,7 +242,7 @@ public class InternshipUI {
                 resultChoice = Integer.parseInt(scanner.nextLine()) - 1;
                 }else{
                     String otherChoice = scanner.nextLine();
-                    if ((otherChoice.toLowerCase().contains("a") && this.application.getUser().getPermission() == 0){
+                    if ((otherChoice.toLowerCase().contains("a") && this.application.getUser().getPermission() == 0)) {
                     Student student = (Student) this.application.getUser();
                     student.applyForInternship(results.get(resultChoice));
                     System.out.print("Successfully applyed ");
@@ -345,7 +350,7 @@ public class InternshipUI {
     		//If confirmed, create the listing
     		application.createJobListing();
     	} catch(Exception e) {
-    		System.out.println("An error occurred when trying to create your listing. Returning to home screen.");
+    		System.out.println("An error occurred when trying to create your listing. Returning to home screen.\n");
     	}
     }
   
@@ -357,7 +362,7 @@ public class InternshipUI {
      */
     private void resolveAdminOptions(int commandOption) {
         if(commandOption == -1) {
-            System.out.println("That was an invalid choice. Please try again.");
+            System.out.println("That was an invalid choice. Please try again.\n");
         }
         switch(commandOption) {
             //Edit personal info
@@ -375,7 +380,7 @@ public class InternshipUI {
             //Remove Company Profile
             case(3):
                 if(!application.removeProfile()) {
-                    System.out.println("The Company profile does not exist.");
+                    System.out.println("The Company profile does not exist.\n");
                 };
                 break;
             //Edit job listing visibility 
@@ -414,7 +419,7 @@ public class InternshipUI {
             password = String.valueOf(console.readPassword());
 
             if(application.logOn(email, password)) {
-                System.out.println("\nHello, " + application.getUser().getFirstName());
+                System.out.println("\nHello, " + application.getUser().getFirstName() + "! Here's your main menu: ");
                 return true;
             }
             else {
@@ -443,11 +448,11 @@ public class InternshipUI {
                         accountType = "employer";
                         break;
                     default:
-                        System.out.println("You entered an invalid account option. Try again.");
+                        System.out.println("You entered an invalid account option. Try again.\n");
                    }
                 }
             catch (Exception e) {
-                System.out.println("Your input was invalid. Account could not be created.");
+                System.out.println("Your input was invalid. Account could not be created.\n");
             }
         }
 
@@ -455,10 +460,10 @@ public class InternshipUI {
         if(application.createAccount(accountType)) {
             //Make sure that their account is added to the database so they can log in afterwards
             System.out.println("Thank you " + application.getUser().getFirstName() + "! Your " + accountType + 
-                " account has been created.");
+                " account has been created.\n");
         }
         else {
-            System.out.println("Sorry, your account could not be created.");
+            System.out.println("Sorry, your account could not be created.\n");
         }
     }
 }
