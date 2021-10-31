@@ -1,21 +1,26 @@
-Lucky Labanowski
-Year in school: junior
-Contact: blessedRNG@lucky.edu
+josh dupuis
+Year in school: sophomore
+Contact: jdupuis@email.sc.edu
 
 Skills: 
-Lucky
+Java Programming
+C++ Programming
+Spanish Speaking
+Mathematics
 
 Classes: 
-Probability for Engineers
+Intro to Musical Theory
+Advanced Musical Theory
+Music Through the Ages
 
 Education: 
-Lucky University
-Expected Graduation Date: Spring 2024
-Major: Computer Science
-GPA: 3.33
+University of South Carolina
+Expected Graduation Date: Spring 2017
+Major: Music Theory
+GPA: 3.95
 
 Work Experiences: 
-Company: Blackjack-4-Kids
-Employment date: 7/7/21-8/7/21
-Job Title: Junior Blackjack Dealer
-Description: Definitely legal.
+Company: Classical Company
+Employment date: 5/26/17-7/28/19
+Job Title: Financial Intern
+Description: This was a great job! Did a lot of work on databases.

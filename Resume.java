@@ -146,13 +146,8 @@ public class Resume {
      * @param skill The skill to be removed from the resume
      */
     public void removeSkill(String skill) {
-        for (String iterate: this.skills) {
-            System.out.println("Im in the first loop");
-            if (iterate.equals(skill)){
-                System.out.println("Im in the second loop");
-                this.skills.remove(iterate);
-                System.out.println("This is the final check");
-            }
+        if (skills.contains(skill)){
+            this.skills.remove(skill);
         }
     }
 
@@ -162,11 +157,9 @@ public class Resume {
      * @param className The name of the class to be removed
      */
     public void removeClass(String className) {
-        for (String iterate: this.classes) {
-            if (iterate.equals(className)) {
-                this.classes.remove(iterate);
-            }
-        }
+        if (classes.contains(className)) {
+            this.classes.remove(className);
+        } 
     }
 
     /**
@@ -175,10 +168,8 @@ public class Resume {
      * @param experience The experience to be removed from the resume
      */
     public void removeExperience(WorkExperience experience) {
-        for (WorkExperience iterate: this.workExperiences) {
-            if (iterate.equals(experience)) {
-                this.workExperiences.remove(iterate);
-            }
+        if (this.workExperiences.contains(experience)) {
+            this.workExperiences.remove(experience);
         }
     }
 
@@ -188,10 +179,8 @@ public class Resume {
      * @param education The Education to be removed from the resume
      */
     public void removeEducation(Education education) {
-        for (Education iterate: this.education) {
-            if (iterate.equals(education)) {
-                this.education.remove(iterate);
-            }
+        if (this.education.contains(education)) {
+            this.education.remove(education);
         }
     }
 
