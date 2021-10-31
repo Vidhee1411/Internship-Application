@@ -752,10 +752,11 @@ public class InternshipApplication {
      */
     private void editJobListingSkills(JobListing listing) {
         System.out.println("These are the current skills: " + listing.getRequiredSkills());
-        System.out.println("Would you like to [A]dd or [R]emove a skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
-        try {
-            String choice = scanner.nextLine().toLowerCase();
-            while(!choice.equals("q")) {
+        boolean input = true;
+        while(input) {
+            System.out.println("Would you like to [A]dd or [R]emove a skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
+            try {
+                String choice = scanner.nextLine().toLowerCase();
                 switch(choice) {
                     case("a"):
                         System.out.print("Enter the name of the skill you want to add: ");
@@ -763,22 +764,22 @@ public class InternshipApplication {
                         break;
                     case("r"):
                         if(listing.getRequiredSkills().isEmpty()) {
-                            System.out.println("There are no skills to remove.");
-                            break;
+                        System.out.println("There are no skills to remove.");
+                        break;
                         }
                         System.out.print("Enter the name of the skill you want to remove: ");
                         listing.removeRequiredSkill(scanner.nextLine());
                         break;
+                    case("q"):
+                        System.out.println("Returning...\n");
+                        input = false;
                     default:
                         System.out.println("You entered an invalid option. Try again.");
                 }
                 System.out.println("These are the current skills: " + listing.getRequiredSkills());
-                System.out.println("Would you like to [A]dd or [R]emove another skill? Type 'A' to add, 'R' to remove, or 'Q' to quit.");
-                choice = scanner.nextLine().toLowerCase();
+            } catch(Exception e) {
+                System.out.println("You entered invalid input. Retry the command to try again.\n");
             }
-            System.out.println("Returning...\n");
-        } catch(Exception e) {
-            System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
     }
 
