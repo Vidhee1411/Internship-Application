@@ -882,7 +882,9 @@ public class InternshipApplication {
                         return;
                     }
 
-                    formatReviews(studentReviews);
+                    for (int i = 0; i < studentReviews.size(); i++) {
+                        System.out.println((i+1) + ". " + studentReviews.get(i).toString() + "\nVisible: " + studentReviews.get(i).getVisibility());
+                    }
                     System.out.print("Please enter the number of the review to toggle the visibility of: ");
                     reviewChoice = getUserCommand(studentReviews.size());
                     if(reviewChoice == -1) {
