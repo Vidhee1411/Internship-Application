@@ -35,41 +35,75 @@ public class InternshipApplication {
      * @return True if the account was successfully made, false otherwise
      */
     public boolean createAccount(String accountType) {
-        Console console = System.console();
-        System.out.println("Please enter your first name ");
+        System.out.print("Please enter your first name: ");
         String firstname = scanner.nextLine();
-        System.out.println("Please enter your last name");
+        System.out.print("Please enter your last name: ");
         String lastname = scanner.nextLine();
-        System.out.println("Please enter your email");
+        System.out.print("Please enter your email: ");
         String email = scanner.nextLine();
-        char[] passwordArr = console.readPassword("Please enter password: ");
-        String password = new String(passwordArr);
+
+        UUID newUUID = UUID.randomUUID();
+        String password = null;
 
         switch(accountType.toLowerCase()) {
             case "student":
+                // Confirm email matches sc.edu and is of sufficient length
                 while (!(email.substring(email.length() - 6, email.length()).equals("sc.edu")) ) {
                     System.out.println("Please enter your school email containing \"sc.edu\"");
                     email = scanner.nextLine();
                 }
-                while (password.length() < 8) {
-                    System.out.println("Your password must be 8 characters or longer.");
-                     passwordArr = console.readPassword("Please enter password: ");
-                    password = new String (passwordArr);
-                }
+                password = confirmPassword();
+                if(password == null) break;
+
                 System.out.println("Enter your year in school (e.g. junior)");
                 String year = scanner.nextLine();
                 Student s1 = new Student(firstname,lastname,email,password,year);
                 database.addUser(s1);
                 this.user = s1;
-                return true;     
-                
+                user.setUserUUID(UUID.randomUUID());
+                return true;
+
             case "employer":
+                password = confirmPassword();
+                if(password == null) break;
+
                 Employer e1 = new Employer(firstname, lastname, email, password);
                 database.addUser(e1);
                 this.user = e1;
+                user.setUserUUID(UUID.randomUUID());
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Private helper method used to handle password creation when creating an account, including confirmation.
+     * Passwords must be 8 characters or longer.
+     * 
+     * @return The password of the account, or null if unsuccessful
+     */
+    private String confirmPassword() {
+        Console console = System.console();
+        try {
+            while(true) {
+                char[] passwordArr = console.readPassword("Please enter the password you want to use (8 or more characters): ");
+                String passwordAttempt1 = new String(passwordArr);
+                if(passwordAttempt1.length() < 8) {
+                    System.out.println("Your password must be 8 characters or longer.");
+                    continue;
+                }
+                char[] passwordArr2 = console.readPassword("Confirm your password by re-entering it: ");
+                String passwordAttempt2 = new String(passwordArr2);
+                if(passwordAttempt1.equals(passwordAttempt2)) {
+                    System.out.println("Password created sucessfully!");
+                    return passwordAttempt2;
+                }
+                System.out.println("The passwords you've entered do not match. Try again.");
+            }
+        } catch(Exception e) {
+            System.out.println("You have entered invalid input. Please retry if you want to create an account.");
+            return null;
+        }
     }
 
     /**
@@ -98,7 +132,7 @@ public class InternshipApplication {
      * using it. Writes current database data to JSON files through the DataWriter class.
      */
     public void logOff() {
-        System.out.println("Logging off");
+        System.out.println("\nLogging off...");
         DataWriter.saveUsers();
         DataWriter.saveCompanyProfiles();
         DataWriter.saveJobListings();
@@ -304,7 +338,9 @@ public class InternshipApplication {
         ArrayList<WorkExperience> workExperiences = new ArrayList<>();
         ArrayList<Education> educations = new ArrayList<>();
 
-        System.out.println("Please enter a skill to add to your account profile, or enter \"0\" to continue.");
+        System.out.println("Resumes require skills and classes to be added to your profile.\n" 
+            + "Please enter any skills you'd like to add to your account profile (one at a time), or enter \"0\" to continue."
+            + "\tThese are the current skills on your profile: " + student.getSkills());
         String input = scanner.nextLine();
         while (!(input.equals("0"))) {
             student.addSkill(input);
@@ -312,7 +348,8 @@ public class InternshipApplication {
             input = scanner.nextLine();
         }
 
-        System.out.println("Please enter a class to add to your account profile, or enter \"0\" to continue.");
+        System.out.println("Please enter any classes you'd like to add to your account profile (one at a time), or enter \"0\" to continue."
+        + "\tThese are the current classes on your profile: " + student.getClasses());
         input = scanner.nextLine();
         while (!(input.equals("0"))) {
             student.addClass(input);
@@ -332,7 +369,8 @@ public class InternshipApplication {
                     System.out.println("Skill added successfully.");
                 }
                 else {
-                    System.out.println("That skill isn't on your profile. Be sure to add any new skills to your profile first!");
+                    System.out.println("That skill isn't on your profile. Be sure to add any new skills to your profile first!" 
+                        + "\nEnter the name of each skill (one at a time), and type 0 when done.");
                 }
                 skillName = scanner.nextLine();
             }
@@ -348,7 +386,8 @@ public class InternshipApplication {
                     System.out.println("Class added successfully.");
                 }
                 else {
-                    System.out.println("That class isn't on your profile. Be sure to add any new skills to your profile first!");
+                    System.out.println("That class isn't on your profile. Be sure to add any new classes to your profile first!" 
+                    + "\nEnter the name of each class (one at a time), and type 0 when done.");
                 }
                 className = scanner.nextLine();
             }
@@ -376,6 +415,7 @@ public class InternshipApplication {
                     System.out.print("You entered an answer that wasn't Y or N. Try again: ");
                 }
                 yesNoOption = scanner.nextLine().toLowerCase();
+                System.out.println();
             }
             
             //Create Educations
@@ -404,7 +444,7 @@ public class InternshipApplication {
                 yesNoOption = scanner.nextLine().toLowerCase();
             }
             student.createResume(skillIndexes, classIndexes, workExperiences, educations);
-            System.out.println("Your resume was created successfully. Returning...\n");
+            System.out.println("Your resume was created successfully and has been added to your profile! Returning...\n");
         } catch(Exception e) {
             System.out.println("You entered invalid input. Retry the command to try again.\n");
         }
@@ -567,6 +607,18 @@ public class InternshipApplication {
     }
 
     /**
+     * The viewResume method allows a student to view their resume.
+     */
+    public void viewResume() {
+        if(permission != 0) {
+            System.out.println("You don't have valid permissions to use this command.\n");
+            return;
+        }
+        Student student = (Student) user;
+        System.out.println("\n" + student.getResume().toString());
+    }
+
+    /**
      * The printResumeToFile method allows a student to print the contents of their resume
      * to a text file called "resume.txt".
      */
@@ -577,6 +629,8 @@ public class InternshipApplication {
         }
         Student student = (Student) user;
         student.getResume().toFile();
+
+        System.out.println("\nYour resume was successfully printed to 'resume.txt'!\n");
     }
 
     /**
