@@ -51,7 +51,7 @@ public class DataWriter extends DataConstants {
      * Private helper method for writing an ArrayList of Students to the Student.json file.
      * @param studentList The ArrayList of Students to write
      */
-    private static void saveStudents(ArrayList<Student> studentList) {
+    public static void saveStudents(ArrayList<Student> studentList) {
         JSONArray jsonStudents = new JSONArray();
 
         for(Student student : studentList) {
@@ -107,6 +107,7 @@ public class DataWriter extends DataConstants {
         JSONArray jsonResumes = new JSONArray();
         JSONObject resumeDetails = new JSONObject();
         resumeDetails.put(RESUME_SCHOOL_YEAR, resume.getYearInSchool());
+        
         resumeDetails.put(RESUME_WORK_EXPERIENCE, workExperiencesToJsonArray(resume.getExperiences()).toJSONString());
         resumeDetails.put(RESUME_EDUCATION, educationsToJsonArray(resume.getEducation()).toJSONString());
         resumeDetails.put(RESUME_SKILL_INDEXES, arrayListToJsonArray(createIndexesArray(resume.getSkills(), student.getSkills())).toJSONString());
