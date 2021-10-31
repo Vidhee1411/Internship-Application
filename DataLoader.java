@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 /**
  * The DataLoader class is responsible for loading all of the data from the
@@ -105,7 +106,8 @@ public class DataLoader extends DataConstants {
             JSONArray listings =  (JSONArray)new JSONParser().parse(reader);
             for(int i = 0; i < listings.size() && listings.size() != 0; i++){
                 JSONObject listing = (JSONObject)listings.get(i);
-                JSONArray applicantIDS = (JSONArray)listing.get(LISTING_APPLICANT_IDS);
+                String applicantIDString = listing.get(LISTING_APPLICANT_IDS).toString();
+                JSONArray applicantIDS = (JSONArray)JSONValue.parse(applicantIDString);
                 ArrayList<Student> applicants = getapplicants(usersMap, applicantIDS);
                 String title = (String)listing.get(LISTING_TITLE);
                 String description = (String)listing.get(LISTING_DESCRIPTION);
@@ -141,7 +143,7 @@ public class DataLoader extends DataConstants {
             JSONArray CompanyProfiles =  (JSONArray)new JSONParser().parse(reader);
             for(int i = 0; i < CompanyProfiles.size() && CompanyProfiles.size() != 0; i++){
                 JSONObject companyprofile = (JSONObject)CompanyProfiles.get(i);
-                JSONArray listingIDS = (JSONArray)companyprofile.get(COMPANY_LISTINGS_IDS);
+                JSONArray listingIDS = (JSONArray)JSONValue.parse(companyprofile.get(COMPANY_LISTINGS_IDS).toString());
                 String companyName = (String)companyprofile.get(COMPANY_NAME);
                 String hqAddress = (String)companyprofile.get(COMPANY_HQ_ADDRESS);
                 String description = (String)companyprofile.get(COMPANY_DESCRIPTION);
@@ -212,9 +214,10 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<String> getResumeSkills(JSONObject resume, ArrayList<String> skills){
         ArrayList<String> output = new ArrayList<>();
-        JSONArray skillindex = (JSONArray)resume.get(RESUME_SKILL_INDEXES);
-        for(int i = 0; i < skillindex.size() && skills.size() != 0; i++){
-            int index = ((Long)skillindex.get(i)).intValue();
+        String jsonString =  resume.get(RESUME_SKILL_INDEXES).toString();
+        JSONArray skillIndexes = (JSONArray)JSONValue.parse(jsonString);
+        for(int i = 0; i < skillIndexes.size() && skills.size() != 0; i++){
+            int index = ((Long)skillIndexes.get(i)).intValue();
             output.add((String)skills.get(index));
         }
         return output;
@@ -226,7 +229,8 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<Education> getEducation(JSONObject resume){
         ArrayList<Education> output = new ArrayList<>();
-        JSONArray educationExperiences = (JSONArray)resume.get(RESUME_EDUCATION);
+        String jsonString =  resume.get(RESUME_EDUCATION).toString();
+        JSONArray educationExperiences = (JSONArray)JSONValue.parse(jsonString);
         for(int i = 0; i < educationExperiences.size() && educationExperiences.size() != 0; i++){
             JSONObject educationExperience = (JSONObject)educationExperiences.get(i);
             String nameofUniversity = (String)educationExperience.get(EDUCATION_UNIVERSITY_NAME);
@@ -246,7 +250,8 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<String> getResumeClasses(JSONObject resume, ArrayList<String> classes){
         ArrayList<String> output = new ArrayList<>();
-        JSONArray classIndexes = (JSONArray)resume.get(RESUME_CLASS_INDEXES);
+        String jsonString =  resume.get(RESUME_CLASS_INDEXES).toString();
+        JSONArray classIndexes = (JSONArray)JSONValue.parse(jsonString);
         for(int i = 0; i < classIndexes.size() && classes.size() != 0; i++){
             int index = ((Long)classIndexes.get(i)).intValue() ;
             output.add((String)classes.get(index));
@@ -260,7 +265,8 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<WorkExperience> getWorkExperiences(JSONObject resume){
         ArrayList<WorkExperience> output = new ArrayList<>();
-        JSONArray workExperiences = (JSONArray)resume.get(RESUME_WORK_EXPERIENCE);
+        String jsonString =  resume.get(RESUME_WORK_EXPERIENCE).toString();
+        JSONArray workExperiences = (JSONArray)JSONValue.parse(jsonString);
         for(int i = 0; i < workExperiences.size() && workExperiences.size() != 0; i++){
             JSONObject workExperience = (JSONObject)workExperiences.get(i);
             String jobTitle = (String)workExperience.get(EXPERIENCE_TITLE);
@@ -280,13 +286,14 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<Review> getReviews(JSONObject reviewed){
         ArrayList<Review> output = new ArrayList<>();
-        JSONArray reviews = (JSONArray)reviewed.get("reviews");
+        String jsonString =  reviewed.get("reviews").toString();
+        JSONArray reviews = (JSONArray)JSONValue.parse(jsonString);
         for(int i = 0; i < reviews.size() && reviews.size() != 0; i++){
             JSONObject review = (JSONObject)reviews.get(i);
-            String firstName = (String)review.get(REVIEW_FIRST_NAME);
+            String firstName = review.get(REVIEW_FIRST_NAME).toString();
             String lastName = (String)review.get(REVIEW_LAST_NAME);
             String message = (String)review.get(REVIEW_MESSAGE);
-            int rating = ((Long)review.get(REVIEW_RATING)).intValue();
+            int rating = ((Double)review.get(REVIEW_RATING)).intValue();
             output.add(new Review(firstName, lastName, rating, message));
         }
         return output;
@@ -311,7 +318,8 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<String> getRequiredSkills(JSONObject listing){
         ArrayList<String> output = new ArrayList<>();
-        JSONArray requiredSkills = (JSONArray) listing.get(LISTING_REQUIRED_SKILLS);
+        String jsonString = listing.get(LISTING_REQUIRED_SKILLS).toString();
+        JSONArray requiredSkills = (JSONArray)JSONValue.parse(jsonString);
         for(int i = 0; i < requiredSkills.size() && requiredSkills.size() != 0; i++){
             output.add((String)requiredSkills.get(i));
         }

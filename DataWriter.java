@@ -107,7 +107,6 @@ public class DataWriter extends DataConstants {
         JSONArray jsonResumes = new JSONArray();
         JSONObject resumeDetails = new JSONObject();
         resumeDetails.put(RESUME_SCHOOL_YEAR, resume.getYearInSchool());
-        
         resumeDetails.put(RESUME_WORK_EXPERIENCE, workExperiencesToJsonArray(resume.getExperiences()).toJSONString());
         resumeDetails.put(RESUME_EDUCATION, educationsToJsonArray(resume.getEducation()).toJSONString());
         resumeDetails.put(RESUME_SKILL_INDEXES, arrayListToJsonArray(createIndexesArray(resume.getSkills(), student.getSkills())).toJSONString());
@@ -115,7 +114,7 @@ public class DataWriter extends DataConstants {
         jsonResumes.add(resumeDetails);
         return jsonResumes;
     }
-
+    
     /**
      * Private helper method used to create an arrayList of indexes given a subList and mainList of elements. Returns
      * an arrayList of the indexes of all the subList elements that are within the mainList.
@@ -163,7 +162,7 @@ public class DataWriter extends DataConstants {
         for(Education education : educations) {
             //Since workExperiences are separate objects with their own info, put their info into separate JSONObjects
             JSONObject educationDetails = new JSONObject();
-            educationDetails.put(EDUCATION_UNIVERSITY_NAME, education.getName());
+            educationDetails.put("universityName", education.getName());
             educationDetails.put(EDUCATION_MAJOR, education.getMajor());
             educationDetails.put(EDUCATION_GPA, education.getGPA());
             educationDetails.put(EDUCATION_GRADUATION_DATE, education.getExpectedGradDate());
@@ -320,8 +319,8 @@ public class DataWriter extends DataConstants {
         companyDetails.put(COMPANY_NAME, company.getCompanyName());
         companyDetails.put(COMPANY_HQ_ADDRESS, company.getAddress());
         companyDetails.put(COMPANY_DESCRIPTION, company.getDescription());
-        companyDetails.put(COMPANY_LISTINGS_IDS, listingsToJsonIDArray(company.getListings()).toJSONString());
-        companyDetails.put(COMPANY_REVIEWS, company.getReviews());
+        companyDetails.put(COMPANY_LISTINGS_IDS, listingsToJsonIDArray(company.getListings()));
+        companyDetails.put(COMPANY_REVIEWS, reviewsToJSONArray(company.getReviews()));
         return companyDetails;
     }
 
