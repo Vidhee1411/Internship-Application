@@ -10,6 +10,7 @@ public class DataLoadTest {
         InternshipUI tempUI = new InternshipUI();
          tempUI.run();
          System.out.println("");
+         temp.logOff();
         
 
     }

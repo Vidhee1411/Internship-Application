@@ -162,7 +162,7 @@ public class DataWriter extends DataConstants {
         for(Education education : educations) {
             //Since workExperiences are separate objects with their own info, put their info into separate JSONObjects
             JSONObject educationDetails = new JSONObject();
-            educationDetails.put("universityName", education.getName());
+            educationDetails.put(EDUCATION_UNIVERSITY_NAME, education.getName());
             educationDetails.put(EDUCATION_MAJOR, education.getMajor());
             educationDetails.put(EDUCATION_GPA, education.getGPA());
             educationDetails.put(EDUCATION_GRADUATION_DATE, education.getExpectedGradDate());
@@ -189,7 +189,7 @@ public class DataWriter extends DataConstants {
                 employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, null);
             }
             else {
-                employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().toString());
+                employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().getUUID().toString());
             }
             jsonEmployer.add(employerDetails);
         }
@@ -332,7 +332,7 @@ public class DataWriter extends DataConstants {
     private static JSONArray listingsToJsonIDArray(ArrayList<JobListing> listings) {
         JSONArray jsonListings = new JSONArray();
         for(JobListing listing : listings) {
-            jsonListings.add(listing.getUUID());
+            jsonListings.add(listing.getUUID().toString());
         }
         return jsonListings;
     } 

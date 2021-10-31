@@ -214,8 +214,7 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<String> getResumeSkills(JSONObject resume, ArrayList<String> skills){
         ArrayList<String> output = new ArrayList<>();
-        String jsonString =  resume.get(RESUME_SKILL_INDEXES).toString();
-        JSONArray skillIndexes = (JSONArray)JSONValue.parse(jsonString);
+        JSONArray skillIndexes = (JSONArray)JSONValue.parse(resume.get(RESUME_SKILL_INDEXES).toString());
         for(int i = 0; i < skillIndexes.size() && skills.size() != 0; i++){
             int index = ((Long)skillIndexes.get(i)).intValue();
             output.add((String)skills.get(index));
@@ -229,8 +228,7 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<Education> getEducation(JSONObject resume){
         ArrayList<Education> output = new ArrayList<>();
-        String jsonString =  resume.get(RESUME_EDUCATION).toString();
-        JSONArray educationExperiences = (JSONArray)JSONValue.parse(jsonString);
+        JSONArray educationExperiences = (JSONArray)JSONValue.parse(resume.get(RESUME_EDUCATION).toString());
         for(int i = 0; i < educationExperiences.size() && educationExperiences.size() != 0; i++){
             JSONObject educationExperience = (JSONObject)educationExperiences.get(i);
             String nameofUniversity = (String)educationExperience.get(EDUCATION_UNIVERSITY_NAME);
@@ -250,8 +248,7 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<String> getResumeClasses(JSONObject resume, ArrayList<String> classes){
         ArrayList<String> output = new ArrayList<>();
-        String jsonString =  resume.get(RESUME_CLASS_INDEXES).toString();
-        JSONArray classIndexes = (JSONArray)JSONValue.parse(jsonString);
+        JSONArray classIndexes = (JSONArray)JSONValue.parse(resume.get(RESUME_CLASS_INDEXES).toString());
         for(int i = 0; i < classIndexes.size() && classes.size() != 0; i++){
             int index = ((Long)classIndexes.get(i)).intValue() ;
             output.add((String)classes.get(index));
@@ -265,8 +262,7 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<WorkExperience> getWorkExperiences(JSONObject resume){
         ArrayList<WorkExperience> output = new ArrayList<>();
-        String jsonString =  resume.get(RESUME_WORK_EXPERIENCE).toString();
-        JSONArray workExperiences = (JSONArray)JSONValue.parse(jsonString);
+        JSONArray workExperiences = (JSONArray)JSONValue.parse(resume.get(RESUME_WORK_EXPERIENCE).toString());
         for(int i = 0; i < workExperiences.size() && workExperiences.size() != 0; i++){
             JSONObject workExperience = (JSONObject)workExperiences.get(i);
             String jobTitle = (String)workExperience.get(EXPERIENCE_TITLE);
@@ -286,8 +282,7 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<Review> getReviews(JSONObject reviewed){
         ArrayList<Review> output = new ArrayList<>();
-        String jsonString =  reviewed.get("reviews").toString();
-        JSONArray reviews = (JSONArray)JSONValue.parse(jsonString);
+        JSONArray reviews = (JSONArray)JSONValue.parse(reviewed.get("reviews").toString());
         for(int i = 0; i < reviews.size() && reviews.size() != 0; i++){
             JSONObject review = (JSONObject)reviews.get(i);
             String firstName = review.get(REVIEW_FIRST_NAME).toString();
@@ -318,8 +313,7 @@ public class DataLoader extends DataConstants {
      */
     private static ArrayList<String> getRequiredSkills(JSONObject listing){
         ArrayList<String> output = new ArrayList<>();
-        String jsonString = listing.get(LISTING_REQUIRED_SKILLS).toString();
-        JSONArray requiredSkills = (JSONArray)JSONValue.parse(jsonString);
+        JSONArray requiredSkills = (JSONArray)JSONValue.parse(listing.get(LISTING_REQUIRED_SKILLS).toString());
         for(int i = 0; i < requiredSkills.size() && requiredSkills.size() != 0; i++){
             output.add((String)requiredSkills.get(i));
         }
