@@ -23,7 +23,7 @@ public class InternshipApplication {
      * run the entire program.
      */
      InternshipApplication() {
-        this.database = SearchableDatabase.getInstance();
+        this.database = DataLoader.loadData();
         this.scanner = new Scanner(System.in);
     }
 
