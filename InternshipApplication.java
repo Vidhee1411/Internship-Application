@@ -878,6 +878,7 @@ public class InternshipApplication {
                     ArrayList<Review> studentReviews = student.getReviews();
                     if(studentReviews.isEmpty()) {
                         System.out.println("There are no reviews on the student profile to toggle. Returning...\n");
+                        return;
                     }
 
                     formatReviews(studentReviews);
@@ -903,7 +904,7 @@ public class InternshipApplication {
 
                     System.out.println("Which company is the one you'll be toggling the review visibility for?");
                     for(int i = 1; i <= results.size(); i++) {
-                        System.out.println("\t" + i + ". " + results.get(i-1).toString() + "\n");
+                        System.out.println( i + ". " + results.get(i-1).getCompanyName() + "\n");
                     }
                     int profileIndex = getUserCommand(results.size());
                     if(profileIndex == -1) {
@@ -916,7 +917,9 @@ public class InternshipApplication {
                         System.out.println("There are no reviews on the company profile to toggle. Returning...\n");
                     }
 
-                    formatReviews(profileReviews);
+                    for (int i = 0; i < profileReviews.size(); i++) {
+                        System.out.println((i+1) + ". " + profileReviews.get(i).toString() + "\nVisible: " + profileReviews.get(i).getVisibility());
+                    }
                     System.out.print("Please enter the number of the review to toggle the visibility of: ");
                     reviewChoice = getUserCommand(profileReviews.size());
                     if(reviewChoice == -1) {
@@ -943,10 +946,21 @@ public class InternshipApplication {
      * @param reviews The ArrayList of listings to print out
      */
     private void formatReviews(ArrayList<Review> reviews) {
-        int reviewsSize = reviews.size();
-        System.out.println(reviewsSize + " listing(s) available:\n");
+        if (reviews.size() == 0) {
+            return;
+        }
+        ArrayList<Integer> hiddenIndices = new ArrayList<Integer>();
+        for (int i = 0; i < reviews.size(); i++) {
+            if (reviews.get(i).getVisibility() == false) {
+                hiddenIndices.add(0, i);
+            }
+        }
+        for (Integer index: hiddenIndices) {
+            reviews.remove(reviews.get(index));
+        }
+        System.out.println(reviews.size() + " review(s) available:\n");
 
-        for(int i = 1; i <= reviewsSize; i++) {
+        for(int i = 1; i <= reviews.size(); i++) {
             Review review = reviews.get(i-1);
             System.out.println("\t" + i + ". " + review.toString() +
                                 "\n\tVisibility: " + review.getVisibility() + "\n");
@@ -1082,9 +1096,44 @@ public class InternshipApplication {
      * to remove
      * @return Returns true if the company exits, false otherwise
      */
-    public boolean removeProfile() {
-      //Old parameter: CompanyProfile company
-      return false;
+    public void removeProfile() {
+      if (permission != -1) {
+          System.out.println("You don't have permission to use this command. Returning to home screen . . .");
+          return;
+      }
+      try {
+          System.out.println("What is the name of the company you would like to remove?");
+          String nameInput = scanner.nextLine();
+          CompanyProfile profileToRemove = null;
+            for(CompanyProfile profile : database.getCompanyProfiles()) {
+                if(profile.getCompanyName().equals(nameInput)) {
+                    profileToRemove = profile;
+                }
+            }
+            if(profileToRemove == null) {
+                System.out.println("No company profile is associated with that name. Returning to previous menu...\n");
+                return;
+            }
+            System.out.println("Are you sure you want to remove this profile? [Y/N]");
+            String choice = scanner.nextLine().toLowerCase();
+            if(choice.equals("n")) {
+                System.out.println("Aborting command. Returning to previous menu...\n");
+                return;
+            }
+            else if(choice.equals("y")) {
+                database.removeProfile(profileToRemove);
+                System.out.println("The specified profile has been removed.\n");
+                return;
+            }
+            else {
+                System.out.println("You entered something that wasn't 'Y' or 'N'. Restart the command if you want to try again.\n");
+            }
+
+      } catch(Exception e) {
+        System.out.println("You entered an invalid input. Returning...\n");
+        return;
+      }
+      return;
     }
 
     /**
@@ -1093,40 +1142,41 @@ public class InternshipApplication {
      * @param user The account that the Administrator wishes to remove
      */
     public void removeAccount() {
-        if(permission != -1) {
+        if (permission != -1) {
             System.out.println("You don't have permission to use this command. Returning to home screen . . .");
             return;
         }
         
         try {
-            System.out.print("What's the email of the user you want to remove? ");
-        String emailInput = scanner.nextLine();
+            System.out.print("What is the email of the user you want to remove? ");
+            String emailInput = scanner.nextLine();
 
-        User usertoRemove = null;
-        for(User user : database.getUsers()) {
-            if(user.getEmail().equals(emailInput)) {
-                usertoRemove = user;
+            User usertoRemove = null;
+            for(User user : database.getUsers()) {
+                if(user.getEmail().equals(emailInput)) {
+                    usertoRemove = user;
+                }
             }
-        }
-        if(usertoRemove == null) {
-            System.out.println("No account is associated with that email. Returning to previous menu...\n");
-        }
+            if(usertoRemove == null) {
+                System.out.println("No account is associated with that email. Returning to previous menu...\n");
+                return;
+            }
         
-        System.out.println("Are you sure you want to remove this user? [Y/N]");
-        String choice = scanner.nextLine().toLowerCase();
-        if(choice.equals("n")) {
-            System.out.println("Aborting command. Returning to previous menu...\n");
-            return;
-        }
-        else if(choice.equals("y")) {
-            Administrator user = (Administrator) this.user;
-            user.removeAccount(usertoRemove);
-            System.out.println("The specified user has been removed.\n");
-            return;
-        }
-        else {
-            System.out.println("You entered something that wasn't 'Y' or 'N'. Restart the command if you want to try again.\n");
-        }
+            System.out.println("Are you sure you want to remove this user? [Y/N]");
+            String choice = scanner.nextLine().toLowerCase();
+            if(choice.equals("n")) {
+                System.out.println("Aborting command. Returning to previous menu...\n");
+                return;
+            }
+            else if(choice.equals("y")) {
+                Administrator user = (Administrator) this.user;
+                user.removeAccount(usertoRemove);
+                System.out.println("The specified user has been removed.\n");
+                return;
+            }
+            else {
+                System.out.println("You entered something that wasn't 'Y' or 'N'. Restart the command if you want to try again.\n");
+            }
         } catch(Exception e) {
             System.out.println("You entered an invalid input. Returning...\n");
         }
@@ -1148,7 +1198,7 @@ public class InternshipApplication {
             String lastName = scanner.nextLine();
             System.out.println("What is the email of the new administrator?");
             String email = scanner.nextLine();
-            System.out.println("What is the password the new administrator?");
+            System.out.println("What is the password of the new administrator?");
             String password = scanner.nextLine();
             UUID newUUID = UUID.randomUUID();
 
