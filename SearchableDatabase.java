@@ -31,7 +31,9 @@ public class SearchableDatabase {
      */
     public static SearchableDatabase getInstance() {
         if(searchableDatabase == null){
-            return new SearchableDatabase();
+            SearchableDatabase temp = new SearchableDatabase();
+            searchableDatabase = temp;
+            return searchableDatabase;
         }
         return searchableDatabase;
     }
@@ -133,7 +135,17 @@ public class SearchableDatabase {
     public ArrayList<CompanyProfile> getCompanyProfiles() {
         return companyProfiles;
     }
-
+    public ArrayList<JobListing> searchbySkill(String skill){
+        ArrayList<JobListing> output = new ArrayList<>();
+        for(JobListing listing: this.jobListings){
+               for(String requiredSkill: listing.getRequiredSkills()){
+                   if(skill.contains(requiredSkill)) 
+                   output.add(listing);
+               }
+           } 
+           return output;    
+        }
+           
     /**
      * The searchListings method allows a user to search through JobListings by
      * entering the title of the listing they would like to find.
