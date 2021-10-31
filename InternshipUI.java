@@ -408,7 +408,7 @@ public class InternshipUI {
                 return true;
             }
             else {
-                System.out.println("\nThe email/password combination entered was invalid. Try again, or create an account.");
+                System.out.println("\nThe email/password combination entered was invalid. Try again, or create an account.\n");
                 return false;
             }
         } catch (Exception e) {
