@@ -33,7 +33,7 @@ public class DataWriter extends DataConstants {
                 case 1: //User is an employer
                     employers.add((Employer) user);
                     break;
-                case 2:
+                case -1:
                     administrators.add((Administrator) user);
                     break;
                 default:
