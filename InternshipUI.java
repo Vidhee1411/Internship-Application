@@ -104,7 +104,7 @@ public class InternshipUI {
      * @param menu The menu to be displayed
      */
     private void displayMenu(String[] menu) {
-        String output = "What would you like to do?\n";
+        String output = "";
         for(int i = 0; i < menu.length; i++) {
             output += "\t" + (i+1) + ".  " + menu[i] + "\n";
         }
@@ -189,7 +189,7 @@ public class InternshipUI {
 
             //Searching results loop
             ArrayList<JobListing> results = new ArrayList<>();
-            System.out.println("Now what criteria would you like to search by?");
+            System.out.println("what criteria would you like to search by?");
             displayMenu(internshipSearchOptions);
             
             userCommand = getUserCommand(internshipSearchOptions.length);
@@ -229,8 +229,18 @@ public class InternshipUI {
                     //If its a valid choice, print out the full description of the JobListing
                     System.out.println(results.get(resultChoice).toString());
                 }
-                System.out.println("If you'd like to learn about another option, enter the number of the internship; 0 to go back: ");
+                System.out.println("If you'd like to learn about another option, enter the number of the internship; 0 to go back or A to apply: ");
+                if(scanner.hasNextInt()){
                 resultChoice = Integer.parseInt(scanner.nextLine()) - 1;
+                }else{
+                    String otherChoice = scanner.nextLine();
+                    if ((otherChoice.contains("a") || otherChoice.contains("A")) && this.application.getUser().getPermission() == 0){
+                    Student student = (Student) this.application.getUser();
+                    student.applyForInternship(results.get(resultChoice));
+                    System.out.print("Successfully applyed ");
+                     }
+                     resultChoice = -1;
+                 }   
             }
         } catch (Exception e) {
             System.out.println("Your input was invalid.");
@@ -250,9 +260,9 @@ public class InternshipUI {
             System.out.println(resultSize + " result(s) found!\n");
         }
 
-        for(int i = 1; i <= resultSize; i++) {
+        for(int i = 0; i < resultSize ; i++) {
             JobListing jobListing = results.get(i);
-            System.out.println(i + ". " + jobListing.toStringSummary());
+            System.out.println(i + 1 + ". " + jobListing.toStringSummary());
         }
     }
 

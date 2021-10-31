@@ -8,7 +8,8 @@ public class DataLoadTest {
         SearchableDatabase database = DataLoader.loadData();
         InternshipApplication temp = new InternshipApplication();
         InternshipUI tempUI = new InternshipUI();
-       tempUI.run();
+         tempUI.run();
+         System.out.println("");
         
 
     }
