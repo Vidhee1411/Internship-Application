@@ -172,7 +172,7 @@ public class DataLoader extends DataConstants {
                 String firstName = (String)employer.get(EMPLOYER_FIRST_NAME);
                 String lastName = (String)employer.get(EMPLOYER_LAST_NAME);
                 String email = (String)employer.get(EMPLOYER_EMAIL);
-                String password = (String)employer.get(EMPLOYER_EMAIL);
+                String password = (String)employer.get(EMPLOYER_PASSWORD);
                 UUID id = UUID.fromString((String)employer.get(EMPLOYER_ID));
                 CompanyProfile associatedCompany = companyProfiles.get(employer.get(EMPLOYER_ASSOCIATED_COMPANY));
                 output.add(new Employer(firstName, lastName, email, password, associatedCompany, id));
