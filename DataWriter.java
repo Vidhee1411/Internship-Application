@@ -33,7 +33,7 @@ public class DataWriter extends DataConstants {
                 case 1: //User is an employer
                     employers.add((Employer) user);
                     break;
-                case 2:
+                case -1:
                     administrators.add((Administrator) user);
                     break;
                 default:
@@ -185,7 +185,12 @@ public class DataWriter extends DataConstants {
             employerDetails.put(EMPLOYER_EMAIL, employer.getEmail());
             employerDetails.put(EMPLOYER_PASSWORD, employer.getPassword());
             employerDetails.put(EMPLOYER_PERMISSION, 1);
-            employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().toString());
+            if(employer.getCompany() == null) {
+                employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, null);
+            }
+            else {
+                employerDetails.put(EMPLOYER_ASSOCIATED_COMPANY, employer.getCompany().toString());
+            }
             jsonEmployer.add(employerDetails);
         }
 

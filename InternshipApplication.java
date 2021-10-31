@@ -23,7 +23,7 @@ public class InternshipApplication {
      * run the entire program.
      */
      InternshipApplication() {
-        this.database = SearchableDatabase.getInstance();
+        this.database = DataLoader.loadData();
         this.scanner = new Scanner(System.in);
     }
 
@@ -66,6 +66,7 @@ public class InternshipApplication {
             case "employer":
                 Employer e1 = new Employer(firstname, lastname, email, password);
                 database.addUser(e1);
+                this.user = e1;
                 return true;
         }
         return false;
@@ -436,8 +437,7 @@ public class InternshipApplication {
                             System.out.println("Please enter a skill to add to your resume");
                             String newSkill = scanner.nextLine();
                             if (student.getSkills().indexOf(newSkill) == -1) {
-                                System.out.println("You entered a skill that isn't in your profile. Returning to previous screen.");
-                                break;
+                                student.addSkill(newSkill);
                             }
                             if (student.getResume().getSkills().indexOf(newSkill) != -1) {
                                 System.out.println("You entered a skill that is already on your resume. Returning to previous screen.");
@@ -459,14 +459,105 @@ public class InternshipApplication {
                     }
                     break;
                 case("2"):
-                    System.out.println("WorkExperience");
+                    System.out.println("Work experiences on your resume: ");
+                    ArrayList <WorkExperience> experiences = student.getResume().getExperiences();
+                    for (WorkExperience exp: experiences) {
+                        System.out.println(exp.toString());
+                    }
+                    System.out.println("Please enter \"1\" to add a Work Experience to your resume, \"2\" to remove a Work Experience from your resume, or \"3\" to go back:");
+                    String input3 = scanner.nextLine();
+                    switch (input3) {
+                        case("1"):
+                            System.out.print("\tWhat is the title of your new work experience? ");
+                            String jobTitle = scanner.nextLine();
+                            System.out.print("\tWhat is the company/organization you worked for? ");
+                            String company = scanner.nextLine();
+                            System.out.print("\tProvide the date range of this experience (e.g. 7/7/21-8/7/21): ");
+                            String dateRange = scanner.nextLine();
+                            System.out.print("\tGive a description of this work experience: ");
+                            String description = scanner.nextLine();
+                            student.getResume().addExperience(new WorkExperience(jobTitle, company, dateRange, description));
+                            break;
+                        case("2"):
+                            System.out.println("What is the title of the work experience you would like to remove?");
+                            String removeJob = scanner.nextLine();
+                            for (WorkExperience exp: experiences) {
+                                if (exp.getJobTitle().equals(removeJob)) {
+                                    student.getResume().removeExperience(exp);
+                                    break;
+                                }
+                            }
+                            break;
+                        case("3"):
+                            break;
+                    }
                     break;
                 case("3"):
-                    System.out.println("Education");
+                    System.out.println("Education on your resume: ");
+                    ArrayList <Education> education = student.getResume().getEducation();
+                    for (Education edu: education) {
+                        System.out.println(edu.toString());
+                    }
+                    System.out.println("Please enter \"1\" to add an Education to your resume, \"2\" to remove an Education from your resume, or \"3\" to go back:");
+                    String input4 = scanner.nextLine();
+                    switch (input4) {
+                        case("1"):
+                            System.out.print("\tWhat university/college did you attend? ");
+                            String nameOfUniversity = scanner.nextLine();
+                            System.out.print("\tWhat is/was your major at said university/college? ");
+                            String major = scanner.nextLine();
+                            System.out.print("\tWhat was your GPA there? (e.g. 2.45, 4.00): ");
+                            double gpa = scanner.nextDouble();
+                            scanner.nextLine();
+                            System.out.print("\tWhat is your expected grad date (or actual grad date if graduated) (e.g. Spring 2024)? ");
+                            String expectedGradDate = scanner.nextLine();
+                            student.getResume().addEducation(new Education(nameOfUniversity, major, gpa, expectedGradDate));
+                            break;
+                        case("2"):
+                            System.out.println("What is the name of the university of the education you would like to remove?");
+                            String removeEducation = scanner.nextLine();
+                            for (Education edu: education) {
+                                if (edu.getName().equals(removeEducation)) {
+                                    student.getResume().removeEducation(edu);
+                                    break;
+                                }
+                            }
+                            break;
+                        case("3"):
+                            break;
+                    }
                     break;
                 case("4"):
-                    System.out.println("Classes");
-                    break;
+                    System.out.println("Classes in your profile: " + student.getClasses());
+                    System.out.println("Please enter \"1\" to add a class to your resume, \"2\" to remove a class from your resume, or \"3\" to go back:");
+                    String input5 = scanner.nextLine();
+                    switch (input5) {
+                        case("1"):
+                            System.out.println("Please enter a class to add to your resume");
+                            String newClass = scanner.nextLine();
+                            if (student.getClasses().indexOf(newClass) == -1) {
+                                student.addClass(newClass);
+                            }
+                            if (student.getResume().getClasses().indexOf(newClass) != -1) {
+                                System.out.println("You entered a class that is already on your resume. Returning to previous screen.");
+                                break;
+                            }
+                            student.getResume().addClass(newClass);
+                            System.out.println();
+                            break;
+                        case("2"):
+                            System.out.println("Please enter a class to remove from your resume");
+                            String removeClass = scanner.nextLine();
+                            if (student.getResume().getClasses().indexOf(removeClass) == -1) {
+                                System.out.println("You entered a class that isn't on your resume. Returning to previous screen.");
+                                break;
+                            }
+                            student.getResume().removeClass(removeClass);
+                            break;
+                        case("3"):
+                            break;
+                    }
+                break;
                 case("5"):
                     System.out.println("Returning to main menu");
                     editingResume = false;

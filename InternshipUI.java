@@ -174,8 +174,11 @@ public class InternshipUI {
      */
     private void sortAndSearchInternships() {
         try {
+            System.out.println("How would you like your results sorted?");
             displayMenu(internshipSortOptions);
-            int userCommand = getUserCommand(internshipSortOptions.length);
+
+            int userCommand = getUserCommand(internshipSearchOptions.length);
+            System.out.print("Please enter the number next to your desired sorting: ");
 
             switch(userCommand) {
                 case(-1):
@@ -193,7 +196,7 @@ public class InternshipUI {
             displayMenu(internshipSearchOptions);
             
             userCommand = getUserCommand(internshipSearchOptions.length);
-
+            System.out.print("Please enter the number next to your desired search method: ");
 
             switch(userCommand) {
                 case(-1):
@@ -408,16 +411,14 @@ public class InternshipUI {
             System.out.print("Enter email: ");
             email = scanner.nextLine();
             System.out.print("Enter password: ");
-            //password = String.valueOf(console.readPassword());
-            // todo fix cant type in the console
-            password = scanner.nextLine();
+            password = String.valueOf(console.readPassword());
 
             if(application.logOn(email, password)) {
                 System.out.println("\nHello, " + application.getUser().getFirstName());
                 return true;
             }
             else {
-                System.out.println("\nThe email/password combination entered was invalid. Try again, or create an account.");
+                System.out.println("\nThe email/password combination entered was invalid. Try again, or create an account.\n");
                 return false;
             }
         } catch (Exception e) {
