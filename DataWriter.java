@@ -61,6 +61,7 @@ public class DataWriter extends DataConstants {
             studentDetails.put(STUDENT_LAST_NAME, student.getLastName());
             studentDetails.put(STUDENT_EMAIL, student.getEmail());
             studentDetails.put(STUDENT_PASSWORD, student.getPassword());
+            studentDetails.put(STUDENT_YEAR_IN_SCHOOL, student.getYearInSchool());
             studentDetails.put(STUDENT_PERMISSION, 0);
             studentDetails.put(STUDENT_REVIEWS, reviewsToJSONArray(student.getReviews()).toJSONString());
             studentDetails.put(STUDENT_CLASSES, arrayListToJsonArray(student.getClasses()));

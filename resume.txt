@@ -1,0 +1,16 @@
+Joshua dupuis
+Year In School: Sophomore
+Contact: jdupuis1@email.sc.edu
+
+--------------------------
+Education:
+--------------------------
+Classes: 
+   - csce 240
+   - spch 230
+--------------------------
+Previous Work Experience: 
+--------------------------
+Skills: 
+   - java programming
+--------------------------

@@ -134,6 +134,15 @@ public abstract class User {
     }
 
     /**
+     * The setUserUUID method sets the UUID of the user.
+     * @param uuid The UUID to assign to the user
+     */
+    public void setUserUUID(UUID id) {
+        this.id = id;
+    }
+
+
+    /**
      * The abstract method getPermission returns a user's permission identifier
      * - a number that is unique to each type of user.
      * @return The permission value of the user

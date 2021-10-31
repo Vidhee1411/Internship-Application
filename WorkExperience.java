@@ -109,7 +109,8 @@ public class WorkExperience {
      * @return A String description of the work experience
      */
     public String toString() {
-        return "Company: " +company + "\n" + "Employment date: " + dateRange + "\n" + "Job Title: " + jobTitle + "\n" + "Description: " + description;
+        return "Company: " +company + "\n   " + "Employment date: " + dateRange + "\n   " + 
+            "Job Title: " + jobTitle + "\n   " + "Description: " + description;
     }
 
 }
