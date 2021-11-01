@@ -22,7 +22,7 @@ public class Administrator extends User{
     /**
      * The removeListing method removes the given listing.
      * @param company The company's listing to be removed.
-     * @return true if the company is removed.
+     * @return true if the listing is removed.
      */
     public boolean removeListing(JobListing listing) {
         SearchableDatabase temp = SearchableDatabase.getInstance();
