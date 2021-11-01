@@ -183,6 +183,13 @@ public class InternshipApplication {
     public void sortAlphabetically() {
         database.sortListingsAlphabetically();
     }
+    
+    /**
+     * This sort method allows a user to sort the listings through pay rate. 
+     */
+    public void sortPayRate() {
+        database.sortListingsbyPay();
+    }
 
     /**
      * This sort method allows a user to sort the listings in the database by pay amount.

@@ -20,7 +20,7 @@ public class InternshipUI {
     private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company","View Company Profile","Create a Job Listing","Edit a Job Listing","View Job Listing Applicants","Remove a Job Listing", "Review a Student", "Log Out"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate","Required Skill"};
-    private String[] internshipSortOptions = {"Alphabetically (Ascending)", "By Pay (Ascending)"};
+    private String[] internshipSortOptions = {"Alphabetically (Ascending)","Pay Rate (Ascending)"};
     boolean loggedIn = false;
 //    boolean loggedOut = false;
     boolean onSystem = true;
@@ -201,8 +201,9 @@ public class InternshipUI {
                 case(0):
                     application.sortAlphabetically();
                     break;
-                case(1):
-                    application.sortByPay();
+                //pay rate
+                    case(1):
+                    application.sortPayRate();
                     break;
             }
 

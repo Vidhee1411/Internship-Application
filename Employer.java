@@ -21,15 +21,22 @@ public class Employer extends User {
         
      }
 
+     /**
+      * This Employer constructor functions the same way as the one above,
+      * and also allows for specification of a company the employer associates
+      * with and a UUID identifier.
+      * @param firstName The first name of the employer
+      * @param lastName The last name of the employer
+      * @param email The email of the employer
+      * @param password The employer's password
+      * @param associatedCompany The company the employer associates with
+      * @param id The UUID of the employer
+      */
      public Employer(String firstName, String lastName, String email, String password, CompanyProfile associatedCompany,UUID id) {
         super(firstName, lastName, email, password, id);
         this.associatedCompany = associatedCompany;
 
     }
-
-     public CompanyProfile createCompanyProfile(String name, String hqaddress){
-         return associatedCompany;
-     }
     
      /**
      * The associateCompany method allows an employer to associate with a
