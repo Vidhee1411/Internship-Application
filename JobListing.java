@@ -252,9 +252,34 @@ public class JobListing {
      * @return The String summary of the JobListing
      */
     public String toString() {
+        String output = "\t" + title + "\n\tCompany: " + company + "\n\tDescription: " + description + "\n\tLocation: " + 
+            location +  "\n\tPaid: " + paid + "\n\tPay rate per hour: " + DOLLAR_FORMAT.format(payRate) + 
+            "\n\tRequired Skills: " + requiredSkills.toString() + "\n";
+        if(!applicants.isEmpty()) {
+            output += "\tApplicants List: ["; 
+            boolean beginningOfList = true;
+            for(Student applicant : applicants) {
+                if(beginningOfList) {
+                    beginningOfList = false;
+                }
+                else {
+                    output += ", ";
+                }
+                output += applicant.getFirstName() + " " + applicant.getLastName();
+            }
+            output += "]\n";
+        }
+        return output;
+    }
+
+    /**
+     * Returns a neatly formatted String representation of the JobListing, minus the applicants.
+     * @return The String representation of the JobListing
+     */
+    public String toStringforStudents() {
         return "\t" + title + "\n\tCompany: " + company + "\n\tDescription: " + description + "\n\tLocation: " + 
             location +  "\n\tPaid: " + paid + "\n\tPay rate per hour: " + DOLLAR_FORMAT.format(payRate) + 
-            "\n\tRequired Skills: " + requiredSkills.toString() + "\n" + "\n\tApplicants List: " + applicants.toString() + "\n";
+            "\n\tRequired Skills: " + requiredSkills.toString();
     }
 
     /**

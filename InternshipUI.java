@@ -16,14 +16,13 @@ public class InternshipUI {
     private Scanner scanner;
     private static final String START_MESSAGE = "Welcome!\n";
     private String[] startMenuOptions = {"Log In","Create Account", "Exit System"};
-    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","View Resume","Print Resume to Text File","Log Out"};
-    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company","View Company Profile","Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
+    private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship/Apply","Review an Internship","Create your Resume","Edit Your Resume","View Resume","Print Resume to Text File","Log Out"};
+    private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company","View Company Profile","Create a Job Listing","Edit a Job Listing","View Job Listing Applicants","Remove a Job Listing", "Review a Student", "Log Out"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate","Required Skill"};
-    private String[] internshipSortOptions = {"Alphabetically (Ascending) ","Pay Rate"};
-    boolean loggedIn = false;
-//    boolean loggedOut = false;
-    boolean onSystem = true;
+    private String[] internshipSortOptions = {"Alphabetically (Ascending)","Pay Rate (Ascending)"};
+    private boolean loggedIn = false;
+    private boolean onSystem = true;
 
     public InternshipUI() {
         scanner = new Scanner(System.in);
@@ -69,27 +68,31 @@ public class InternshipUI {
 
             // The main application menu loops, accessible once logged in. Changes depending on user type
             while(loggedIn) {
-                switch(userPermission) {
-                    //Options for administrators
-                    case(-1):
-                        displayMenu(mainMenuOptionsAdmin);
-                        userCommand = getUserCommand(mainMenuOptionsAdmin.length);
-                        resolveAdminOptions(userCommand);
-                        break;
+                try {
+                    switch(userPermission) {
+                        //Options for administrators
+                        case(-1):
+                            displayMenu(mainMenuOptionsAdmin);
+                            userCommand = getUserCommand(mainMenuOptionsAdmin.length);
+                            resolveAdminOptions(userCommand);
+                            break;
 
-                    //Options for students
-                    case(0):
-                        displayMenu(mainMenuOptionsStudent);
-                        userCommand = getUserCommand(mainMenuOptionsStudent.length);
-                        resolveStudentOptions(userCommand);
-                        break;
+                        //Options for students
+                        case(0):
+                            displayMenu(mainMenuOptionsStudent);
+                            userCommand = getUserCommand(mainMenuOptionsStudent.length);
+                            resolveStudentOptions(userCommand);
+                            break;
 
-                    //Options for employers
-                    case(1):
-                        displayMenu(mainMenuOptionsEmployer);
-                        userCommand = getUserCommand(mainMenuOptionsEmployer.length);
-                        resolveEmployerOptions(userCommand);
-                        break;
+                        //Options for employers
+                        case(1):
+                            displayMenu(mainMenuOptionsEmployer);
+                            userCommand = getUserCommand(mainMenuOptionsEmployer.length);
+                            resolveEmployerOptions(userCommand);
+                            break;
+                    }
+                } catch(Exception e) {
+                    System.out.println("You entered invalid input. Try again.\n");
                 }
             }
             System.out.println("You have been successfully logged out.\n");
@@ -105,7 +108,12 @@ public class InternshipUI {
     private void displayMenu(String[] menu) {
         String output = "~~~~~~~~~~~~Options~~~~~~~~~~~~\n";
         for(int i = 0; i < menu.length; i++) {
-            output += "\t" + (i+1) + ".  " + menu[i] + "\n";
+            if(i < 9) {
+                output += "\t" + (i+1) + ".  " + menu[i] + "\n";
+            }
+            else {
+                output += "\t" + (i+1) + ". " + menu[i] + "\n";
+            }
         }
         //output += CHOICE_PROMPT;
         System.out.println(output);
@@ -200,10 +208,10 @@ public class InternshipUI {
 
             //Searching results loop
             ArrayList<JobListing> results = new ArrayList<>();
-            System.out.println("What criteria would you like to search by?");
+            System.out.println("\nWhat criteria would you like to search by?");
             displayMenu(internshipSearchOptions);
             
-            System.out.println("Please enter the number next to your desired search method: ");
+            System.out.print("Please enter the number next to your desired search method: ");
             userCommand = getUserCommand(internshipSearchOptions.length);
 
             switch(userCommand) {
@@ -211,7 +219,7 @@ public class InternshipUI {
                     System.out.println("You chose an invalid choice. Try again.");
                 //By internship title
                 case(0):
-                    System.out.println("Please enter the title of the internship: ");
+                    System.out.print("Please enter the title of the internship: ");
                     results = application.search(scanner.nextLine());
                     formatSearchResults(results);
                     break;
@@ -237,15 +245,15 @@ public class InternshipUI {
                 return;
             }
             //Internship details loop 
-            System.out.print("Please enter the number of the internship you would like to learn more about or 0 to go back: ");
+            System.out.print("-------------------------------\nPlease enter the number of the internship you would like to learn more about and possibly apply for, or 0 to go back: ");
             int resultChoice = Integer.parseInt(scanner.nextLine()) - 1;    //Account for zero index
             while(resultChoice != -1) {       
                 if(resultChoice < -1 || resultChoice >= results.size() + 1) {
                     System.out.println("You chose an internship number that wasn't listed. Try again, or type 0 to go back.");
                 }
                 else {
-                    //If its a valid choice, print out the full description of the JobListing
-                    System.out.println(results.get(resultChoice).toString());
+                    //If its a valid choice, print out the description of the JobListing
+                    System.out.println(results.get(resultChoice).toStringforStudents());
                 }
                 System.out.println("If you'd like to learn about another option, enter the number of the internship; 0 to go back or A to apply: ");
                 if(scanner.hasNextInt()){
@@ -254,8 +262,10 @@ public class InternshipUI {
                     String otherChoice = scanner.nextLine();
                     if ((otherChoice.toLowerCase().contains("a") && this.application.getUser().getPermission() == 0)) {
                         Student student = (Student) this.application.getUser();
-                        student.applyForInternship(results.get(resultChoice));
-                        System.out.println("You successfully applied!");
+                        if(!application.applyForInternship(results.get(resultChoice))) {
+                            return;
+                        }
+                        System.out.println("You successfully applied!\n");
                      }
                      resultChoice = -1;
                  }   
@@ -267,7 +277,7 @@ public class InternshipUI {
     
     /**
      * Private helper method used to print out cleanly formatted and descriptive search results.
-     * @param results
+     * @param results The ArrayList of results to format
      */
     private void formatSearchResults(ArrayList<JobListing> results) {
         if(results.size() == 0) {
@@ -283,12 +293,12 @@ public class InternshipUI {
             for (Integer index: indicesOfHiddens) {
                 results.remove(results.get(index));
             }
-            System.out.println(results.size() + " result(s) found!\n");
+            System.out.println("-------------------------------\n" + results.size() + " result(s) found!\n");
         }
 
         for(int i = 0; i < results.size(); i++) {
             JobListing jobListing = results.get(i);
-            System.out.println(i + 1 + ". " + jobListing.toStringSummary());
+            System.out.println(i + 1 + ". " + jobListing.toStringSummary() + "\n");
         }
     }
 
@@ -328,18 +338,22 @@ public class InternshipUI {
             case(5):
                 application.editJobListing();
                 break;
-            //Remove a Job Listing
+            //View Job Listing Applicants
             case(6):
+                application.viewJobListingApplicants();
+                break;
+            //Remove a Job Listing
+            case(7):
                 System.out.println("Please enter the title of the listing you would like to remove: ");
                 String input2 = scanner.nextLine();
                 application.removeJobListing(input2);
                 break;
             //Review a Student
-            case(7):
+            case(8):
             	application.writeReview();
                 break;
             //Log out
-            case(8):
+            case(9):
                 application.logOff();
                 loggedIn = false;
                 break;
