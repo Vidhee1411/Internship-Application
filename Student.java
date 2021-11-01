@@ -236,4 +236,18 @@ public class Student extends User{
     public int getPermission() {
         return PERMISSION;
     }
+
+    public String toString() {
+        String output = firstName + " " + lastName + "\nSchool Year: " + yearInSchool;
+        if(resume != null) {
+            output+= "\nResume: " + resume.toString();
+        }
+        if(!reviewsFromCompanies.isEmpty()) {
+            output += "\nReviews: \n";
+            for(Review review : reviewsFromCompanies) {
+                output += review.toString() + "\n";
+            }
+        }
+        return output;
+    }
 }
