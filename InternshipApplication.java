@@ -30,7 +30,6 @@ public class InternshipApplication {
     /**
      * The CreateAccount method allows a user to create an account as either an
      * employer or student.
-     * 
      * @param accountType The type of account to be created
      * @return True if the account was successfully made, false otherwise
      */
@@ -188,13 +187,6 @@ public class InternshipApplication {
      * This sort method allows a user to sort the listings through pay rate. 
      */
     public void sortPayRate() {
-        database.sortListingsbyPay();
-    }
-
-    /**
-     * This sort method allows a user to sort the listings in the database by pay amount.
-     */
-    public void sortByPay() {
         database.sortListingsbyPay();
     }
 
@@ -812,43 +804,6 @@ public class InternshipApplication {
         }
     }
 
-    public void viewJobListingApplicants() {
-        if(permission != 1) {
-            System.out.println("You don't have valid permissions to do this.\n");
-            return;
-        }
-        Employer employer = (Employer) this.user;
-        ArrayList<JobListing> employerListings = employer.getCompany().getListings();
-        if(employerListings.isEmpty()) {
-            System.out.println("You must have pre-existing job listings before you can view the applicants for them!\n");
-            return;
-        }
-        formatListingVisibilities(employerListings);
-        System.out.println("Please enter the number of the listing you would like to view the applicants of, or 0 to go back: ");
-        int listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
-        while(listingChoice != -1) {       
-            if(listingChoice < -1 || listingChoice >= employerListings.size() + 1) {
-                System.out.println("You chose a listing that wasn't listed. Try again with a valid choice, or type 0 to go back.");
-            }
-            else {
-                //If its a valid choice, attempt to view applicants
-                JobListing chosenListing = employerListings.get(listingChoice);
-                ArrayList<Student> chosenApplicants = chosenListing.getApplicants();
-                if(chosenApplicants.isEmpty()) {
-                    System.out.println("The selected job listing currently has no applicants to view.\n");
-                }
-                else {
-                    for(Student applicant : chosenApplicants) {
-                        System.out.println(applicant.toString() + "\n---------------------------");
-                    }
-                }
-                System.out.print("If you'd like to view applicants of another listing, enter the number of the listing; 0 to go back: ");
-            }
-            listingChoice = Integer.parseInt(scanner.nextLine()) - 1;
-        }
-        System.out.println(); //For formatting
-    }
-
     /**
      * The toggleJobListingVisibility method allows an employer to toggle the visibility setting
      * of a given jobListing.
@@ -1253,36 +1208,18 @@ public class InternshipApplication {
     }
 
     /**
-     * The applyForInternship method allows a student to apply for an internship.
+     * The applyForInternshipMethod allows a student to apply for an internship
      * in the database
      * @param listing The internship the user wants to apply for
-     * @return True if the application is successful, false otherwise
      */
-    public boolean applyForInternship(JobListing listing) {
-        if(this.user.getPermission() == 0) {
-            Student student = (Student) this.user;
-            if(student.getResume() == null) {
-                System.out.println("You need to create a resume before you can apply for a listing.\n");
-                return false;
-            }
-            else if(listing.getApplicants().contains(student)) {
-                System.out.println("You've already applied for this job listing before.\n");
-                return false;
-            }
-            else {
-                listing.apply(student);
-                return true;
-            }
-        }
-        else {
-            System.out.println("You don't have permission to use this command. Returning to home screen . . .");
-            return false;
-        }
+    public void applyForInternship(JobListing listing) {
+        if(this.user.getPermission() == 0)
+        listing.apply((Student)this.user);
     }
     
     /**
-     * gets the permission level (int) from the current user
-     * @return
+     * gets the permission value (int) from the current user
+     * @return The permission value of the user
      */
     public int getUserPermission(){
         return this.user.getPermission();
