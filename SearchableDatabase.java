@@ -135,6 +135,14 @@ public class SearchableDatabase {
     public ArrayList<CompanyProfile> getCompanyProfiles() {
         return companyProfiles;
     }
+
+    /**
+     * The searchbySkill method allows a user to search internship listings
+     * by their required skills.
+     * @param skill The skill to search listings by
+     * @return An ArrayList of the listings that require the skill entered by
+     * the user
+     */
     public ArrayList<JobListing> searchbySkill(String skill){
         ArrayList<JobListing> output = new ArrayList<>();
         for(JobListing listing: this.jobListings){
