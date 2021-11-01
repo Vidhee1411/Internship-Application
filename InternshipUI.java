@@ -15,12 +15,11 @@ public class InternshipUI {
     private InternshipApplication application;
     private Scanner scanner;
     private static final String START_MESSAGE = "Welcome!\n";
-    private static final String CHOICE_PROMPT = "Please enter the number next to your preferred action: ";
     private String[] startMenuOptions = {"Log In","Create Account", "Exit System"};
     private String[] mainMenuOptionsStudent = {"Edit personal information","Search for Internship","Review an Internship","Create your Resume","Edit Your Resume","View Resume","Print Resume to Text File","Log Out"};
     private String[] mainMenuOptionsEmployer = {"Edit personal information","Create a Company Profile", "Associate With an Existing Company","View Company Profile","Create a Job Listing","Edit a Job Listing","Remove a Job Listing", "Review a Student", "Log Out"};
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
-    private String[] internshipSearchOptions = {"Internship Title","Pay Rate"};
+    private String[] internshipSearchOptions = {"Internship Title","Pay Rate","Required Skill"};
     private String[] internshipSortOptions = {"Alphabetically (Ascending)"};
     boolean loggedIn = false;
 //    boolean loggedOut = false;
@@ -219,6 +218,13 @@ public class InternshipUI {
                     results = application.search(minPay);
                     formatSearchResults(results);
                     break;
+                //By required skill
+                case(2):
+                    System.out.print("Please enter the name of the skill you'd like to search by: ");
+                    String skillToSearch = scanner.nextLine();
+                    results = application.searchBySkill(skillToSearch);
+                    formatSearchResults(results);
+                    break;
             }
 
                 
@@ -349,7 +355,7 @@ public class InternshipUI {
         			break;
         		}
         		else if(response.equals("n")) {
-        			System.out.println("Returning to home screen.");
+        			System.out.println("Returning to home screen.\n");
         			return;
         		}
         		else {
