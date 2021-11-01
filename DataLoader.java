@@ -80,7 +80,9 @@ public class DataLoader extends DataConstants {
                ArrayList<Review> reviews = getReviews(student);
                ArrayList<Resume> resumes = getResumes(student, skills, classes);
                Student temp = new Student(firstName, lastName, email, password, yearInSchool, id, skills, classes, reviews);
-               temp.setResume(resumes.get(0)); // may be adding multiple resumes in the future 
+               if(!resumes.isEmpty()) {
+                   temp.setResume(resumes.get(0)); // may be adding multiple resumes in the future 
+               }
                output.add(temp);
 
            }
