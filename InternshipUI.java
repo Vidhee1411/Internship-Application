@@ -312,8 +312,8 @@ public class InternshipUI {
                 break;
             //Remove a Job Listing
             case(6):
-                System.out.println("Please enter the title of the listing you would like to remove: ");
-                String input2 = scanner.nextLine();
+                //System.out.println("Please enter the title of the listing you would like to remove: ");
+                //String input2 = scanner.nextLine();
                 application.removeJobListing(input2);
                 break;
             //Review a Student

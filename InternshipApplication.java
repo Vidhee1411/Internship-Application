@@ -961,7 +961,7 @@ public class InternshipApplication {
      * @param jobListing The job listing the employer wants to remove
      */
     public void removeJobListing(String title) {
-        if (permission != 1 || permission != 1) {
+        if (permission != 1 || permission != 0) {
             System.out.println("You don't have permission to use this command. Returning to home screen . . .");
             return;
         }
