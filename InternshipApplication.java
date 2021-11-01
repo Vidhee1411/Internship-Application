@@ -291,7 +291,7 @@ public class InternshipApplication {
                     return;
                 }
 
-                System.out.print("On a scale of 1 to 5 (no decimals), what is your rating of the company (e.g. 3)? ");
+                System.out.print("On a scale of 1 to 5 (no decimals), what is your rating of the student (e.g. 3)? ");
                 int rating = scanner.nextInt();
                 scanner.nextLine();
                 if(rating > 5 || rating < 1) {
