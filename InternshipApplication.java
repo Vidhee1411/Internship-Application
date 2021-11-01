@@ -967,33 +967,6 @@ public class InternshipApplication {
     }
 
     /**
-     * Private helper method used to print out cleanly formatted and descriptive JobListings, including visibility.
-     * @param reviews The ArrayList of listings to print out
-     */
-    private void formatReviews(ArrayList<Review> reviews) {
-        if (reviews.size() == 0) {
-            return;
-        }
-        ArrayList<Integer> hiddenIndices = new ArrayList<Integer>();
-        for (int i = 0; i < reviews.size(); i++) {
-            if (reviews.get(i).getVisibility() == false) {
-                hiddenIndices.add(0, i);
-            }
-        }
-        for (Integer index: hiddenIndices) {
-            reviews.remove(reviews.get(index));
-        }
-        System.out.println(reviews.size() + " review(s) available:\n");
-
-        for(int i = 1; i <= reviews.size(); i++) {
-            Review review = reviews.get(i-1);
-            System.out.println("\t" + i + ". " + review.toString() +
-                                "\n\tVisibility: " + review.getVisibility() + "\n");
-        }
-    }
-
-
-    /**
      * The removeJobListing method allows an employer to remove a job listing
      * from the database of listings.
      * @param jobListing The job listing the employer wants to remove
@@ -1253,6 +1226,10 @@ public class InternshipApplication {
         return this.user.getPermission();
     }
 
+    /**
+     * The getUser method returns the user who is using the internship system.
+     * @return The user who is using the system
+     */
     public User getUser(){
         return this.user;
     }
