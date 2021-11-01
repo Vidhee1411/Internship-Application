@@ -105,6 +105,9 @@ public class DataWriter extends DataConstants {
      * @return The JSONArray representation of reviews
      */
     private static JSONArray resumeToJSONArray(Resume resume, Student student) {
+        if(resume == null) {
+            return new JSONArray();
+        }
         JSONArray jsonResumes = new JSONArray();
         JSONObject resumeDetails = new JSONObject();
         resumeDetails.put(RESUME_SCHOOL_YEAR, resume.getYearInSchool());
@@ -236,11 +239,23 @@ public class DataWriter extends DataConstants {
      */
     public static void saveJobListings() {
         SearchableDatabase companyJobDatabase = SearchableDatabase.getInstance();
-        ArrayList<JobListing> jobsList = companyJobDatabase.getJobListings();
+        ArrayList<CompanyProfile> companyProfileList = companyJobDatabase.getCompanyProfiles();
         JSONArray jsonListings = new JSONArray();
 
-        for (int i = 0; i < jobsList.size(); i++) {
-            jsonListings.add(getJobListingJSON(jobsList.get(i)));
+        for(CompanyProfile company : companyProfileList) {
+            for(JobListing jobListing : company.getListings()) {
+                JSONObject listingDetails = new JSONObject();
+                listingDetails.put(LISTING_ID, jobListing.getUUID().toString());
+                listingDetails.put(LISTING_TITLE, jobListing.getTitle());
+                listingDetails.put(LISTING_DESCRIPTION, jobListing.getDescription());
+                listingDetails.put(LISTING_PAID, jobListing.getPaid());
+                listingDetails.put(LISTING_PAY_RATE, jobListing.getPayRate());
+                listingDetails.put(LISTING_REQUIRED_SKILLS, arrayListToJsonArray(jobListing.getRequiredSkills()).toJSONString());
+                listingDetails.put(LISTING_COMPANY_NAME, jobListing.getCompany());
+                listingDetails.put(LISTING_HIDDEN, jobListing.getVisibility());
+                listingDetails.put(LISTING_APPLICANT_IDS, studentsToJsonIDArray(jobListing.getApplicants()).toJSONString());
+                jsonListings.add(listingDetails);
+            }
         }
 
         try {
@@ -250,26 +265,6 @@ public class DataWriter extends DataConstants {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Converts a given JobListing into a JSONObject.
-     * 
-     * @param jobListing The JobListing to convert into a JSONObject
-     * @return The JSONObject representation of the JobListing
-     */
-    public static JSONObject getJobListingJSON(JobListing jobListing) {
-        JSONObject listingDetails = new JSONObject();
-        listingDetails.put(LISTING_ID, jobListing.getUUID().toString());
-        listingDetails.put(LISTING_TITLE, jobListing.getTitle());
-        listingDetails.put(LISTING_DESCRIPTION, jobListing.getDescription());
-        listingDetails.put(LISTING_PAID, jobListing.getPaid());
-        listingDetails.put(LISTING_PAY_RATE, jobListing.getPayRate());
-        listingDetails.put(LISTING_REQUIRED_SKILLS, arrayListToJsonArray(jobListing.getRequiredSkills()).toJSONString());
-        listingDetails.put(LISTING_COMPANY_NAME, jobListing.getCompany());
-        listingDetails.put(LISTING_HIDDEN, jobListing.getVisibility());
-        listingDetails.put(LISTING_APPLICANT_IDS, studentsToJsonIDArray(jobListing.getApplicants()).toJSONString());
-        return listingDetails;
     }
 
     /**
