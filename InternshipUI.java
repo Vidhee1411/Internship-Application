@@ -21,9 +21,8 @@ public class InternshipUI {
     private String[] mainMenuOptionsAdmin = {"Edit personal information","Search for an Internship","Remove User Account","Remove Company Profile","Edit Job Listing Visibility","Edit Review Visibility","Create New Admin Account", "Log Out"};
     private String[] internshipSearchOptions = {"Internship Title","Pay Rate","Required Skill"};
     private String[] internshipSortOptions = {"Alphabetically (Ascending)","Pay Rate (Ascending)"};
-    boolean loggedIn = false;
-//    boolean loggedOut = false;
-    boolean onSystem = true;
+    private boolean loggedIn = false;
+    private boolean onSystem = true;
 
     public InternshipUI() {
         scanner = new Scanner(System.in);
