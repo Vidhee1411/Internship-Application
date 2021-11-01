@@ -167,6 +167,17 @@ public class InternshipApplication {
     }
 
     /**
+     * The searchBySkill method searches the database for any job listings that have the 
+     * specified skill as a required skill.
+     * @param skill The name of the skill desired
+     * @return The ArrayList of all job listings with the given skill
+     */
+    public ArrayList<JobListing> searchBySkill(String skill) {
+        ArrayList<JobListing> search_result = database.searchListingsBySkill(skill);
+        return search_result;
+    }
+
+    /**
      * This sort method allows a user to alphabetically sort the listings from the database.
      */
     public void sortAlphabetically() {
@@ -623,6 +634,10 @@ public class InternshipApplication {
             return;
         }
         Student student = (Student) user;
+        if(student.getResume() == null) {
+            System.out.println("You have not created a resume yet. You can only view your resume once you've made one!\n");
+            return;
+        }
         System.out.println("\n" + student.getResume().toString());
     }
 
