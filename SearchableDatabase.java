@@ -182,8 +182,9 @@ public class SearchableDatabase {
     }
 
     /**
-     * The sortListingsbyPay method sorts all of the JobListings by pay in
-     * ascending order.
+     * The searchListingsbyPay method searches through all of the JobListings by minimum specified pay.
+     * @param pay The minimum pay desired
+     * @return The ArrayList of JobListings with the minimum pay required
      */
     public ArrayList<JobListing> searchListingsbyPay(Double pay) {
         ArrayList<JobListing> output = new ArrayList<>();
@@ -194,6 +195,29 @@ public class SearchableDatabase {
         }
         return output;
     }
+
+    /**
+     * The searchListingsBySkill method searches through all listings' skills for the specified skill.
+     * If the listing has that required skill, it will be added to the output.
+     * @param skillToSearch The skill desired
+     * @return An ArrayList of JobListings with the skill required
+     */
+    public ArrayList<JobListing> searchListingsBySkill(String skillToSearch) {
+        ArrayList<JobListing> output = new ArrayList<>();
+        for(JobListing listing : this.jobListings) {
+            if(!listing.getVisibility()) {
+                continue;
+            }
+            for(String skill : listing.getRequiredSkills()) {
+                if(skill.equalsIgnoreCase(skillToSearch)) {
+                    output.add(listing);
+                    break;
+                }
+            }
+        }
+        return output;
+    }
+
     /**
      * sorts Joblistings by payrate
      */
