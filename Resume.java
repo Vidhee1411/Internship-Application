@@ -307,7 +307,7 @@ public class Resume {
      * @return The String representation of the resume
      */
     public String toString() {
-        String ret = studentFirstName + " " + studentLastName + "\nYear In School: " + yearInSchool + "\nContact: " + studentUSCEmail + "\n--------------------------\nEducation:\n";
+        String ret = "\n" + studentFirstName + " " + studentLastName + "\nYear In School: " + yearInSchool + "\nContact: " + studentUSCEmail + "\n--------------------------\nEducation:\n";
         for (Education ed: education) {
             ret += ed.toString();
         }
