@@ -254,7 +254,7 @@ public class JobListing {
     public String toString() {
         return "\t" + title + "\n\tCompany: " + company + "\n\tDescription: " + description + "\n\tLocation: " + 
             location +  "\n\tPaid: " + paid + "\n\tPay rate per hour: " + DOLLAR_FORMAT.format(payRate) + 
-            "\n\tRequired Skills: " + requiredSkills.toString() + "\n";
+            "\n\tRequired Skills: " + requiredSkills.toString() + "\n" + "\n\tApplicants List: " + applicants.toString() + "\n";
     }
 
     /**
