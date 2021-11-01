@@ -108,7 +108,7 @@ public class InternshipUI {
         for(int i = 0; i < menu.length; i++) {
             output += "\t" + (i+1) + ".  " + menu[i] + "\n";
         }
-        output += CHOICE_PROMPT;
+        //output += CHOICE_PROMPT;
         System.out.println(output);
     }
 
@@ -182,8 +182,8 @@ public class InternshipUI {
             System.out.println("How would you like your results sorted?");
             displayMenu(internshipSortOptions);
 
-            int userCommand = getUserCommand(internshipSearchOptions.length);
             System.out.print("Please enter the number next to your desired sorting: ");
+            int userCommand = getUserCommand(internshipSearchOptions.length);
 
             switch(userCommand) {
                 case(-1):
@@ -197,18 +197,18 @@ public class InternshipUI {
 
             //Searching results loop
             ArrayList<JobListing> results = new ArrayList<>();
-            System.out.println("what criteria would you like to search by?");
+            System.out.println("What criteria would you like to search by?");
             displayMenu(internshipSearchOptions);
             
+            System.out.println("Please enter the number next to your desired search method: ");
             userCommand = getUserCommand(internshipSearchOptions.length);
-            System.out.print("Please enter the number next to your desired search method: ");
 
             switch(userCommand) {
                 case(-1):
                     System.out.println("You chose an invalid choice. Try again.");
                 //By internship title
                 case(0):
-                    System.out.print("Please enter the title of the internship: ");
+                    System.out.println("Please enter the title of the internship: ");
                     results = application.search(scanner.nextLine());
                     formatSearchResults(results);
                     break;
@@ -260,15 +260,23 @@ public class InternshipUI {
      * @param results
      */
     private void formatSearchResults(ArrayList<JobListing> results) {
-        int resultSize = results.size();
-        if(resultSize == 0) {
+        if(results.size() == 0) {
             System.out.println("None of the internships have your criteria. Resetting...\n");
         }
         else {
-            System.out.println(resultSize + " result(s) found!\n");
+            ArrayList<Integer> indicesOfHiddens = new ArrayList<Integer> ();
+            for (int i = 0; i < results.size(); i++) {
+                if (results.get(i).getVisibility() == false) {
+                    indicesOfHiddens.add(0, i);
+                }
+            }
+            for (Integer index: indicesOfHiddens) {
+                results.remove(results.get(index));
+            }
+            System.out.println(results.size() + " result(s) found!\n");
         }
 
-        for(int i = 0; i < resultSize ; i++) {
+        for(int i = 0; i < results.size(); i++) {
             JobListing jobListing = results.get(i);
             System.out.println(i + 1 + ". " + jobListing.toStringSummary());
         }
@@ -312,8 +320,8 @@ public class InternshipUI {
                 break;
             //Remove a Job Listing
             case(6):
-                //System.out.println("Please enter the title of the listing you would like to remove: ");
-                //String input2 = scanner.nextLine();
+                System.out.println("Please enter the title of the listing you would like to remove: ");
+                String input2 = scanner.nextLine();
                 application.removeJobListing(input2);
                 break;
             //Review a Student
@@ -381,9 +389,7 @@ public class InternshipUI {
                 break;
             //Remove Company Profile
             case(3):
-                if(!application.removeProfile()) {
-                    System.out.println("The Company profile does not exist.\n");
-                };
+                application.removeProfile();
                 break;
             //Edit job listing visibility 
             case(4):

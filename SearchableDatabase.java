@@ -139,7 +139,7 @@ public class SearchableDatabase {
         ArrayList<JobListing> output = new ArrayList<>();
         for(JobListing listing: this.jobListings){
                for(String requiredSkill: listing.getRequiredSkills()){
-                   if(skill.contains(requiredSkill)) 
+                   if(skill.contains(requiredSkill) && listing.getVisibility()) 
                    output.add(listing);
                }
            } 
@@ -156,7 +156,7 @@ public class SearchableDatabase {
     public ArrayList<JobListing> searchListings(String title) {
         ArrayList<JobListing> output = new ArrayList<JobListing>();
         for(JobListing listing: jobListings){
-            if(listing.getTitle().toLowerCase().contains(title.toLowerCase())){
+            if(listing.getTitle().toLowerCase().contains(title.toLowerCase()) && listing.getVisibility()){
                 output.add(listing);
             }
         }
@@ -188,7 +188,7 @@ public class SearchableDatabase {
     public ArrayList<JobListing> searchListingsbyPay(Double pay) {
         ArrayList<JobListing> output = new ArrayList<>();
         for(JobListing listing:this.jobListings){
-            if(listing.getPayRate() >= pay){
+            if(listing.getPayRate() >= pay && listing.getVisibility()){
                 output.add(listing);
             }
         }
