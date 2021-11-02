@@ -122,7 +122,7 @@ public class JobListing {
      * @return The location of a listing
      */
     public String getLocation() {
-        return location;
+        return this.location;
     }
 
     /**
