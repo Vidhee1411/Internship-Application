@@ -284,7 +284,8 @@ public class InternshipUI {
             System.out.println("None of the internships have your criteria. Resetting...\n");
         }
         else {
-            ArrayList<Integer> indicesOfHiddens = new ArrayList<Integer> ();
+            //search already checks hidden
+            /* ArrayList<Integer> indicesOfHiddens = new ArrayList<Integer> ();
             for (int i = 0; i < results.size(); i++) {
                 if (results.get(i).getVisibility() == false) {
                     indicesOfHiddens.add(0, i);
@@ -292,7 +293,7 @@ public class InternshipUI {
             }
             for (Integer index: indicesOfHiddens) {
                 results.remove(results.get(index));
-            }
+            }*/
             System.out.println("-------------------------------\n" + results.size() + " result(s) found!\n");
         }
 

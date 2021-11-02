@@ -73,6 +73,7 @@ public class JobListing {
         this.applicants = applicants;
         this.requiredSkills = requiredSkills;
         this.visible = visible;
+        this.location = location;
     }
 
     /**
