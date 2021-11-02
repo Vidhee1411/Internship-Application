@@ -248,6 +248,7 @@ public class DataWriter extends DataConstants {
                 listingDetails.put(LISTING_ID, jobListing.getUUID().toString());
                 listingDetails.put(LISTING_TITLE, jobListing.getTitle());
                 listingDetails.put(LISTING_DESCRIPTION, jobListing.getDescription());
+                listingDetails.put(LISTING_LOCATION, jobListing.getLocation());
                 listingDetails.put(LISTING_PAID, jobListing.getPaid());
                 listingDetails.put(LISTING_PAY_RATE, jobListing.getPayRate());
                 listingDetails.put(LISTING_REQUIRED_SKILLS, arrayListToJsonArray(jobListing.getRequiredSkills()).toJSONString());
