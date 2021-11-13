@@ -56,6 +56,27 @@ public class CompanyProfileTest {
         c2.addListing(null);
         assertNotEquals(1, c2.getListings().size());     
     }
+
+    @Test
+    public void testRemoveListingvalid() {
+        CompanyProfile c2 = new CompanyProfile("Global Enterprise", "112 Greene St", "Leading company in providing techonology in energy field");
+        JobListing j1 = new JobListing("Software Developer"," Inter will get oppurtunity to deal with real softwares","South Carolina",true, 20.00, "Global Enterprise");
+        c2.addListing(j1);
+        c2.removeListing(j1);
+        assertEquals(0, c2.getListings().size());
+    }
+
+    @Test
+    public void testRemoveWrongComapaniesListing() {
+        CompanyProfile c2 = new CompanyProfile("Global Enterprise", "112 Greene St", "Leading company in providing techonology in energy field");
+        JobListing j1 = new JobListing("Software Developer"," Inter will get oppurtunity to deal with real softwares","South Carolina",true, 20.00, "Global Enterprise");
+        CompanyProfile c3 = new CompanyProfile("Dose", "123 Assembly St.", "This is company");
+        JobListing j2 = new JobListing("Data Science", "Data Science intern listing","Utah",true,19.0,"Dose");
+        c2.addListing(j1);
+        c3.addListing(j2);
+        c3.removeListing(j1);
+        assertEquals(1, c3.getListings().size());
+    }
 }
 
    
