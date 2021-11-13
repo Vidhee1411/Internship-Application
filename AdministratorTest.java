@@ -94,6 +94,18 @@ public class AdministratorTest {
     }
 
     @Test
+    public void testRemoveStudentNotInDatabase() {
+        Student stud = new Student("Joe", "Clash", "jclash@email.sc.edu", "pleaseNotNow", "senior");
+        try {
+            admin.removeAccount(stud);
+            int i = 0;
+            assertEquals(1, i);
+            } catch (NullPointerException e){
+                assertNull(null);
+            }
+    }
+
+    @Test
     public void testRemoveNullStudent() {
         Student stud = null;
         searchableDatabase.addUser(stud);
