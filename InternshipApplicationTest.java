@@ -148,12 +148,33 @@ public class InternshipApplicationTest {
     }
 
     @Test
-    public void testViewResume() {
+    public void testAssociateCompanyNormal() {
+        String email = "Keithr@mailfraud.com";
+        String password = "password";
         InternshipApplication app = new InternshipApplication();
-        String email = "joshDup@email.sc.edu";
-        String password = "12345678";
-        app.logOn(email, password);
-        Resume r = new Resume();
-        assertEqual(app.viewResume(), r);
+        app.logOn(email, password); // This user was previously associated with a company - duplicate profile below
+        CompanyProfile comp = new CompanyProfile("WeyLand-Yutani", "135 Sulaco Drive ", "pushing the boundries of science");
+        Employer emp = (Employer) app.getUser();
+        assertEquals(emp.getCompany().getCompanyName(), comp.getCompanyName());
+        assertEquals(emp.getCompany().getAddress(), comp.getAddress());
+        assertEquals(emp.getCompany().getDescription(), comp.getDescription());
     }
+
+    @Test //Tests for a student that previously applied for a listing through the applyForInternship method
+    public void testApplyForInternshipNormal() {
+        String studentEmail = "joshDup@email.sc.edu";
+        String studentPassword = "12345678";
+        String employerEmail = "Keithr@mailfraud.com";
+        String employerPassword = "password";
+        InternshipApplication app = new InternshipApplication();
+        app.logOn(employerEmail, employerPassword);
+        Employer emp = (Employer) app.getUser();
+        JobListing jl = emp.getCompany().getListings().get(0);
+        app.logOff();
+        app.logOn(studentEmail, studentPassword);
+        Student stud = (Student) app.getUser();
+        assertEquals(jl.getApplicants().get(0),stud);
+    }
+
+
 }
