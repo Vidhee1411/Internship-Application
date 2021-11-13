@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
 public class CompanyProfileTest {
+    
     @BeforeClass
     public static void oneTimeSetup() {
 
@@ -19,7 +20,7 @@ public class CompanyProfileTest {
 
     @Before
     public static void setUp() {
-
+        
     }
 
     @After
@@ -41,8 +42,20 @@ public class CompanyProfileTest {
         c2.addReview(null);
         assertEquals(0, c2.getReviews().size());
     }
-
     
+    @Test
+    public void testAddListingvalid() {
+        CompanyProfile c2 = new CompanyProfile("Global Enterprise", "112 Greene St", "Leading company in providing techonology in energy field");
+        c2.addListing(new JobListing("Software Developer"," Inter will get oppurtunity to deal with real softwares","South Carolina",true, 20.00, "Global Enterprise"));
+        assertEquals("Software Developer", c2.getListings().get(0).getTitle());
+    }
+
+    @Test
+    public void testAddListingNull() {
+        CompanyProfile c2 = new CompanyProfile("Global Enterprise", "112 Greene St", "Leading company in providing techonology in energy field");
+        c2.addListing(null);
+        assertNotEquals(1, c2.getListings().size());     
+    }
 }
 
    
