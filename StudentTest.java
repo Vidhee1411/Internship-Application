@@ -1,29 +1,33 @@
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StudentTest {
+public class StudentTest {
     private Student student;
 
     @BeforeEach
     public void setup() {
-        student = new Student("Frodo", "Baggins", "hobbits@shire.net", "elevenses", "sophomore", UUID.fromString("hobbit"), null, null, null);
+        student = new Student("Frodo", "Baggins", "hobbits@shire.net", "elevenses", "sophomore", UUID.randomUUID(), 
+            new ArrayList<String>(), new ArrayList<String>(), new ArrayList<Review>());
     }
 
     @Test
-    void testCreateResumeNull() {
+    public void testCreateResumeNull() {
         Resume resume = new Resume("Frodo", "Baggins", "hobbits@shire.net", "elevenses", null, null, null, null);
-        student.createResume(null, null, null, null);
-        assertEquals(resume, student.getResume());
+        try {
+            student.createResume(null, null, null, null);
+        } catch(NullPointerException e) {
+            assertEquals(0, 1);
+        }
+        assertEquals(resume.getEmail(), student.getResume().getEmail());
     }
 
     @Test
-    void testCreateResumeEmptyArrays() {
+    public void testCreateResumeEmptyArrays() {
         ArrayList<Integer> skillIndexes = new ArrayList<>();
         ArrayList<Integer> classIndexes = new ArrayList<>();
         ArrayList<WorkExperience> workExperiences = new ArrayList<>();
@@ -32,11 +36,11 @@ class StudentTest {
         Resume resume = new Resume("Frodo", "Baggins", "hobbits@shire.net", "sophomore", new ArrayList<String>(), 
             new ArrayList<String>(), educations, workExperiences);
         student.createResume(skillIndexes, classIndexes, workExperiences, educations);
-        assertEquals(resume, student.getResume());
+        assertEquals(resume.getEmail(), student.getResume().getEmail());
     }
 
     @Test
-    void testCreateResumeFilled() {
+    public void testCreateResumeFilled() {
         student.addSkill("JavaDoc");
         student.addSkill("Python");
         student.addClass("Engineering 101");
@@ -60,53 +64,53 @@ class StudentTest {
 
         Resume resume = new Resume("Frodo", "Baggins", "hobbits@shire.net", "elevenses", resumeSkills, resumeClasses, educations, workExperiences);
         student.createResume(skillIndexes, classIndexes, workExperiences, educations);
-        assertEquals(resume, student.getResume());
+        assertEquals(resume.getSkills().get(1), student.getResume().getSkills().get(1));
     }
 
     @Test
-    void testReviewCompanyWithValidReview() {
+    public void testReviewCompanyWithValidReview() {
         CompanyProfile c1 = new CompanyProfile("Example Inc", "1234 Here Street", "A testing company");
         student.reviewCompany(5, "Awesome experience", c1);
         assertEquals("Awesome experience", c1.getReviews().get(0).getMessage());
     }
 
     @Test
-    void testReviewCompanyWithNegativeRating() {
+    public void testReviewCompanyWithNegativeRating() {
         CompanyProfile c1 = new CompanyProfile("Example Inc", "1234 Here Street", "A testing company");
         student.reviewCompany(-5, "Time to tank your rating", c1);
         assertEquals(0, c1.getReviews().size());
     }
 
     @Test
-    void testReviewCompanyWithZeroRating() {
+    public void testReviewCompanyWithZeroRating() {
         CompanyProfile c1 = new CompanyProfile("Example Inc", "1234 Here Street", "A testing company");
         student.reviewCompany(0, "Can you even be this bad?", c1);
         assertEquals(0, c1.getReviews().size());
     }
 
     @Test
-    void testReviewCompanyWithRatingOverFive() {
+    public void testReviewCompanyWithRatingOverFive() {
         CompanyProfile c1 = new CompanyProfile("Example Inc", "1234 Here Street", "A testing company");
         student.reviewCompany(102, "This is probably cheating", c1);
         assertEquals(0, c1.getReviews().size());
     }
 
     @Test
-    void testReviewCompanyRatingWithNullMessage() {
+    public void testReviewCompanyRatingWithNullMessage() {
         CompanyProfile c1 = new CompanyProfile("Example Inc", "1234 Here Street", "A testing company");
         student.reviewCompany(4, null, c1);
         assertEquals(0, c1.getReviews().size());
     }
 
     @Test
-    void testApplyForInternshipValidJobListing() {
+    public void testApplyForInternshipValidJobListing() {
         JobListing j1 = new JobListing();
         student.applyForInternship(j1);
         assertEquals("Frodo", j1.getApplicants().get(0).getFirstName());
     }
 
     @Test
-    void testApplyForSameInternshipTwice() {
+    public void testApplyForSameInternshipTwice() {
         JobListing j1 = new JobListing();
         student.applyForInternship(j1);
         student.applyForInternship(j1);
@@ -114,13 +118,13 @@ class StudentTest {
     }
 
     @Test
-    void testAddReviewValidReview() {
+    public void testAddReviewValidReview() {
         student.addReview(new Review("Dante","DMC",4.5,"Royally awesome!"));
         assertEquals(4.5, student.getReviews().get(0).getRating());
     }
 
     @Test
-    void testAddReviewNull() {
+    public void testAddReviewNull() {
         student.addReview(null);
         assertEquals(0, student.getReviews().size());
     }
