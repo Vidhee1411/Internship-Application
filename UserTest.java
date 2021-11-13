@@ -1,40 +1,40 @@
 import java.util.UUID;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserTest {
+public class UserTest {
     private User user;
 
     @BeforeEach
     public void setup() {
-        user = new Employer("Arle","Carbuncle","email@email","password12345", null, UUID.fromString("user"));
+        user = new Employer("Arle","Carbuncle","email@email","password12345", null, UUID.randomUUID());
     }
 
     @Test 
-    void testLogOnWithCorrectEmailAndPassword() {
+    public void testLogOnWithCorrectEmailAndPassword() {
         assertTrue(user.logOn("email@email", "password12345"));
     }
 
     @Test 
-    void testLogOnWithCorrectEmailIncorrectPassword() {
+    public void testLogOnWithCorrectEmailIncorrectPassword() {
         assertFalse(user.logOn("email@email", "thisIsIncorrect"));
     }
 
     @Test 
-    void testLogOnWithCorrectEmailNullPassword() {
+    public void testLogOnWithCorrectEmailNullPassword() {
         assertFalse(user.logOn("email@email", null));
     }
 
     @Test 
-    void testLogOnWithIncorrectEmailCorrectPassword() {
+    public void testLogOnWithIncorrectEmailCorrectPassword() {
         assertFalse(user.logOn("wrong@email", "password12345"));
     }
 
     @Test 
-    void testLogOnWithNullEmailCorrectPassword() {
+    public void testLogOnWithNullEmailCorrectPassword() {
         assertFalse(user.logOn(null, "password12345"));
     }
 }

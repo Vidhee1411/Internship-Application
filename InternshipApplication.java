@@ -27,6 +27,10 @@ public class InternshipApplication {
         this.scanner = new Scanner(System.in);
     }
 
+    public ArrayList<User> getUsers() {
+        return this.database.getUsers();
+    }
+
     /**
      * The CreateAccount method allows a user to create an account as either an
      * employer or student.
