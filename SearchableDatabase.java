@@ -43,8 +43,12 @@ public class SearchableDatabase {
      * that students can search for and apply to.
      * @param listing The JobListing to be added to a database
      */
-    public void addJobListing(JobListing listing) {
-        jobListings.add(listing);
+    public boolean addJobListing(JobListing listing) {
+        if(!jobListings.contains(listing) && listing != null){
+            jobListings.add(listing);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -52,22 +56,35 @@ public class SearchableDatabase {
      * remove a JobListing from the SearchableDatabase.
      * @param listing The JobListing to be removed from the database
      */
-    public void removeJobListing(JobListing listing) {
-        jobListings.remove(listing);
+    public Boolean removeJobListing(JobListing listing) {
+        if(this.jobListings.contains(listing)){
+            jobListings.remove(listing);
+            return true;
+        }
+        return false;
     }
     /**
      * adds a user to the user ArrayList
      * @param user the user to be added 
      */
-    public void addUser(User user){
-        this.users.add(user);
+    public boolean addUser(User user){
+        if(!this.users.contains(user) && user != null){
+            this.users.add(user);
+            return true;
+        }
+        return false;
+    
     }
     /**
      * removes a user from the user ArrayList
      * @param user the user to be removed
      */
-    public void removeUser(User user){
-        this.users.remove(user);
+    public boolean removeUser(User user){
+        if(this.users.contains(user) && user != null){
+            this.users.remove(user);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -75,8 +92,12 @@ public class SearchableDatabase {
      * the database.
      * @param profile The profile to be added to the list
      */
-    public void addProfile(CompanyProfile profile) {
-        this.companyProfiles.add(profile);
+    public boolean addProfile(CompanyProfile profile) {
+        if(!this.companyProfiles.contains(profile) && profile != null){
+            this.companyProfiles.add(profile);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -84,8 +105,12 @@ public class SearchableDatabase {
      * profiles in the database.
      * @param profile The profile to be removed from the list
      */
-    public void removeProfile(CompanyProfile profile) {
-        this.companyProfiles.remove(profile);
+    public boolean removeProfile(CompanyProfile profile) {
+        if(this.companyProfiles.contains(profile)){
+            this.companyProfiles.remove(profile);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -164,7 +189,7 @@ public class SearchableDatabase {
     public ArrayList<JobListing> searchListings(String title) {
         ArrayList<JobListing> output = new ArrayList<JobListing>();
         for(JobListing listing: jobListings){
-            if(listing.getTitle().toLowerCase().contains(title.toLowerCase()) && !listing.getVisibility()){
+            if(listing.getTitle().toLowerCase().contains(title.toLowerCase()) && listing.getVisibility()){
                 output.add(listing);
             }
         }
@@ -197,7 +222,7 @@ public class SearchableDatabase {
     public ArrayList<JobListing> searchListingsbyPay(Double pay) {
         ArrayList<JobListing> output = new ArrayList<>();
         for(JobListing listing:this.jobListings){
-            if(listing.getPayRate() >= pay && !listing.getVisibility()){
+            if(listing.getPayRate() >= pay && listing.getVisibility()){
                 output.add(listing);
             }
         }
@@ -213,13 +238,9 @@ public class SearchableDatabase {
     public ArrayList<JobListing> searchListingsBySkill(String skillToSearch) {
         ArrayList<JobListing> output = new ArrayList<>();
         for(JobListing listing : this.jobListings) {
-            if(!listing.getVisibility()) {
-                continue;
-            }
             for(String skill : listing.getRequiredSkills()) {
-                if(skill.equalsIgnoreCase(skillToSearch)) {
+                if(skill.equalsIgnoreCase(skillToSearch) && listing.getVisibility()) {
                     output.add(listing);
-                    break;
                 }
             }
         }
@@ -230,7 +251,7 @@ public class SearchableDatabase {
      * sorts Joblistings by payrate
      */
     public void sortListingsbyPay(){
-        jobListings.sort(Comparator.comparingDouble(JobListing::getPayRate));
+        jobListings.sort(Comparator.comparingDouble(JobListing::getPayRate).reversed());
     }
     /**
      * The sortListingsAlphabetically method puts all of the JobListings in

@@ -39,6 +39,7 @@ public class JobListing {
      * @param company The name of the company the JobListing is offerred by
      */
     public JobListing(String title, String description, String location, Boolean paid, double payRate, String company) {
+        this.id = UUID.randomUUID();
         this.title = title;
         this.description = description;
         this.location = location;

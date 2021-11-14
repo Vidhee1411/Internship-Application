@@ -23,6 +23,7 @@ public class CompanyProfile {
      * @param description The short description about the company
      */
     public CompanyProfile(String companyName, String hqAddress, String description){
+        this.companyID = UUID.randomUUID();
         this.companyName = companyName;
         this.hqAddress = hqAddress;
         this.description = description;
