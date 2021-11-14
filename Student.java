@@ -25,6 +25,8 @@ public class Student extends User{
     public Student(String firstName, String lastName, String email, String password, String yearInSchool) {
         super(firstName, lastName, email, password);
         this.yearInSchool = yearInSchool;
+        this.id = UUID.randomUUID();
+        this.resume = null;
         reviewsFromCompanies = new ArrayList<Review>();
         skills = new ArrayList<String>();
         classes = new ArrayList<String>();
