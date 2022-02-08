@@ -23,7 +23,7 @@ public class JobLisitingTest {
     }
 
     @Test 
-    public void addsameRequiredSkillTwiceTest() {
+    public void addSameRequiredSkillTwiceTest() {
         j1.addRequiredSkill("Java");
         j1.addRequiredSkill("Java");
         assertEquals(1, j1.getRequiredSkills().size());
